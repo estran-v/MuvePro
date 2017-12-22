@@ -15,8 +15,7 @@
     "forin": true,
     "import-blacklist": [
       true,
-      "rxjs",
-      "rxjs/Rx"
+      "rxjs"
     ],
     "import-spacing": true,
     "indent": [
@@ -24,11 +23,10 @@
       "spaces"
     ],
     "interface-over-type-literal": true,
-    "jsdoc-format": true,
     "label-position": true,
     "max-line-length": [
       true,
-      120
+      140
     ],
     "member-access": false,
     "member-ordering": [
@@ -54,10 +52,6 @@
     ],
     "no-construct": true,
     "no-debugger": true,
-    "no-duplicate-variable": [
-      true,
-      "check-parameters"
-    ],
     "no-duplicate-super": true,
     "no-empty": false,
     "no-empty-interface": true,
@@ -98,11 +92,6 @@
     "triple-equals": [
       true,
       "allow-null-check"
-    ],
-    "typedef": [
-      true,
-      "parameter",
-      "property-declaration"
     ],
     "typedef-whitespace": [
       true,
@@ -145,6 +134,9 @@
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
-    "directive-class-suffix": true
+    "directive-class-suffix": true,
+    "no-access-missing-member": true,
+    "templates-use-public": true,
+    "invoke-injectable": true
   }
 }

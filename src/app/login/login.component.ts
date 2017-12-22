@@ -1,67 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { finalize } from 'rxjs/operators';
-
-import { environment } from '../../environments/environment';
-import { Logger } from '../core/logger.service';
-import { I18nService } from '../core/i18n.service';
-import { AuthenticationService } from '../core/authentication/authentication.service';
-
-const log = new Logger('Login');
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
 
-  version: string = environment.version;
-  error: string;
-  loginForm: FormGroup;
-  isLoading = false;
-
+  public loginForm: FormGroup;
+  public error: string;
+  public isLoading: boolean = false;
   constructor(private router: Router,
               private formBuilder: FormBuilder,
-              private i18nService: I18nService,
-              private authenticationService: AuthenticationService) {
+              private auth: AuthService) {
     this.createForm();
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
   login() {
     this.isLoading = true;
-    this.authenticationService.login(this.loginForm.value)
-      .pipe(finalize(() => {
-        this.loginForm.markAsPristine();
-        this.isLoading = false;
-      }))
-      .subscribe(credentials => {
-        log.debug(`${credentials.username} successfully logged in`);
-        this.router.navigate(['/'], { replaceUrl: true });
-      }, error => {
-        log.debug(`Login error: ${error}`);
-        this.error = error;
-      });
-  }
-
-  setLanguage(language: string) {
-    this.i18nService.language = language;
-  }
-
-  get currentLanguage(): string {
-    return this.i18nService.language;
-  }
-
-  get languages(): string[] {
-    return this.i18nService.supportedLanguages;
+    this.error = '';
+    this.auth.login(this.loginForm.value).then((res) => {
+      this.isLoading = false;
+      this.router.navigate(['/dashboard']);
+    }).catch((err) => {
+      this.error = 'oui';
+      this.isLoading = false;
+      console.log(err);
+    });
   }
 
   private createForm() {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required],
       remember: true
     });
