@@ -24,6 +24,7 @@
     "@angular/router": "^4.2.4",
     "@types/googlemaps": "^3.2.0",
     "@webcomponents/custom-elements": "^1.0.0",
+    "angular2-jwt": "^0.2.3",
     "bootstrap": "^4.0.0-beta.2",
     "clarity-angular": "^0.10.19",
     "clarity-icons": "^0.10.19",

@@ -1,6 +1,7 @@
 import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
 import {NgMapApiLoader} from "ng2-map";
 import {AgmCoreModule, AgmMap} from "@agm/core";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 declare var google: any;
 
@@ -13,6 +14,8 @@ export class MuvesComponent implements OnInit {
 
   public lat = 45.7381506;
   public lng = 4.83750729999997;
+  public latConfirm = 45.7381506;
+  public lngConfirm = 4.83750729999997;
   public zoom = 12;
   public whereTo;
   public pickPos = false;
@@ -20,11 +23,35 @@ export class MuvesComponent implements OnInit {
     formatted_address: '',
     geometry: {
       location: {
-        lat: () => {},
-        lng: () => {}
+        lat: (): number => {
+          return 1;
+        },
+        lng: (): number => {
+          return 1;
+        }
       }
     }
   };
+  public formSubmitted = false;
+  public muve = {
+    title: '',
+    artist: '',
+    position: {
+      lat: null,
+      lng: null
+    },
+    description: '',
+    radius: 1,
+  };
+  public positionActive = true;
+  public contenuActive = false;
+  public confirmationActive = false;
+  muveForm = new FormGroup({
+    title: new FormControl('', Validators.required),
+    artist: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required)
+  });
+  submitted = false;
 
   constructor() {
   }
@@ -59,5 +86,34 @@ export class MuvesComponent implements OnInit {
 
   selectPos() {
     this.getPlace(this.whereTo);
+  }
+
+  checkValidForm() {
+    if (!this.muve.title || !this.muve.artist) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  addNewEmployeeAddress() {
+    this.muveForm.reset();
+    this.submitted = false;
+  }
+
+  handleBtn(btn) {
+    this.pickPos = false;
+    if (btn === false) {
+      return;
+    } else {
+      this.contenuActive = true;
+      this.positionActive = false;
+      this.latConfirm = this.place.geometry.location.lat();
+      this.lngConfirm = this.place.geometry.location.lng();
+    }
+  }
+
+  sendContentForm() {
+
   }
 }

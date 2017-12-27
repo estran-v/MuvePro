@@ -1,12 +1,12 @@
 <app-nav></app-nav>
 <div class="container">
-  <div class="starter-template" style="padding: 30px!important;">
+  <div class="starter-template" style="padding: 30px!important;padding-top: 0px !important;">
     <h1>
       <i>Déposer un muve sponsorisé</i>
     </h1>
     <p style="    width: 70%;
     margin: auto;
-    margin-top: 50px;">
+    margin-top: 15px;">
       <i>
         Pour déposer un muve sponsorisé, il n'y a rien de plus simple, il vous suffit d'entrer
         l'adresse à laquelle vous voulez déposer votre muve dans le champ ci-dessous, ou bien de cliquer
@@ -18,7 +18,7 @@
 
   <clr-tabs>
     <clr-tab>
-      <button clrTabLink>Position</button>
+      <button clrTabLink (click)="positionActive=true;confirmationActive=false;contenuActive=false;">Position</button>
       <ng-template [(clrIfActive)]="positionActive">
         <clr-tab-content>
           <div style="margin-top: 50px;" class="text-center">
@@ -26,7 +26,8 @@
               <input style="    margin-bottom: 20px;
     width: 40%;
     text-align: -webkit-center;
-    border-radius: 6px;" type="text" [(ngModel)]="whereTo" name="whereTo" placeholder="Ou voulez-vous poser votre muve ?" #search>
+    border-radius: 6px;" type="text" [(ngModel)]="whereTo" name="whereTo"
+                     placeholder="Ou voulez-vous poser votre muve ?" #search>
               <button class="btn btn-primary" (click)="selectPos()">
                 Définir
               </button>
@@ -52,10 +53,44 @@
       </ng-template>
     </clr-tab>
     <clr-tab>
-      <button clrTabLink>Contenu</button>
+      <button clrTabLink (click)="positionActive=false;confirmationActive=false;contenuActive=true;">Contenu</button>
       <ng-template [(clrIfActive)]="contenuActive">
         <clr-tab-content>
-          ...
+          <form class="form" [formGroup]="muveForm" (ngSubmit)="sendContentForm()" [hidden]="submitted">
+            <section class="form-block">
+              <label></label>
+              <div class="form-group">
+                <label for="muveTitle">Titre</label>
+                <input id="muveTitle" type="text"
+                       formControlName="title">
+                <span class="tooltip-content">
+                    Name is required.
+                </span>
+              </div>
+              <div>
+                <div class="form-group">
+                  <label for="muveArtist">Artiste</label>
+                  <input id="muveArtist" type="text"
+                         formControlName="artist">
+                  <span class="tooltip-content">
+                        Postal code is required.
+                    </span>
+                </div>
+                <div class="form-group">
+                  <label for="muveDescription">Description</label>
+                  <textarea id="muveDescription"
+                            formControlName="description"></textarea>
+                  <span class="tooltip-content">
+                        Country is required.
+                    </span>
+                </div>
+              </div>
+              <button class="btn btn-primary"
+                      type="submit"
+                      [disabled]="muveForm.invalid">Confirmer
+              </button>
+            </section>
+          </form>
         </clr-tab-content>
       </ng-template>
     </clr-tab>
@@ -63,7 +98,26 @@
       <button clrTabLink>Confirmation</button>
       <ng-template [(clrIfActive)]="confirmationActive">
         <clr-tab-content>
-          ...
+          <form>
+            <agm-map
+              [latitude]="latConfirm"
+              [longitude]="lngConfirm"
+              [zoom]="zoom"
+              [disableDefaultUI]="true"
+              [zoomControl]="false">
+              <agm-marker [latitude]="latConfirm" [longitude]="lngConfirm"></agm-marker>
+              <agm-circle [latitude]="latConfirm" [longitude]="lngConfirm" [radius]="muve.radius * 1000"></agm-circle>
+            </agm-map>
+
+            <input style="    margin-bottom: 20px;
+    width: 40%;
+    text-align: -webkit-center;
+    border-radius: 6px;" type="text" [(ngModel)]="whereTo" name="whereTo"
+                   placeholder="Ou voulez-vous poser votre muve ?" #search>
+            <button class="btn btn-primary" (click)="selectPos()">
+              Définir
+            </button>
+          </form>
         </clr-tab-content>
       </ng-template>
     </clr-tab>
@@ -79,8 +133,8 @@
       </p>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline" (click)="pickPos = false">Cancel</button>
-      <button type="button" class="btn btn-primary" (click)="pickPos = false">Ok</button>
+      <button type="button" class="btn btn-outline" (click)="handleBtn(false)">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="handleBtn(true)">Ok</button>
     </div>
   </clr-modal>
 

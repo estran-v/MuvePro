@@ -49,7 +49,6 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-b
   providers: [
     AuthGuardService,
     AuthService,
-    AuthHttp,
   ],
   bootstrap: [AppComponent]
 })
