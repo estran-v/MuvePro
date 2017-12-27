@@ -12,6 +12,7 @@
   },
   "private": true,
   "dependencies": {
+    "@agm/core": "^1.0.0-beta.2",
     "@angular/animations": "^4.2.4",
     "@angular/common": "^4.2.4",
     "@angular/compiler": "^4.2.4",
@@ -21,9 +22,18 @@
     "@angular/platform-browser": "^4.2.4",
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
+    "@types/googlemaps": "^3.2.0",
+    "@webcomponents/custom-elements": "^1.0.0",
     "bootstrap": "^4.0.0-beta.2",
+    "clarity-angular": "^0.10.19",
+    "clarity-icons": "^0.10.19",
+    "clarity-ui": "^0.10.19",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
+    "googlemaps": "^1.12.0",
+    "jquery": "^1.9.1",
+    "ng2-map": "^0.16.5",
+    "popper.js": "^1.12.3",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
   },
@@ -34,6 +44,7 @@
     "@types/jasmine": "~2.5.53",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
+    "@types/googlemaps": "^3.29.0",
     "codelyzer": "~3.1.1",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
@@ -46,6 +57,12 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",
     "tslint": "~5.3.2",
-    "typescript": "~2.3.3"
+    "typescript": "~2.3.3",
+    "@webcomponents/custom-elements": "^1.0.0",
+    "bootstrap": "^4.0.0-beta.2",
+    "clarity-angular": "^0.10.19",
+    "clarity-icons": "^0.10.19",
+    "clarity-ui": "^0.10.19",
+    "core-js": "^2.4.1"
   }
 }

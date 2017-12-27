@@ -16,6 +16,10 @@ import {AuthGuardService} from "./services/auth-guard.service";
 import {AuthModule} from "./services/auth.module";
 import {AuthHttp, AuthConfig, AUTH_PROVIDERS, provideAuth} from 'angular2-jwt';
 import { MuvesComponent } from './muves/muves.component';
+import {AgmCoreModule} from "@agm/core";
+import {Ng2MapModule} from "ng2-map";
+import {ClarityModule} from "clarity-angular";
+import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -34,19 +38,18 @@ import { MuvesComponent } from './muves/muves.component';
     HttpClientModule,
     HttpModule,
     AuthModule,
+    Ng2MapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyCj4RVnfs3eU72CZXDIB9UG4NRt-VF1yOA&libraries=places'}),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCj4RVnfs3eU72CZXDIB9UG4NRt-VF1yOA',
+    }),
+    ClarityModule.forRoot(),
+    BrowserAnimationsModule,
+    NoopAnimationsModule
   ],
   providers: [
     AuthGuardService,
     AuthService,
     AuthHttp,
-    provideAuth({
-      headerName: 'Authorization',
-      headerPrefix: 'Bearer',
-      tokenName: 'accessToken',
-      tokenGetter: (() => localStorage.getItem('accessToken')),
-      globalHeaders: [{'Content-Type': 'application/json'}],
-      noJwtError: true
-    }),
   ],
   bootstrap: [AppComponent]
 })

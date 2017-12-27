@@ -1,6 +1,91 @@
 <app-nav></app-nav>
 <div class="container">
-  <div class="starter-template">
-    <h1>Muve</h1>
+  <div class="starter-template" style="padding: 30px!important;">
+    <h1>
+      <i>Déposer un muve sponsorisé</i>
+    </h1>
+    <p style="    width: 70%;
+    margin: auto;
+    margin-top: 50px;">
+      <i>
+        Pour déposer un muve sponsorisé, il n'y a rien de plus simple, il vous suffit d'entrer
+        l'adresse à laquelle vous voulez déposer votre muve dans le champ ci-dessous, ou bien de cliquer
+        à un endroit sur la carte encore plus bas.
+      </i>
+    </p>
   </div>
+
+
+  <clr-tabs>
+    <clr-tab>
+      <button clrTabLink>Position</button>
+      <ng-template [(clrIfActive)]="positionActive">
+        <clr-tab-content>
+          <div style="margin-top: 50px;" class="text-center">
+            <form>
+              <input style="    margin-bottom: 20px;
+    width: 40%;
+    text-align: -webkit-center;
+    border-radius: 6px;" type="text" [(ngModel)]="whereTo" name="whereTo" placeholder="Ou voulez-vous poser votre muve ?" #search>
+              <button class="btn btn-primary" (click)="selectPos()">
+                Définir
+              </button>
+            </form>
+          </div>
+
+          <h3 style="    text-align: -webkit-center;
+    opacity: 0.5;
+    margin-bottom: 20px;">
+            <i>où</i>
+          </h3>
+
+          <agm-map
+            [latitude]="lat"
+            [longitude]="lng"
+            [zoom]="zoom"
+            [disableDefaultUI]="true"
+            [zoomControl]="false"
+            (mapClick)="mapClicked($event)">
+            <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+          </agm-map>
+        </clr-tab-content>
+      </ng-template>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink>Contenu</button>
+      <ng-template [(clrIfActive)]="contenuActive">
+        <clr-tab-content>
+          ...
+        </clr-tab-content>
+      </ng-template>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink>Confirmation</button>
+      <ng-template [(clrIfActive)]="confirmationActive">
+        <clr-tab-content>
+          ...
+        </clr-tab-content>
+      </ng-template>
+    </clr-tab>
+  </clr-tabs>
+
+
+  <clr-modal [(clrModalOpen)]="pickPos">
+    <h3 class="modal-title">Êtes-vous sûr de vouloir déposer votre muve à cet endroit ?</h3>
+    <div class="modal-body" style="text-align: -webkit-center;">
+      <p>
+        {{place.formatted_address}}<br>
+        {{ '(' + place.geometry.location.lat() + ', ' + place.geometry.location.lng() + ')'}}
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="pickPos = false">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="pickPos = false">Ok</button>
+    </div>
+  </clr-modal>
+
 </div>
+
+
+
+
