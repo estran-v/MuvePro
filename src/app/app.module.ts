@@ -20,6 +20,7 @@ import {AgmCoreModule} from "@agm/core";
 import {Ng2MapModule} from "ng2-map";
 import {ClarityModule} from "clarity-angular";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import { EventsComponent } from './events/events.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-b
     LoginComponent,
     DashboardComponent,
     MuvesComponent,
+    EventsComponent,
   ],
   imports: [
     BrowserModule,
