@@ -2,6 +2,8 @@ import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
 import {NgMapApiLoader} from "ng2-map";
 import {AgmCoreModule, AgmMap} from "@agm/core";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AuthHttp} from "angular2-jwt";
+import {AuthService} from "../services/auth.service";
 
 declare var google: any;
 
@@ -14,8 +16,8 @@ export class MuvesComponent implements OnInit {
 
   public lat = 45.7381506;
   public lng = 4.83750729999997;
-  public latConfirm = 45.7381506;
-  public lngConfirm = 4.83750729999997;
+  public latConfirm;
+  public lngConfirm;
   public zoom = 12;
   public whereTo;
   public pickPos = false;
@@ -42,23 +44,46 @@ export class MuvesComponent implements OnInit {
     },
     description: '',
     radius: 1,
+    duration: 1
   };
   public positionActive = true;
   public contenuActive = false;
   public confirmationActive = false;
+  public listActive = false;
+  public depotActive = true;
   muveForm = new FormGroup({
-    title: new FormControl('', Validators.required),
-    artist: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required)
+    title: new FormControl(this.muve.title, Validators.required),
+    artist: new FormControl(this.muve.artist, Validators.required),
+    description: new FormControl(this.muve.description, Validators.required),
+    duration: new FormControl(this.muve.duration, Validators.required),
+    radius: new FormControl(this.muve.radius, Validators.required)
   });
+  public currentDuration = 1;
+  public currentRadius = 1;
+  estimatedPrice = this.muve.duration * this.muve.radius;
   submitted = false;
 
-  constructor() {
+  constructor(private authHttp: AuthHttp,
+              private Auth: AuthService) {
+    this.muveForm.valueChanges.subscribe(data => {
+      if (data.duration !== this.currentDuration) {
+        this.estimatedPrice = data.duration * this.muveForm.value.radius;
+        this.currentDuration = data.duration;
+      } else if (data.radius !== this.currentRadius) {
+        this.estimatedPrice = this.muveForm.value.duration * data.radius;
+        this.currentRadius = data.radius;
+      }
+    });
   }
 
   ngOnInit() {
+    this.authHttp.get(this.Auth.API + '/me/muves').toPromise()
+      .then((res) => {
+        console.log(res.json());
+      }).catch((err) => {
+        console.error(err);
+    });
     google.setOnLoadCallback((res) => {
-      console.log(res);
     });
   }
 

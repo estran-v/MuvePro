@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
     this.error = '';
     this.auth.login(this.loginForm.value).then((res) => {
       this.isLoading = false;
+      console.log(this.auth.loggedIn());
       this.router.navigate(['/dashboard']);
     }).catch((err) => {
       this.error = 'oui';

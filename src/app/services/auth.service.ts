@@ -14,7 +14,7 @@ declare var Smooch: any;
 export class AuthService {
   // jwtHelper: JwtHelper = new JwtHelper();
   public user;
-  public API = 'http://devapi.muve-app.com';
+  public API = 'http://api.muve-app.com';
 
   constructor(// public authHttp: AuthHttp,
     private http: Http,
@@ -34,7 +34,27 @@ export class AuthService {
         if (response.json().access_token) {
           localStorage.setItem('accessToken', response.json().access_token);
           localStorage.setItem('userMail', loginCredentials.email);
-          localStorage.setItem('refreshToken', JSON.stringify({'refresh': response.json().refresh_token}));
+          localStorage.setItem('refreshToken', response.json().refresh_token);
+          return true;
+        }
+      })
+      .catch(response => {
+        console.log(response.json());
+      });
+  }
+
+  refresh() {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+    return this.http.post(this.API + '/login', {
+      'refres_token': localStorage.getItem('refreshToken'),
+      'grant_type': 'refresh_token'
+    }, options)
+      .toPromise()
+      .then(response => {
+        if (response.json().access_token) {
+          localStorage.setItem('accessToken', response.json().access_token);
+          localStorage.setItem('refreshToken', response.json().refresh_token);
           return true;
         }
       })
@@ -44,6 +64,14 @@ export class AuthService {
   }
 
   loggedIn() {
-    return tokenNotExpired('accessToken');
+    if (!tokenNotExpired('accessToken') && localStorage.getItem('refreshToken') === null) {
+      return tokenNotExpired('accessToken');
+    } else if (!tokenNotExpired('accessToken') && localStorage.getItem('refreshToken') !== null){
+      this.refresh().then((res) => {
+        return tokenNotExpired('accessToken');
+      });
+    } else {
+      return tokenNotExpired('accessToken');
+    }
   }
 }
