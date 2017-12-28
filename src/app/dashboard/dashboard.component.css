@@ -1,0 +1,16 @@
+.card{
+  ;
+}
+.card-header{
+  text-align: center;
+  background-color: dimgrey;
+  color : white;
+}
+
+.card-block{
+  height: 500%;
+}
+.card-footer{
+  text-align: center;
+  background-color: gainsboro;
+}

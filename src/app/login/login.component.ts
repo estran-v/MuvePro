@@ -26,13 +26,12 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
     this.error = '';
     this.auth.login(this.loginForm.value).then((res) => {
-      this.isLoading = false;
-      console.log(this.auth.loggedIn());
-      this.router.navigate(['/dashboard']);
+    this.isLoading = false;
+    this.router.navigate(['/dashboard']);
     }).catch((err) => {
-      this.error = 'oui';
-      this.isLoading = false;
-      console.log(err);
+    this.error = 'oui';
+    this.isLoading = false;
+    console.log(err);
     });
   }
 
@@ -40,7 +39,8 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required],
-      remember: true
+      remember: true,
+      typeAccount: 'Ypro'
     });
   }
 
