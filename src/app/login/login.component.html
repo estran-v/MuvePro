@@ -1,15 +1,21 @@
-<div class="login-container bg-light">
+<div class="login-container bg-info">
   <div class="login-box">
     <div class="container">
       <div class="card col-md-6 mt-3 mx-auto">
         <div class="card-body">
           <h4 class="card-title text-center">
-            <h1>Muve</h1>
             <img src="assets/splash.png" style="width: 300px">
+            <h1>Muve Pro</h1>
           </h4>
           <form (ngSubmit)="login()" [formGroup]="loginForm" novalidate>
             <div class="alert alert-danger" [hidden]="!error || isLoading" translate>
               Email ou mot de passe incorrect.
+            </div>
+            <div class="auth-source select" style="margin-bottom: 10px">
+              <select id="login-auth-source-1" type="text" formControlName="typeAccount" class="form-control">
+                <option value="Ypro">Je possède un compte pro</option>
+                <option value="Npro">Je n'ai pas encore de compte pro</option>
+              </select>
             </div>
             <div class="form-group">
               <label class="d-block">
@@ -30,11 +36,19 @@
                   Mot de passe requis
                 </small>
               </label>
+              </div>
+            <p *ngIf="loginForm.value.typeAccount === 'Npro'">
+              <label for="formFields_9">
+                Document d'identité
+                <input type="file" id="formFields_9">
+              </label>
+            </p>
+            <label class="d-block">
               <label class="form-check-label">
                 <input type="checkbox" class="form-check-input" formControlName="remember"/>
                 <span translate>Se souvenir de moi</span>
               </label>
-            </div>
+            </label>
             <button class="btn btn-primary w-100" type="submit" [disabled]="loginForm.invalid || isLoading">
               <i class="fa fa-cog fa-spin" [hidden]="!isLoading"></i>
               <span translate>Connexion</span>
