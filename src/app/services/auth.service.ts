@@ -14,9 +14,9 @@ declare var Smooch: any;
 export class AuthService {
   // jwtHelper: JwtHelper = new JwtHelper();
   public user;
-  public API = 'http://api.muve-app.com';
+  public API = 'http://devapi.muve-app.com';
 
-  constructor(// public authHttp: AuthHttp,
+  constructor(public authHttp: AuthHttp,
     private http: Http,
     private router: Router) {
   }
@@ -35,7 +35,13 @@ export class AuthService {
           localStorage.setItem('accessToken', response.json().access_token);
           localStorage.setItem('userMail', loginCredentials.email);
           localStorage.setItem('refreshToken', response.json().refresh_token);
-          return true;
+          this.getUserApi().toPromise().then((res) => {
+            this.user = res.json();
+            localStorage.setItem('user', JSON.stringify(this.user));
+            return true;
+          }).catch((err) => {
+            console.error(err);
+          });
         }
       })
       .catch(response => {
@@ -43,8 +49,23 @@ export class AuthService {
       });
   }
 
+  getUser() {
+    if (this.user) {
+      return this.user;
+    } else if (localStorage.getItem('user')) {
+      this.user = JSON.parse(localStorage.getItem('user'));
+      return this.user;
+    } else {
+      return null;
+    }
+  }
+
+  getUserApi() {
+    return this.authHttp.get(this.API + '/me');
+  }
+
   refresh() {
-    let headers = new Headers({'Content-Type': 'application/json'});
+    let headers = new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('accessToken')});
     let options = new RequestOptions({headers: headers});
     return this.http.post(this.API + '/login', {
       'refres_token': localStorage.getItem('refreshToken'),
@@ -61,6 +82,13 @@ export class AuthService {
       .catch(response => {
         console.log(response.json());
       });
+  }
+
+  getToken() {
+    if (this.loggedIn()){
+      return localStorage.getItem('accessToken');
+    }
+    return false;
   }
 
   loggedIn() {

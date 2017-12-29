@@ -1,0 +1,19 @@
+<app-nav></app-nav>
+<nav class="sidenav" style="    position: absolute;
+    height: 100%;
+    left: 0px;
+    top: 11.3%;">
+  <section class="sidenav-content">
+    <ul>
+      <li *ngFor="let room of rooms;" class="room" (click)="setRoom(room)">
+        <img class="avatarChat" [src]="room.friend.avatar || 'http://www.hitgroove.com/assets/images/default_avatar.jpg'">
+        <p class="nameChat">{{room.friend.firstName + ' ' + room.friend.lastName}}</p>
+      </li>
+    </ul>
+  </section>
+</nav>
+<div class="container">
+  <div class="starter-template">
+
+  </div>
+</div>

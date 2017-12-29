@@ -61,6 +61,7 @@ export class EventsComponent implements OnInit {
   }
 
   sendNewDateForm() {
+    this.newDateForm.value.date = new Date(this.newDateForm.value.date);
     this.authHttp.post(this.Auth.API + '/events', this.newDateForm.value).toPromise()
       .then((res) => {
         this.newDateForm.reset();

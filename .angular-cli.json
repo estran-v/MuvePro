@@ -24,6 +24,8 @@
         "../node_modules/clarity-icons/clarity-icons.min.css"
       ],
       "scripts": [
+        "../node_modules/socket.io-client/dist/socket.io.js",
+        "../node_modules/sails.io.js/sails.io.js",
         "../node_modules/@webcomponents/custom-elements/custom-elements.min.js",
         "../node_modules/clarity-icons/clarity-icons.min.js"
       ],
