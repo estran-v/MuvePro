@@ -1,9 +1,263 @@
 <app-nav></app-nav>
-<div class="container">
+<div class="container" style="    width: 100%;
+    position: relative;
+    bottom: 30px;">
   <clr-tabs>
+    <!--MUVE NORMAL -->
     <clr-tab>
-      <button clrTabLink (click)="depotActive=true;listActive=false;">Déposer</button>
+      <button clrTabLink (click)="depotActive=true;sponsoredActive=false;listActive=false;">Déposer</button>
       <ng-template [(clrIfActive)]="depotActive">
+        <clr-tab-content>
+          <div class="container" style="text-align: -webkit-center;
+    margin-top: 10%;" *ngIf="muvePageLoading && !muveSent">
+            <span class="spinner">
+                Loading...
+            </span>
+          </div>
+          <div class="container" style="text-align: -webkit-center;
+    margin-top: 10%;" *ngIf="!muvePageLoading && muveSent">
+            <h1>
+              <i>Déposer un muve</i>
+            </h1>
+            <p style="    width: 70%;
+    margin: auto;
+    margin-top: 15px;">
+              <i>
+                Votre muve a bien été envoyé !
+              </i>
+            </p>
+          </div>
+          <div class="container" *ngIf="!muvePageLoading && !muveSent">
+            <div class="starter-template" style="padding: 30px!important;padding-top: 0px !important;">
+              <h1>
+                <i>Déposer un muve</i>
+              </h1>
+              <p style="    width: 70%;
+    margin: auto;
+    margin-top: 15px;">
+                <i *ngIf="positionActive">
+                  Pour déposer un muve, il n'y a rien de plus simple, il vous suffit d'entrer
+                  l'adresse à laquelle vous voulez déposer votre muve dans le champ ci-dessous, ou bien de cliquer
+                  à un endroit sur la carte encore plus bas.
+                </i>
+                <i *ngIf="contenuActive">
+                  Maintenant que vous avez choisis la position de votre Muve,
+                  il ne vous reste plus qu'à remplir son contenu !
+                </i>
+                <i *ngIf="confirmationActive">
+                  Très bien !<br>
+                  Il ne vous reste plus qu'à confirmer le dépot de votre Muve, et c'est terminé !
+                </i>
+              </p>
+            </div>
+
+            <clr-tabs>
+              <clr-tab>
+                <button clrTabLink (click)="positionActive=true;confirmationActive=false;contenuActive=false;">Position
+                </button>
+                <ng-template [(clrIfActive)]="positionActive">
+                  <clr-tab-content>
+                    <div style="margin-top: 50px;" class="text-center">
+                      <form>
+                        <input style="    margin-bottom: 20px;
+    width: 40%;
+    text-align: -webkit-center;
+    border-radius: 6px;" type="text" [(ngModel)]="whereTo" name="whereTo"
+                               placeholder="Ou voulez-vous poser votre muve ?" #search>
+                        <button class="btn btn-primary" (click)="selectPos()">
+                          Définir
+                        </button>
+                      </form>
+                    </div>
+
+                    <h3 style="    text-align: -webkit-center;
+    opacity: 0.5;
+    margin-bottom: 20px;">
+                      <i>où</i>
+                    </h3>
+
+                    <agm-map
+                      [latitude]="lat"
+                      [longitude]="lng"
+                      [zoom]="zoom"
+                      [disableDefaultUI]="true"
+                      [zoomControl]="false"
+                      (mapClick)="mapClicked($event)">
+                      <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                    </agm-map>
+                  </clr-tab-content>
+                </ng-template>
+              </clr-tab>
+              <clr-tab>
+                <button clrTabLink (click)="positionActive=false;confirmationActive=false;contenuActive=true;">Contenu
+                </button>
+                <ng-template [(clrIfActive)]="contenuActive">
+                  <clr-tab-content>
+                    <form class="form" [formGroup]="muveForm" (ngSubmit)="confirmationActive=true;contenuActive=false;"
+                          [hidden]="submitted">
+                      <section class="form-block">
+                        <label></label>
+                        <div class="form-group">
+                          <label for="muveTitle">Titre</label>
+                          <input id="muveTitle" type="text" style="height: 40px;"
+                                 formControlName="title">
+                          <button class="btn btn-primary" type="button" (click)="searchMusic()">Chercher</button>
+                          <button class="btn btn-warning" *ngIf="selectedMusic" (click)="selectedMusic=null;">Annuler
+                          </button>
+                        </div>
+                        <div *ngIf="!pickMusic && selectedMusic" class="form-group">
+                          <li class="selectedMusic">
+                            <img class="selectedThumb" [src]="selectedMusic.thumbnail">
+                            <p class="selectedTitle">{{selectedMusic.title}}</p>
+                          </li>
+                        </div>
+                        <div class="form-group">
+                          <label for="muveContent">Description</label>
+                          <textarea id="muveContent"
+                                    formControlName="description"></textarea>
+                          <span class="tooltip-content">
+                        La description est requise
+                    </span>
+                        </div>
+                        <button class="btn btn-primary"
+                                type="submit"
+                                [disabled]="muveForm.invalid">Confirmer
+                        </button>
+                      </section>
+                    </form>
+                  </clr-tab-content>
+                </ng-template>
+              </clr-tab>
+              <clr-tab>
+                <button clrTabLink>Confirmation</button>
+                <ng-template [(clrIfActive)]="confirmationActive">
+                  <clr-tab-content>
+                    <div *ngIf="latConfirm && lngConfirm && this.selectedMusic">
+                      <form>
+                        <div style="margin-top: 50px;" class="text-center">
+                          <p style="    width: 70%;
+    margin: auto;
+    margin-top: 15px;">
+                            Voulez-vous confirmer le dépot de ce Muve ?<br>
+                            <button class="btn btn-primary" (click)="sendMuve();">
+                              Confirmer
+                            </button>
+                          </p>
+                        </div>
+                        <br>
+                        <h3 style="text-align: center;
+    margin-bottom: 30px;">Aperçu :</h3>
+                        <agm-map
+                          [latitude]="latConfirm"
+                          [longitude]="lngConfirm"
+                          [zoom]="zoom"
+                          [disableDefaultUI]="true"
+                          [zoomControl]="false">
+                          <agm-marker [latitude]="latConfirm" [longitude]="lngConfirm"></agm-marker>
+                          <agm-circle [latitude]="latConfirm" [longitude]="lngConfirm"
+                                      [radius]="currentRadius * 1000"></agm-circle>
+                        </agm-map>
+                      </form>
+                    </div>
+                    <div style="margin-top: 50px;" class="text-center" *ngIf="!latConfirm && !lngConfirm">
+                      <p style="    width: 70%;
+    margin: auto;
+    margin-top: 15px;">
+                        Vous devez d'abord définir un endroit ou déposer votre Muve ! Pour le faire, cliquez sur le
+                        bouton
+                        ci-dessous pour retourner au premier onglet :<br>
+                        <button class="btn btn-primary" (click)="confirmationActive=false;positionActive=true;">
+                          Position
+                        </button>
+
+                      </p>
+                    </div>
+                    <div style="margin-top: 50px;" class="text-center"
+                         *ngIf="(latConfirm && lngConfirm) && !this.selectedMusic">
+                      <p style="    width: 70%;
+    margin: auto;
+    margin-top: 15px;">
+                        Vous devez d'abord remplir votre Muve avant de le déposer ! Pour le faire, cliquez sur le bouton
+                        ci-dessous pour retourner au deuxième onglet :<br>
+                        <button class="btn btn-primary" (click)="confirmationActive=false;contenuActive=true;">
+                          Contenu
+                        </button>
+
+                      </p>
+                    </div>
+
+                  </clr-tab-content>
+                </ng-template>
+              </clr-tab>
+            </clr-tabs>
+          </div>
+          <clr-modal [(clrModalOpen)]="pickMusic">
+            <h3 class="modal-title">Sélection de la musique</h3>
+            <div class="modal-body" style="text-align: -webkit-center;">
+              <div *ngIf="loading && !musics.local && !musics.spotify && !musics.youtube">
+                <span class="spinner spinner-inline">
+                  Loading...
+                </span>
+              </div>
+              <div *ngIf="musics.local && musics.youtube && musics.spotify">
+                <h3>Local</h3>
+                <div *ngIf="!loading && musics.local.length !== 0">
+                  <ul>
+                    <li *ngFor="let music of musics.local" class="music"
+                        [ngClass]="{'selected': selectedMusic === music }"
+                        (click)="selectMusic(music)">
+                      <img class="musicThumbail" [src]="music.thumbnail">
+                      <p class="musicTitle">{{music.title + ' - ' + music.artist}}</p>
+                    </li>
+                  </ul>
+                </div>
+                <div *ngIf="!loading && musics.local.length === 0">
+                  <p>Il semble que nous n'avons pas cette musique dans<br> notre base de donnée !</p>
+                </div>
+                <h3>Spotify</h3>
+                <div *ngIf="!loading && musics.spotify.length !== 0">
+                  <ul>
+                    <li *ngFor="let music of musics.spotify" class="music"
+                        [ngClass]="{'selected': selectedMusic === music }"
+                        (click)="selectMusic(music)">
+                      <img class="musicThumbail" [src]="music.thumbnail">
+                      <p class="musicTitle">{{music.title + ' - ' + music.artist}}</p>
+                    </li>
+                  </ul>
+                </div>
+                <div *ngIf="!loading && musics.spotify.length === 0">
+                  <p>Il semble que nous n'avons pas trouvé cette musique sur Spotify !</p>
+                </div>
+                <h3>Youtube</h3>
+                <div *ngIf="!loading && musics.youtube.length !== 0">
+                  <ul>
+                    <li *ngFor="let music of musics.youtube" class="music"
+                        [ngClass]="{'selected': selectedMusic === music }"
+                        (click)="selectMusic(music)">
+                      <img class="musicThumbail" [src]="music.thumbnail">
+                      <p class="musicTitle" style="bottom: 20%;">{{music.title}}</p>
+                    </li>
+                  </ul>
+                </div>
+                <div *ngIf="!loading && musics.youtube.length === 0">
+                  <p>Il semble que nous n'avons pas trouvé cette musique sur Youtube !</p>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline" (click)="selectedMusic=null;pickMusic=false;">Annuler
+              </button>
+              <button type="button" class="btn btn-primary" (click)="pickMusic=false;">Sélectionner</button>
+            </div>
+          </clr-modal>
+
+        </clr-tab-content>
+      </ng-template>
+    </clr-tab>
+    <!--MUVE SPONSORISÉ -->
+    <clr-tab>
+      <button clrTabLink (click)="depotActive=false;sponsoredActive=true;listActive=false;">Sponsorisé</button>
+      <ng-template [(clrIfActive)]="sponsoredActive">
         <clr-tab-content>
           <div class="container">
             <div class="starter-template" style="padding: 30px!important;padding-top: 0px !important;">
@@ -75,24 +329,24 @@
                       <section class="form-block">
                         <label></label>
                         <div class="form-group">
-                          <label for="muveTitle">Titre</label>
-                          <input id="muveTitle" type="text"
+                          <label for="muveSponsoTitle">Titre</label>
+                          <input id="muveSponsoTitle" type="text"
                                  formControlName="title">
                           <span class="tooltip-content">
                     Le titre est requis
                 </span>
                         </div>
                         <div class="form-group">
-                          <label for="muveArtist">Artiste</label>
-                          <input id="muveArtist" type="text"
+                          <label for="muveSponsoArtist">Artiste</label>
+                          <input id="muveSponsoArtist" type="text"
                                  formControlName="artist">
                           <span class="tooltip-content">
                         L'artiste est requis
                     </span>
                         </div>
                         <div class="form-group">
-                          <label for="muveDescription">Description</label>
-                          <textarea id="muveDescription"
+                          <label for="muveSponsoDescription">Description</label>
+                          <textarea id="muveSponsoDescription"
                                     formControlName="description"></textarea>
                           <span class="tooltip-content">
                         La description est requise
@@ -192,7 +446,7 @@
       </ng-template>
     </clr-tab>
     <clr-tab>
-      <button clrTabLink (click)="depotActive=false;listActive=true;">Liste</button>
+      <button clrTabLink (click)="depotActive=false;sponsoredActive=false;listActive=true;">Liste</button>
       <ng-template [(clrIfActive)]="listActive">
         <clr-tab-content>
           <div class="container">

@@ -21,8 +21,9 @@ import {Ng2MapModule} from "ng2-map";
 import {ClarityModule} from "clarity-angular";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
 import { EventsComponent } from './events/events.component';
-import { ChatComponent } from './chat/chat.component';
+import {ArraySortPipe, ChatComponent} from './chat/chat.component';
 import {SailsModule} from "angular2-sails";
+import { MusiqueComponent } from './musique/musique.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,8 @@ import {SailsModule} from "angular2-sails";
     MuvesComponent,
     EventsComponent,
     ChatComponent,
+    MusiqueComponent,
+    ArraySortPipe
   ],
   imports: [
     BrowserModule,

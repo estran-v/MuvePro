@@ -1,19 +1,82 @@
 <app-nav></app-nav>
-<nav class="sidenav" style="    position: absolute;
-    height: 100%;
+<div class="content-container">
+  <div class="content-area" style="    text-align: -webkit-center;
+    position: absolute;
+    left: 18%;
+    width: 82%;
+    top: 11.3%;">
+    <p *ngIf="!selectedRoom">Cliquez sur une de vos discussions ou créez-en une !</p>
+    <div #scrollMe *ngIf="selectedRoom" style="height: 500px;
+    overflow: auto;">
+      <div [ngClass]="{'notSent': msg.notSent,'msgBoxSender' : msg.sender === Auth.user.user.id, 'msgBoxReceiver' : msg.sender !== Auth.user.user.id}"
+        *ngFor="let msg of selectedRoom.messages | sort:'updatedAt'">
+        <p style="margin: 0">{{msg.body}}</p>
+      </div>
+      <div *ngIf="selectedRoom.messages.length === 0">
+        <p>Envoyez le premier message !</p>
+      </div>
+    </div>
+    <div *ngIf="selectedRoom">
+      <form (submit)="sendMessage(selectedRoom, selectedRoom.newMsg)">
+        <input type="text" style="    width: 89%;
+    height: 40px;" [(ngModel)]="selectedRoom.newMsg" name="newMsg">
+        <button class="btn btn-primary" type="submit">Envoyer</button>
+      </form>
+    </div>
+  </div>
+  <nav class="sidenav" style="    position: absolute;
+    height: 560px;
     left: 0px;
     top: 11.3%;">
-  <section class="sidenav-content">
-    <ul>
-      <li *ngFor="let room of rooms;" class="room" (click)="setRoom(room)">
-        <img class="avatarChat" [src]="room.friend.avatar || 'http://www.hitgroove.com/assets/images/default_avatar.jpg'">
-        <p class="nameChat">{{room.friend.firstName + ' ' + room.friend.lastName}}</p>
-      </li>
-    </ul>
-  </section>
-</nav>
-<div class="container">
-  <div class="starter-template">
+    <section class="sidenav-content">
+      <ul>
+        <li *ngFor="let room of rooms | sort:'updatedAt'" class="room" (click)="setRoom(room)" [ngClass]="{'selected': selectedRoom === room }">
+          <img class="avatarChat"
+               [src]="room.friend.avatar || 'http://www.hitgroove.com/assets/images/default_avatar.jpg'">
+          <p class="nameChat">{{room.friend.firstName + ' ' + room.friend.lastName}}</p>
+        </li>
+      </ul>
+    </section>
+    <section style="text-align: -webkit-center;">
+      <button class="btn btn-primary" (click)="newDiscu = true;">Nouvelle discussion</button>
+    </section>
+  </nav>
 
-  </div>
+  <clr-modal [(clrModalOpen)]="newDiscu">
+    <h3 class="modal-title">Créer une nouvelle discussion</h3>
+    <div class="modal-body" style="text-align: -webkit-center;">
+      <form>
+        <input style=" margin-bottom: 20px;
+    width: 70%;
+    height: 40px;
+    text-align: -webkit-center;
+    border-radius: 6px;
+" type="text" [(ngModel)]="whoTo" name="whoTo"
+               placeholder="Avec qui ?" #search>
+        <button class="btn btn-primary" (click)="searchPpl()">
+          Chercher
+        </button>
+      </form>
+      <div *ngIf="loadingPpl && searchRes.length === 0">
+        <span class="spinner spinner-inline">
+          Loading...
+        </span>
+      </div>
+      <div *ngIf="!loadingPpl && searchRes.length !== 0">
+        <ul>
+          <li *ngFor="let user of searchRes" class="room" [ngClass]="{'selected': user.selected }"
+              style="text-align: left;width: 260px;border-radius: 5px;"
+              (click)="user.selected ? user.selected = false : user.selected = true;">
+            <img class="avatarChat"
+                 [src]="user.avatar || 'http://www.hitgroove.com/assets/images/default_avatar.jpg'">
+            <p class="nameChat">{{user.firstName + ' ' + user.lastName}}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="newDiscu=false;">Annuler</button>
+      <button type="button" class="btn btn-primary" (click)="createRoom()">Créer</button>
+    </div>
+  </clr-modal>
 </div>

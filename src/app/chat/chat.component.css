@@ -6,7 +6,8 @@
 }
 
 .avatarChat {
-  width: 50px;
+  width: 20%;
+  height: 60%;
   border-radius: 35px;
   position: relative;
   top: 15px;
@@ -18,4 +19,38 @@
   position: relative;
   bottom: 30%;
   left: 45%;
+}
+
+.msgBoxReceiver {
+  width: 40%;
+  position: relative;
+  text-align: -webkit-left;
+  right: 29%;
+  padding: 10px;
+  background: #e6e6e6;
+  border-radius: 5px;
+  margin: 40px;
+}
+
+.msgBoxSender {
+  width: 40%;
+  position: relative;
+  text-align: -webkit-left;
+  left: 29%;
+  padding: 10px;
+  background: #007cbb;
+  border-radius: 5px;
+  margin: 40px;
+}
+
+.msgBoxSender > p {
+  color: white;
+}
+
+.selected {
+  background-color: #e6e6e6;
+}
+
+.notSent {
+  opacity: 0.5;
 }

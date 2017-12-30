@@ -1,11 +1,31 @@
-import {Component, OnInit} from '@angular/core';
-import {SailsService} from "angular2-sails";
-import {AuthService} from "../services/auth.service";
-import {Observable} from "rxjs/Observable";
-import {AuthHttp} from "angular2-jwt";
-import {find} from "tslint/lib/utils";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import * as _ from "lodash";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {SailsService} from 'angular2-sails';
+import {AuthService} from '../services/auth.service';
+import {Observable} from 'rxjs/Observable';
+import {AuthHttp} from 'angular2-jwt';
+import {find} from 'tslint/lib/utils';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import * as _ from 'lodash';
+
+import {Pipe, PipeTransform} from '@angular/core';
+
+@Pipe({
+  name: 'sort'
+})
+export class ArraySortPipe implements PipeTransform {
+  transform(array: any[], field: string): any[] {
+    array.sort((a: any, b: any) => {
+      if (a[field] < b[field]) {
+        return -1;
+      } else if (a[field] > b[field]) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    return array;
+  }
+}
 
 export class Room {
   static URL = 'http://devapi.muve-app.com/';
@@ -16,6 +36,7 @@ export class Room {
   updatedAt;
   socket;
   sub;
+  newMsg;
 
   constructor(fetched, public authHttp: AuthHttp, public Auth: AuthService) {
     this.users = fetched.users;
@@ -36,11 +57,12 @@ export class Room {
   }
 
   sendMessage(msg) {
-    let user = this.Auth.getUser();
+    const user = this.Auth.getUser();
     if (user) {
       const m = this.messages.push({notSent: true, body: msg, sender: user.user.id});
-      this.sendApi(this, msg).subscribe(sent => {
+      this.sendApi(this, {notSent: true, body: msg, sender: user.user.id}).subscribe(sent => {
         this.messages[m - 1].notSent = false;
+        this.newMsg = '';
       }, err => {
         console.error(err);
         this.messages[m - 1].error = true;
@@ -56,16 +78,22 @@ export class Room {
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css']
+  styleUrls: ['./chat.component.css'],
 })
 export class ChatComponent implements OnInit {
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
   rooms: Array<Room> = new Array<Room>();
+  selectedRoom: Room;
   unreadMessages = [];
   socket;
   unreadMessagesUpdate = new BehaviorSubject(0);
   roomMessageUpdate = new BehaviorSubject({});
   messageSub;
+  newDiscu = false;
+  loadingPpl;
+  searchRes = [];
+  whoTo = '';
 
   constructor(private _sailsService: SailsService,
               private Auth: AuthService,
@@ -77,7 +105,7 @@ export class ChatComponent implements OnInit {
   }
 
   connectToSails() {
-    let opts = {
+    const opts = {
       url: this.Auth.API,
       transports: ['websocket'],
       headers: {
@@ -89,8 +117,8 @@ export class ChatComponent implements OnInit {
       }
     };
 
-    let s = this._sailsService.connect(opts).subscribe(() => {
-      let s2 = this.fetchRooms().subscribe(() => {
+    const s = this._sailsService.connect(opts).subscribe(() => {
+      const s2 = this.fetchRooms().subscribe(() => {
         s2.unsubscribe();
       });
       s.unsubscribe();
@@ -107,7 +135,7 @@ export class ChatComponent implements OnInit {
 
   fetchRooms() {
     return new Observable(observer => {
-      let s = this.getRooms().subscribe((userWithRooms) => {
+      const s = this.getRooms().subscribe((userWithRooms) => {
         s.unsubscribe();
         if (userWithRooms.rooms && userWithRooms.rooms.length) {
           userWithRooms.rooms.forEach((room) => {
@@ -116,8 +144,8 @@ export class ChatComponent implements OnInit {
               return;
             }
             this._sailsService.get(this.Auth.API + '/rooms/' + room.id).subscribe((roomDetailed) => {
-              let roomObj = new Room(roomDetailed.data, this.authHttp, this.Auth);
-              let user = this.Auth.getUser();
+              const roomObj = new Room(roomDetailed.data, this.authHttp, this.Auth);
+              const user = this.Auth.getUser();
               if (user) {
                 roomObj.friend = _.find(roomDetailed.data.users, o => o.id !== user.user.id);
                 this.rooms.push(roomObj);
@@ -129,7 +157,7 @@ export class ChatComponent implements OnInit {
           if (!this.messageSub) {
             this.messageSub = this._sailsService.on('message').subscribe(log => {
               const toUpdate = _.find(this.rooms, (r) => r.id === log.room);
-              let user = this.Auth.getUser();
+              const user = this.Auth.getUser();
               if (user) {
                 if (toUpdate && log.sender !== user.user.id) {
                   toUpdate.pushMessage(log);
@@ -174,7 +202,7 @@ export class ChatComponent implements OnInit {
   fetchRoomById(id) {
     return new Promise((resolve, reject) => {
       this.getRoomById(id).subscribe(roomDetailed => {
-        let user = this.Auth.getUser();
+        const user = this.Auth.getUser();
         if (user) {
           roomDetailed.friend = _.find(roomDetailed.users, o => o.id !== user.user.id);
           if (typeof _.find(this.rooms, r => r.id === id) !== 'undefined') {
@@ -216,11 +244,59 @@ export class ChatComponent implements OnInit {
   }
 
   setRoom(room) {
-
+    this.selectedRoom = room;
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 1000);
   }
 
   sendMessage(room: Room, message) {
-    //this.socket.emit(room, message);
     room.sendMessage(message);
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 1000);
+  }
+
+  searchPpl() {
+    this.loadingPpl = true;
+    this.searchRes = [];
+    this.authHttp.get(this.Auth.API + '/users?q=' + this.whoTo).toPromise()
+      .then((res) => {
+        this.searchRes = res.json();
+        this.rooms.forEach(room => {
+          this.searchRes.forEach(user => {
+            if (room.friend.id === user.id) {
+              this.searchRes.splice(this.searchRes.indexOf(user), 1);
+            }
+          });
+        });
+        this.loadingPpl = false;
+      }).catch((err) => {
+      console.error(err);
+    });
+  }
+
+  createRoom() {
+    const user = _.find(this.searchRes, o => o.selected === true);
+    if (user) {
+      this.authHttp.get(this.Auth.API + '/rooms?user=' + user.id).toPromise()
+        .then((res) => {
+          const newRoom = res.json();
+          this.fetchRoomById(newRoom.id).then((room) => {
+            this.newDiscu = false;
+          }).catch((err) => {
+            console.error(err);
+          });
+        }).catch((err) => {
+        console.error(err);
+      });
+    }
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch (err) {
+    }
   }
 }

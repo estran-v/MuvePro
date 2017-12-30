@@ -1,0 +1,104 @@
+<app-nav></app-nav>
+<div class="container" style="    width: 100%;
+    position: relative;
+    bottom: 30px;">
+  <clr-tabs>
+    <clr-tab>
+      <button clrTabLink (click)="claimActive=true;musicActive=false;albumActive=false;">Demande</button>
+      <ng-template [(clrIfActive)]="depotActive">
+        <clr-tab-content>
+          <div class="starter-template" style="padding: 30px!important;padding-top: 0px !important;">
+            <h1>
+              <i>Ajouter une musique à ma librairie</i>
+            </h1>
+            <p style="    width: 70%;
+    margin: auto;
+    margin-top: 15px;">
+              <i>
+                En tant qu'artiste, vous avez la possibilité de lier votre compte Muve aux musiques que les utilisateurs
+                écoutent sur notre plateforme !<br>
+                Pour se faire, il vous suffit simplement de rechercher vos musiques au sein de notre base de donnée, et
+                de nous notifier qu'elle vous appartient
+              </i>
+            </p>
+          </div>
+          <form (submit)="searchMusic()" style="text-align: -webkit-center;">
+            <input style="    margin-bottom: 20px;
+    width: 40%;
+    height: 40px;
+    text-align: -webkit-center;
+    border-radius: 6px;" type="text" [(ngModel)]="title" name="title"
+                   placeholder="Titre de la musique">
+            <button class="btn btn-primary" type="submit">
+              Chercher
+            </button>
+          </form>
+          <table class="table" style="    width: 80%;
+    margin-left: 10%;">
+            <thead>
+            <tr>
+              <th>Thumbnail</th>
+              <th>Artiste</th>
+              <th>Titre</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="!loading && musics.length !== 0">
+            <tr *ngFor="let music of musics;">
+              <td>
+                <img class="selectedThumb" [src]="music.thumbnail">
+              </td>
+              <td class="padding30">{{ music.artist }}</td>
+              <td class="padding30">{{ music.title }}</td>
+              <td>
+                <button type="button" class="btn btn-icon btn-primary"
+                        (click)="eventEdit = event; deleteModal = true;">
+                  Demander
+                  <clr-icon size="16" shape="plus-circle"></clr-icon>
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <div *ngIf="loading && musics.length === 0" style="    text-align: center;
+    margin-top: 50px;
+">
+            <span class="spinner">
+                Loading...
+            </span>
+          </div>
+          <div *ngIf="!loading && musics.length === 0 && !noResult" style="text-align: center;">
+            <p>
+              Essayez de chercher "Allumer le feu" de "Johnny Hallyday", c'est la mode en ce moment !
+            </p>
+          </div>
+          <div *ngIf="!loading && musics.length === 0 && noResult" style="text-align: center;">
+            <p>
+              Nous n'avons malheureusement pas encore ce titre dans notre base de donnée !<br>
+              <a class="nav-link" href="muves">
+                Peut-être que vous voulez créer le premier Muve avec cette musique ?
+              </a>
+            </p>
+          </div>
+
+        </clr-tab-content>
+      </ng-template>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink (click)="claimActive=false;musicActive=true;albumActive=false;">Musiques</button>
+      <ng-template [(clrIfActive)]="musicActive">
+        <clr-tab-content>
+
+        </clr-tab-content>
+      </ng-template>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink (click)="claimActive=false;musicActive=false;albumActive=true;">Albums</button>
+      <ng-template [(clrIfActive)]="albumActive">
+        <clr-tab-content>
+
+        </clr-tab-content>
+      </ng-template>
+    </clr-tab>
+  </clr-tabs>
+</div>
