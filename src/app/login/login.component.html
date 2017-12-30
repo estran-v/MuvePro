@@ -1,4 +1,4 @@
-<div class="login-container bg-info">
+<div class="element-style bg-info">
   <div class="login-box">
     <div class="container">
       <div class="card col-md-6 mt-3 mx-auto">
@@ -37,22 +37,25 @@
                 </small>
               </label>
               </div>
-            <p *ngIf="loginForm.value.typeAccount === 'Npro'">
-              <label for="formFields_9">
-                Document d'identité
-                <input type="file" id="formFields_9">
-              </label>
-            </p>
             <label class="d-block">
+              <p *ngIf="this.loginForm.value.typeAccount === 'Npro'">
+                <input type="text" class="form-control" formControlName="sendName"
+                     [placeholder]="'Votre nom de scène'"/>
+              </p>
+              <p *ngIf="isSend === true">
+                <span>Votre demande est en cours de traitement</span>
+              </p>
               <label class="form-check-label">
                 <input type="checkbox" class="form-check-input" formControlName="remember"/>
                 <span translate>Se souvenir de moi</span>
               </label>
             </label>
+            <div class="center-block">
             <button class="btn btn-primary w-100" type="submit" [disabled]="loginForm.invalid || isLoading">
               <i class="fa fa-cog fa-spin" [hidden]="!isLoading"></i>
               <span translate>Connexion</span>
             </button>
+            </div>
           </form>
         </div>
       </div>

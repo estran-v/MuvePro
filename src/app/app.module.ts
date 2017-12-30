@@ -23,6 +23,7 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-b
 import { EventsComponent } from './events/events.component';
 import { ChatComponent } from './chat/chat.component';
 import {SailsModule} from "angular2-sails";
+import { StatsComponent } from './stats/stats.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {SailsModule} from "angular2-sails";
     MuvesComponent,
     EventsComponent,
     ChatComponent,
+    StatsComponent,
   ],
   imports: [
     BrowserModule,
