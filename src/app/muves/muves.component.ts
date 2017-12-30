@@ -4,6 +4,7 @@ import {AgmCoreModule, AgmMap} from "@agm/core";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthHttp} from "angular2-jwt";
 import {AuthService} from "../services/auth.service";
+import * as _ from "lodash";
 
 declare var google: any;
 
@@ -14,6 +15,8 @@ declare var google: any;
 })
 export class MuvesComponent implements OnInit {
 
+  public muvePageLoading = false;
+  public muveSent = false;
   public lat = 45.7381506;
   public lng = 4.83750729999997;
   public latConfirm;
@@ -46,12 +49,18 @@ export class MuvesComponent implements OnInit {
     radius: 1,
     duration: 1
   };
+  public muves = [];
   public positionActive = true;
   public contenuActive = false;
   public confirmationActive = false;
   public listActive = false;
   public depotActive = true;
+  public sponsoredActive = false;
   muveForm = new FormGroup({
+    title: new FormControl('', Validators.required),
+    description: new FormControl(this.muve.description, Validators.required),
+  });
+  muveSponsoForm = new FormGroup({
     title: new FormControl(this.muve.title, Validators.required),
     artist: new FormControl(this.muve.artist, Validators.required),
     description: new FormControl(this.muve.description, Validators.required),
@@ -59,13 +68,18 @@ export class MuvesComponent implements OnInit {
     radius: new FormControl(this.muve.radius, Validators.required)
   });
   public currentDuration = 1;
-  public currentRadius = 1;
+  public currentRadius = 0.5;
   estimatedPrice = this.muve.duration * this.muve.radius;
   submitted = false;
+  loading = false;
+  noResult = false;
+  pickMusic = false;
+  musics = [];
+  selectedMusic;
 
   constructor(private authHttp: AuthHttp,
               private Auth: AuthService) {
-    this.muveForm.valueChanges.subscribe(data => {
+    this.muveSponsoForm.valueChanges.subscribe(data => {
       if (data.duration !== this.currentDuration) {
         this.estimatedPrice = data.duration * this.muveForm.value.radius;
         this.currentDuration = data.duration;
@@ -81,7 +95,7 @@ export class MuvesComponent implements OnInit {
       .then((res) => {
         console.log(res.json());
       }).catch((err) => {
-        console.error(err);
+      console.error(err);
     });
     google.setOnLoadCallback((res) => {
     });
@@ -113,14 +127,6 @@ export class MuvesComponent implements OnInit {
     this.getPlace(this.whereTo);
   }
 
-  checkValidForm() {
-    if (!this.muve.title || !this.muve.artist) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   addNewEmployeeAddress() {
     this.muveForm.reset();
     this.submitted = false;
@@ -138,7 +144,50 @@ export class MuvesComponent implements OnInit {
     }
   }
 
-  sendContentForm() {
+  searchMusic() {
+    if (this.muveForm.value.title) {
+      this.loading = true;
+      this.pickMusic = true;
+      this.noResult = false;
+      this.authHttp.get(this.Auth.API + '/musics/search?title=' + this.muveForm.value.title).toPromise()
+        .then((res) => {
+          if (res.json().results) {
+            const local = _.find(res.json().results, r => r.provider === 'Local');
+            const youtube = _.find(res.json().results, r => r.provider === 'Youtube');
+            const spotify = _.find(res.json().results, r => r.provider === 'Spotify');
+            this.musics['local'] = local.items;
+            this.musics['youtube'] = youtube.items;
+            this.musics['spotify'] = spotify.items;
+            if (this.musics['local'].length === 0 && this.musics['youtube'].length === 0 && this.musics['spotify'].length === 0)
+              this.noResult = true;
+            else
+              this.noResult = false;
+            this.loading = false;
+            console.log(this.musics);
+          }
+        }).catch((err) => {
+        console.error(err);
+      });
+    }
+  }
 
+  selectMusic(music) {
+    this.selectedMusic = music;
+  }
+
+  sendMuve() {
+    this.muvePageLoading = true;
+    this.authHttp.post(this.Auth.API + '/muves', {
+      music: this.selectedMusic.id,
+      content: this.muveForm.value.description,
+      lat: this.place.geometry.location.lat(),
+      lng: this.place.geometry.location.lng(),
+    }).toPromise().then((res) => {
+      this.muvePageLoading = false;
+      this.muveSent = true;
+      this.muves.push(res.json().muve);
+    }).catch((err) => {
+      console.error(err);
+    });
   }
 }
