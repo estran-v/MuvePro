@@ -8,6 +8,7 @@ import {AuthGuardService} from "./services/auth-guard.service";
 import {MuvesComponent} from "./muves/muves.component";
 import {EventsComponent} from "./events/events.component";
 import {ChatComponent} from "./chat/chat.component";
+import {StatsComponent} from './stats/stats.component';
 import {MusiqueComponent} from "./musique/musique.component";
 
 export const routes: Routes = [
@@ -17,5 +18,6 @@ export const routes: Routes = [
   {path: 'muves', component: MuvesComponent, canActivate: [AuthGuardService]},
   {path: 'events', component: EventsComponent, canActivate: [AuthGuardService]},
   {path: 'chat', component: ChatComponent, canActivate: [AuthGuardService]},
+  {path: 'stats', component: StatsComponent, canActivate: [AuthGuardService]},
   {path: 'musique', component: MusiqueComponent, canActivate: [AuthGuardService]}
 ];

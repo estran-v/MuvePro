@@ -23,6 +23,7 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-b
 import { EventsComponent } from './events/events.component';
 import {ArraySortPipe, ChatComponent} from './chat/chat.component';
 import {SailsModule} from "angular2-sails";
+import { StatsComponent } from './stats/stats.component';
 import { MusiqueComponent } from './musique/musique.component';
 
 @NgModule({
@@ -35,6 +36,7 @@ import { MusiqueComponent } from './musique/musique.component';
     MuvesComponent,
     EventsComponent,
     ChatComponent,
+    StatsComponent,
     MusiqueComponent,
     ArraySortPipe
   ],
