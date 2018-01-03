@@ -15,4 +15,8 @@ export class NavComponent implements OnInit {
   ngOnInit() {
   }
 
+  goTo(page) {
+    this.router.navigate([page]);
+  }
+
 }

@@ -3,37 +3,37 @@
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('dashboard') !== -1)}" href="dashboard">
+        <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('dashboard') !== -1)}" (click)="goTo('/dashboard')">
           <i class="fa fa-tachometer" aria-hidden="true"></i>
           Dashboard
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('musique') !== -1)}" href="#">
+        <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('musique') !== -1)}" (click)="goTo('/dashboard')">
           <i class="fa fa-music" aria-hidden="true" ></i>
           Musique
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('stats') !== -1)}" href="#">
+        <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('stats') !== -1)}" (click)="goTo('/dashboard')">
           <i class="fa fa-line-chart" aria-hidden="true" ></i>
           Stats
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('muves') !== -1)}" href="muves">
+        <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('muves') !== -1)}" (click)="goTo('/muves')">
           <i class="fa fa-map-marker" aria-hidden="true" ></i>
           Muves
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('chat') !== -1)}" href="#">
+        <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('chat') !== -1)}" (click)="goTo('/dashboard')">
           <i class="fa fa-comments" aria-hidden="true" ></i>
           Chat
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('autre') !== -1)}" href="#">
+        <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('autre') !== -1)}" (click)="goTo('/dashboard')">
           <i class="fa fa-misc" aria-hidden="true" ></i>
           Autres
         </a>

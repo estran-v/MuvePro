@@ -14,7 +14,7 @@ declare var Smooch: any;
 export class AuthService {
   // jwtHelper: JwtHelper = new JwtHelper();
   public user;
-  public API = 'http://devapi.muve-app.com';
+  public API = 'https://devapi.muve-app.com';
 
   constructor(// public authHttp: AuthHttp,
     private http: Http,
