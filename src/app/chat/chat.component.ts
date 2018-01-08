@@ -28,7 +28,7 @@ export class ArraySortPipe implements PipeTransform {
 }
 
 export class Room {
-  static URL = 'http://devapi.muve-app.com/';
+  static URL = 'https://devapi.muve-app.com/';
   friend;
   users;
   messages;
@@ -112,6 +112,7 @@ export class ChatComponent implements OnInit {
         'Authorization': 'Bearer ' + this.Auth.getToken()
       },
       pingInterval: 1000,
+      useCORSRouteToGetCookie: false,
       afterDisconnect: (s, o, c) => {
         console.log('SOCKET DISCONNECTED');
       }

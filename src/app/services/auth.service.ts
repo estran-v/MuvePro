@@ -14,11 +14,11 @@ declare var Smooch: any;
 export class AuthService {
   // jwtHelper: JwtHelper = new JwtHelper();
   public user;
-  public API = 'http://devapi.muve-app.com';
+  public API = 'https://devapi.muve-app.com';
 
   constructor(public authHttp: AuthHttp,
-    private http: Http,
-    private router: Router) {
+              private http: Http,
+              private router: Router) {
   }
 
   login(loginCredentials) {
@@ -65,15 +65,19 @@ export class AuthService {
   }
 
   refresh() {
-    let headers = new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('accessToken')});
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    });
     let options = new RequestOptions({headers: headers});
     return this.http.post(this.API + '/login', {
-      'refres_token': localStorage.getItem('refreshToken'),
+      'refresh_token': localStorage.getItem('refreshToken'),
       'grant_type': 'refresh_token'
     }, options)
       .toPromise()
       .then(response => {
         if (response.json().access_token) {
+          console.log(response.json());
           localStorage.setItem('accessToken', response.json().access_token);
           localStorage.setItem('refreshToken', response.json().refresh_token);
           return true;
@@ -85,7 +89,7 @@ export class AuthService {
   }
 
   getToken() {
-    if (this.loggedIn()){
+    if (this.loggedIn()) {
       return localStorage.getItem('accessToken');
     }
     return false;
@@ -94,7 +98,7 @@ export class AuthService {
   loggedIn() {
     if (!tokenNotExpired('accessToken') && localStorage.getItem('refreshToken') === null) {
       return tokenNotExpired('accessToken');
-    } else if (!tokenNotExpired('accessToken') && localStorage.getItem('refreshToken') !== null){
+    } else if (!tokenNotExpired('accessToken') && localStorage.getItem('refreshToken') !== null) {
       this.refresh().then((res) => {
         return tokenNotExpired('accessToken');
       });
