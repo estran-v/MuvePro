@@ -5,6 +5,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthHttp} from "angular2-jwt";
 import {AuthService} from "../services/auth.service";
 import * as _ from "lodash";
+import {Router} from "@angular/router";
 
 declare var google: any;
 
@@ -16,7 +17,9 @@ declare var google: any;
 export class MuvesComponent implements OnInit {
 
   public muvePageLoading = false;
+  public muveSponsoPageLoading = false;
   public muveSent = false;
+  public muveSponsoSent = false;
   public lat = 45.7381506;
   public lng = 4.83750729999997;
   public latConfirm;
@@ -40,7 +43,14 @@ export class MuvesComponent implements OnInit {
   public formSubmitted = false;
   public muve = {
     title: '',
-    artist: '',
+    position: {
+      lat: null,
+      lng: null
+    },
+    description: '',
+  };
+  public muveSponso = {
+    title: '',
     position: {
       lat: null,
       lng: null
@@ -61,44 +71,73 @@ export class MuvesComponent implements OnInit {
     description: new FormControl(this.muve.description, Validators.required),
   });
   muveSponsoForm = new FormGroup({
-    title: new FormControl(this.muve.title, Validators.required),
-    artist: new FormControl(this.muve.artist, Validators.required),
     description: new FormControl(this.muve.description, Validators.required),
-    duration: new FormControl(this.muve.duration, Validators.required),
-    radius: new FormControl(this.muve.radius, Validators.required)
+    duration: new FormControl(this.muveSponso.duration, Validators.required),
+    radius: new FormControl(this.muveSponso.radius, Validators.required)
   });
   public currentDuration = 1;
   public currentRadius = 0.5;
-  estimatedPrice = this.muve.duration * this.muve.radius;
+  estimatedPrice = this.muveSponso.duration * this.muveSponso.radius;
   submitted = false;
   loading = false;
   noResult = false;
   pickMusic = false;
+  pickSponsoMusic = false;
   musics = [];
+  myMusics = [];
   selectedMusic;
+  selectedSponsoMusic;
+  deleteMuveModal = false;
+  loadingDeleteMuve = false;
+  muveToDelete;
 
-  constructor(private authHttp: AuthHttp,
+  constructor(public router: Router,
+              private authHttp: AuthHttp,
               private Auth: AuthService) {
     this.muveSponsoForm.valueChanges.subscribe(data => {
       if (data.duration !== this.currentDuration) {
-        this.estimatedPrice = data.duration * this.muveForm.value.radius;
+        this.estimatedPrice = data.duration * this.muveSponsoForm.value.radius;
         this.currentDuration = data.duration;
       } else if (data.radius !== this.currentRadius) {
-        this.estimatedPrice = this.muveForm.value.duration * data.radius;
+        this.estimatedPrice = this.muveSponsoForm.value.duration * data.radius;
         this.currentRadius = data.radius;
       }
     });
   }
 
   ngOnInit() {
-    this.authHttp.get(this.Auth.API + '/me/muves').toPromise()
-      .then((res) => {
-        console.log(res.json());
-      }).catch((err) => {
-      console.error(err);
-    });
+    this.getMyMuves();
+    this.getMyMusics();
     google.setOnLoadCallback((res) => {
     });
+  }
+
+  getMyMuves() {
+    return this.authHttp.get(this.Auth.API + '/me/muves').toPromise()
+      .then((res) => {
+        if (res.json()) {
+          res.json().forEach(muve => {
+            if (muve.isPremium) {
+              this.muves.push(muve);
+            }
+          });
+          this.muves = this.muves.reverse();
+        }
+      }).catch((err) => {
+        console.error(err);
+      });
+  }
+
+  getMyMusics() {
+    return this.authHttp.get(this.Auth.API + '/artists/me').toPromise()
+      .then((res) => {
+        if (res.json()) {
+          this.myMusics = res.json().musics;
+          console.log(this.myMusics);
+        }
+      }).catch((err) => {
+        console.error(err);
+      });
   }
 
   getPlace(address = null, latLng = null) {
@@ -125,11 +164,6 @@ export class MuvesComponent implements OnInit {
 
   selectPos() {
     this.getPlace(this.whereTo);
-  }
-
-  addNewEmployeeAddress() {
-    this.muveForm.reset();
-    this.submitted = false;
   }
 
   handleBtn(btn) {
@@ -175,6 +209,10 @@ export class MuvesComponent implements OnInit {
     this.selectedMusic = music;
   }
 
+  selectSponsoMusic(music) {
+    this.selectedSponsoMusic = music;
+  }
+
   sendMuve() {
     this.muvePageLoading = true;
     this.authHttp.post(this.Auth.API + '/muves', {
@@ -189,5 +227,45 @@ export class MuvesComponent implements OnInit {
     }).catch((err) => {
       console.error(err);
     });
+  }
+
+  sendSponsoMuve() {
+    this.muveSponsoPageLoading = true;
+    this.authHttp.post(this.Auth.API + '/muves', {
+      music: 'm-' + this.selectedSponsoMusic.id,
+      content: this.muveSponsoForm.value.description,
+      lat: this.place.geometry.location.lat(),
+      lng: this.place.geometry.location.lng(),
+    }).toPromise().then((res) => {
+      if (res.json() && res.json().muve.id) {
+        this.authHttp.post(this.Auth.API + '/muves/' + res.json().muve.id + '/premium', {}).toPromise()
+          .then((response) => {
+            this.muveSponsoPageLoading = false;
+            this.muveSponsoSent = true;
+            this.muves.push(res.json().muve);
+          }).catch((error) => {
+          console.error(error);
+        });
+      }
+    }).catch((err) => {
+      console.error(err);
+    });
+  }
+
+  deleteMuve() {
+    this.loadingDeleteMuve = true;
+    this.authHttp.delete(this.Auth.API + '/muves/' + this.muveToDelete.id).toPromise()
+      .then((res) => {
+        this.muves.splice(this.muves.indexOf(this.muveToDelete), 1);
+        this.muveToDelete = null;
+        this.loadingDeleteMuve = false;
+        this.deleteMuveModal = false;
+      }).catch((err) => {
+        console.error(err);
+    });
+  }
+
+  goTo(page) {
+    this.router.navigate([page]);
   }
 }

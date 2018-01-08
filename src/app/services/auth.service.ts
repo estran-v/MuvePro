@@ -79,12 +79,12 @@ export class AuthService {
       .toPromise()
       .then(response => {
         if (response.json().access_token) {
-          console.log(response.json());
           localStorage.setItem('accessToken', response.json().access_token);
           return true;
         }
       })
       .catch(response => {
+        this.router.navigate(['/login']);
         console.log(response.json());
       });
   }

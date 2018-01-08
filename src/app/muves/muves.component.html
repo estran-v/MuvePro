@@ -260,187 +260,248 @@
       <ng-template [(clrIfActive)]="sponsoredActive">
         <clr-tab-content>
           <div class="container">
-            <div class="starter-template" style="padding: 30px!important;padding-top: 0px !important;">
+            <div class="container" style="text-align: -webkit-center;
+    margin-top: 10%;" *ngIf="muveSponsoPageLoading && !muveSponsoSent">
+            <span class="spinner">
+                Loading...
+            </span>
+            </div>
+
+            <div class="container" style="text-align: -webkit-center;
+    margin-top: 10%;" *ngIf="!muveSponsoPageLoading && muveSponsoSent">
               <h1>
                 <i>Déposer un muve sponsorisé</i>
               </h1>
               <p style="    width: 70%;
     margin: auto;
     margin-top: 15px;">
-                <i *ngIf="positionActive">
-                  Pour déposer un muve sponsorisé, il n'y a rien de plus simple, il vous suffit d'entrer
-                  l'adresse à laquelle vous voulez déposer votre muve dans le champ ci-dessous, ou bien de cliquer
-                  à un endroit sur la carte encore plus bas.
-                </i>
-                <i *ngIf="contenuActive">
-                  Maintenant que vous avez choisis la position de votre Muve,
-                  il ne vous reste plus qu'à remplir son contenu !
-                </i>
-                <i *ngIf="confirmationActive">
-                  Très bien !<br>
-                  Il ne vous reste plus qu'à confirmer le dépot de votre Muve, et c'est terminé !
+                <i>
+                  Votre muve a bien été envoyé !
                 </i>
               </p>
             </div>
+            <div class="container" *ngIf="!muveSponsoPageLoading && !muveSponsoSent">
+              <div class="starter-template" style="padding: 30px!important;padding-top: 0px !important;">
+                <h1>
+                  <i>Déposer un muve sponsorisé</i>
+                </h1>
+                <p style="    width: 70%;
+    margin: auto;
+    margin-top: 15px;">
+                  <i *ngIf="positionActive">
+                    Pour déposer un muve sponsorisé, il n'y a rien de plus simple, il vous suffit d'entrer
+                    l'adresse à laquelle vous voulez déposer votre muve dans le champ ci-dessous, ou bien de cliquer
+                    à un endroit sur la carte encore plus bas.
+                  </i>
+                  <i *ngIf="contenuActive">
+                    Maintenant que vous avez choisis la position de votre Muve,
+                    il ne vous reste plus qu'à remplir son contenu !
+                  </i>
+                  <i *ngIf="confirmationActive">
+                    Très bien !<br>
+                    Il ne vous reste plus qu'à confirmer le dépot de votre Muve, et c'est terminé !
+                  </i>
+                </p>
+              </div>
 
-            <clr-tabs>
-              <clr-tab>
-                <button clrTabLink (click)="positionActive=true;confirmationActive=false;contenuActive=false;">Position
-                </button>
-                <ng-template [(clrIfActive)]="positionActive">
-                  <clr-tab-content>
-                    <div style="margin-top: 50px;" class="text-center">
-                      <form>
-                        <input style="    margin-bottom: 20px;
+              <clr-tabs>
+                <clr-tab>
+                  <button clrTabLink (click)="positionActive=true;confirmationActive=false;contenuActive=false;">
+                    Position
+                  </button>
+                  <ng-template [(clrIfActive)]="positionActive">
+                    <clr-tab-content>
+                      <div style="margin-top: 50px;" class="text-center">
+                        <form>
+                          <input style="    margin-bottom: 20px;
     width: 40%;
     text-align: -webkit-center;
     border-radius: 6px;" type="text" [(ngModel)]="whereTo" name="whereTo"
-                               placeholder="Ou voulez-vous poser votre muve ?" #search>
-                        <button class="btn btn-primary" (click)="selectPos()">
-                          Définir
-                        </button>
-                      </form>
-                    </div>
+                                 placeholder="Ou voulez-vous poser votre muve ?" #search>
+                          <button class="btn btn-primary" (click)="selectPos()">
+                            Définir
+                          </button>
+                        </form>
+                      </div>
 
-                    <h3 style="    text-align: -webkit-center;
+                      <h3 style="    text-align: -webkit-center;
     opacity: 0.5;
     margin-bottom: 20px;">
-                      <i>où</i>
-                    </h3>
+                        <i>où</i>
+                      </h3>
 
-                    <agm-map
-                      [latitude]="lat"
-                      [longitude]="lng"
-                      [zoom]="zoom"
-                      [disableDefaultUI]="true"
-                      [zoomControl]="false"
-                      (mapClick)="mapClicked($event)">
-                      <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-                    </agm-map>
-                  </clr-tab-content>
-                </ng-template>
-              </clr-tab>
-              <clr-tab>
-                <button clrTabLink (click)="positionActive=false;confirmationActive=false;contenuActive=true;">Contenu
-                </button>
-                <ng-template [(clrIfActive)]="contenuActive">
-                  <clr-tab-content>
-                    <form class="form" [formGroup]="muveForm" (ngSubmit)="sendContentForm()" [hidden]="submitted">
-                      <section class="form-block">
-                        <label></label>
-                        <div class="form-group">
-                          <label for="muveSponsoTitle">Titre</label>
-                          <input id="muveSponsoTitle" type="text"
-                                 formControlName="title">
-                          <span class="tooltip-content">
-                    Le titre est requis
-                </span>
-                        </div>
-                        <div class="form-group">
-                          <label for="muveSponsoArtist">Artiste</label>
-                          <input id="muveSponsoArtist" type="text"
-                                 formControlName="artist">
-                          <span class="tooltip-content">
-                        L'artiste est requis
-                    </span>
-                        </div>
-                        <div class="form-group">
-                          <label for="muveSponsoDescription">Description</label>
-                          <textarea id="muveSponsoDescription"
-                                    formControlName="description"></textarea>
-                          <span class="tooltip-content">
+                      <agm-map
+                        [latitude]="lat"
+                        [longitude]="lng"
+                        [zoom]="zoom"
+                        [disableDefaultUI]="true"
+                        [zoomControl]="false"
+                        (mapClick)="mapClicked($event)">
+                        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                      </agm-map>
+                    </clr-tab-content>
+                  </ng-template>
+                </clr-tab>
+                <clr-tab>
+                  <button clrTabLink (click)="positionActive=false;confirmationActive=false;contenuActive=true;">Contenu
+                  </button>
+                  <ng-template [(clrIfActive)]="contenuActive">
+                    <clr-tab-content>
+                      <form class="form" [formGroup]="muveSponsoForm"
+                            (ngSubmit)="confirmationActive=true;contenuActive=false;" [hidden]="submitted">
+                        <section class="form-block">
+                          <div class="form-group">
+                            <label for="muveTitle">Titre</label>
+                            <button class="btn btn-primary" type="button" (click)="pickSponsoMusic = true;">Chercher
+                            </button>
+                            <button class="btn btn-warning" *ngIf="selectedSponsoMusic"
+                                    (click)="selectedSponsoMusic=null;">Annuler
+                            </button>
+                          </div>
+                          <div *ngIf="!pickSponsoMusic && selectedSponsoMusic" class="form-group">
+                            <li class="selectedMusic">
+                              <img class="selectedThumb" [src]="selectedSponsoMusic.thumbnail">
+                              <p class="selectedTitle">{{selectedSponsoMusic.title}}</p>
+                            </li>
+                          </div>
+                          <div class="form-group">
+                            <label for="muveSponsoDescription">Description</label>
+                            <textarea id="muveSponsoDescription"
+                                      formControlName="description"></textarea>
+                            <span class="tooltip-content">
                         La description est requise
                     </span>
-                        </div>
-                        <div class="form-group">
-                          <label for="muveDuration">Durée</label>
-                          <input id="muveDuration" type="number"
-                                 formControlName="duration">
-                          <span class="tooltip-content">
+                          </div>
+                          <div class="form-group">
+                            <label for="muveSponsoDuration">Durée</label>
+                            <input id="muveSponsoDuration" type="number"
+                                   formControlName="duration">
+                            <span class="tooltip-content">
                         La durée est requise (en jours)
                     </span>
-                        </div>
-                        <div class="form-group">
-                          <label for="muveRadius">Rayon du Muve</label>
-                          <input id="muveRadius" type="number"
-                                 formControlName="radius">
-                          <span class="tooltip-content">
+                          </div>
+                          <div class="form-group">
+                            <label for="muveSponsoRadius">Rayon du Muve</label>
+                            <input id="muveSponsoRadius" type="number"
+                                   formControlName="radius">
+                            <span class="tooltip-content">
                         Le rayon est requis (en km)
                     </span>
-                        </div>
-                        <div class="form-group">
-                          <label for="muveRadius">Estimation du prix</label>
-                          <span class="tooltip-content">
+                          </div>
+                          <div class="form-group">
+                            <label for="muveSponsoRadius">Estimation du prix</label>
+                            <span class="tooltip-content">
                         {{ estimatedPrice + ' €'}}
                     </span>
-                        </div>
-                        <button class="btn btn-primary"
-                                type="submit"
-                                [disabled]="muveForm.invalid">Confirmer
-                        </button>
-                      </section>
-                    </form>
-                  </clr-tab-content>
-                </ng-template>
-              </clr-tab>
-              <clr-tab>
-                <button clrTabLink>Confirmation</button>
-                <ng-template [(clrIfActive)]="confirmationActive">
-                  <clr-tab-content>
-                    <div *ngIf="latConfirm && lngConfirm && this.muveForm.valid">
-                      <form>
-                        <agm-map
-                          [latitude]="latConfirm"
-                          [longitude]="lngConfirm"
-                          [zoom]="zoom"
-                          [disableDefaultUI]="true"
-                          [zoomControl]="false">
-                          <agm-marker [latitude]="latConfirm" [longitude]="lngConfirm"></agm-marker>
-                          <agm-circle [latitude]="latConfirm" [longitude]="lngConfirm"
-                                      [radius]="currentRadius * 1000"></agm-circle>
-                        </agm-map>
-
-                        <input style="    margin-bottom: 20px;
-    width: 40%;
-    text-align: -webkit-center;
-    border-radius: 6px;" type="text" [(ngModel)]="whereTo" name="whereTo"
-                               placeholder="Ou voulez-vous poser votre muve ?" #search>
-                        <button class="btn btn-primary" (click)="selectPos()">
-                          Définir
-                        </button>
+                          </div>
+                          <button class="btn btn-primary"
+                                  type="submit"
+                                  [disabled]="muveSponsoForm.invalid">Confirmer
+                          </button>
+                        </section>
                       </form>
+                    </clr-tab-content>
+                  </ng-template>
+
+                  <clr-modal [(clrModalOpen)]="pickSponsoMusic">
+                    <h3 class="modal-title">Sélection de la musique</h3>
+                    <div class="modal-body" style="text-align: -webkit-center;">
+                      <div *ngIf="myMusics.length !== 0">
+                        <h3>Local</h3>
+                        <div>
+                          <ul>
+                            <li *ngFor="let music of myMusics" class="music"
+                                [ngClass]="{'selected': selectedSponsoMusic === music }"
+                                (click)="selectSponsoMusic(music)">
+                              <img class="musicThumbail" [src]="music.thumbnail">
+                              <p class="musicTitle">{{music.title + ' - ' + music.artist}}</p>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div *ngIf="myMusics.length === 0">
+                        <p>
+                          Vous devez d'abord avoir des musiques dans votre librairie pour poster un muve sponsorisé
+                          !<br>
+                          <a (click)="goTo('musique')" style="color: #007bff;cursor: pointer;">
+                            Rendez-vous sur la page "Musique" pour commencer tout de suite !
+                          </a>
+                        </p>
+                      </div>
                     </div>
-                    <div style="margin-top: 50px;" class="text-center" *ngIf="!latConfirm && !lngConfirm">
-                      <p style="    width: 70%;
+                    <div class="modal-footer" *ngIf="myMusics.length !== 0">
+                      <button type="button" class="btn btn-outline"
+                              (click)="selectedSponsoMusic=null;pickSponsoMusic=false;">Annuler
+                      </button>
+                      <button type="button" class="btn btn-primary" (click)="pickSponsoMusic=false;">Sélectionner
+                      </button>
+                    </div>
+                  </clr-modal>
+
+                </clr-tab>
+                <clr-tab>
+                  <button clrTabLink>Confirmation</button>
+                  <ng-template [(clrIfActive)]="confirmationActive">
+                    <clr-tab-content>
+                      <div *ngIf="latConfirm && lngConfirm && this.muveSponsoForm.valid">
+                        <form>
+                          <div style="margin-top: 50px;" class="text-center">
+                            <p style="    width: 70%;
     margin: auto;
     margin-top: 15px;">
-                        Vous devez d'abord définir un endroit ou déposer votre Muve ! Pour le faire, cliquez sur le
-                        bouton
-                        ci-dessous pour retourner au premier onglet :<br>
-                        <button class="btn btn-primary" (click)="confirmationActive=false;positionActive=true;">
-                          Position
-                        </button>
-
-                      </p>
-                    </div>
-                    <div style="margin-top: 50px;" class="text-center"
-                         *ngIf="(latConfirm && lngConfirm) && !this.muveForm.valid">
-                      <p style="    width: 70%;
+                              Voulez-vous confirmer le dépot de ce Muve sponsorisé ?<br>
+                              <button class="btn btn-primary" (click)="sendSponsoMuve();">
+                                Confirmer
+                              </button>
+                            </p>
+                          </div>
+                          <br>
+                          <h3 style="text-align: center;
+    margin-bottom: 30px;">Aperçu :</h3>
+                          <agm-map
+                            [latitude]="latConfirm"
+                            [longitude]="lngConfirm"
+                            [zoom]="zoom"
+                            [disableDefaultUI]="true"
+                            [zoomControl]="false">
+                            <agm-marker [latitude]="latConfirm" [longitude]="lngConfirm"></agm-marker>
+                            <agm-circle [latitude]="latConfirm" [longitude]="lngConfirm"
+                                        [radius]="currentRadius * 1000"></agm-circle>
+                          </agm-map>
+                        </form>
+                      </div>
+                      <div style="margin-top: 50px;" class="text-center" *ngIf="!latConfirm && !lngConfirm">
+                        <p style="    width: 70%;
     margin: auto;
     margin-top: 15px;">
-                        Vous devez d'abord remplir votre Muve avant de le déposer ! Pour le faire, cliquez sur le bouton
-                        ci-dessous pour retourner au deuxième onglet :<br>
-                        <button class="btn btn-primary" (click)="confirmationActive=false;contenuActive=true;">
-                          Contenu
-                        </button>
+                          Vous devez d'abord définir un endroit ou déposer votre Muve ! Pour le faire, cliquez sur le
+                          bouton
+                          ci-dessous pour retourner au premier onglet :<br>
+                          <button class="btn btn-primary" (click)="confirmationActive=false;positionActive=true;">
+                            Position
+                          </button>
 
-                      </p>
-                    </div>
+                        </p>
+                      </div>
+                      <div style="margin-top: 50px;" class="text-center"
+                           *ngIf="(latConfirm && lngConfirm) && !this.muveSponsoForm.valid">
+                        <p style="    width: 70%;
+    margin: auto;
+    margin-top: 15px;">
+                          Vous devez d'abord remplir votre Muve avant de le déposer ! Pour le faire, cliquez sur le
+                          bouton
+                          ci-dessous pour retourner au deuxième onglet :<br>
+                          <button class="btn btn-primary" (click)="confirmationActive=false;contenuActive=true;">
+                            Contenu
+                          </button>
 
-                  </clr-tab-content>
-                </ng-template>
-              </clr-tab>
-            </clr-tabs>
+                        </p>
+                      </div>
+                    </clr-tab-content>
+                  </ng-template>
+                </clr-tab>
+              </clr-tabs>
+            </div>
           </div>
         </clr-tab-content>
       </ng-template>
@@ -466,40 +527,43 @@
             <table class="table">
               <thead>
               <tr>
-                <th>Decimal</th>
-                <th>Hexadecimal</th>
-                <th>Binary</th>
-                <th>Roman Numeral</th>
+                <th>Date de création</th>
+                <th>Thumbnail</th>
+                <th>Titre</th>
+                <th>Contenu</th>
+                <th>Nombre d'écoutes</th>
+                <th>Actions</th>
               </tr>
               </thead>
-              <tbody>
-              <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>I</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>5</td>
-                <td>101</td>
-                <td>V</td>
-              </tr>
-              <tr>
-                <td>10</td>
-                <td>A</td>
-                <td>1010</td>
-                <td>X</td>
-              </tr>
-              <tr>
-                <td>15</td>
-                <td>F</td>
-                <td>1111</td>
-                <td>XV</td>
+              <tbody *ngIf="!loading && muves.length !== 0">
+              <tr *ngFor="let muve of muves;">
+                <td class="padding30">{{ muve.createdAt | date : 'dd/MM/yyyy à HH:mm' : 'Europe/Paris' }}</td>
+                <td>
+                  <img style="width: 20%;border-radius: 2px;" [src]="muve.music.thumbnail">
+                </td>
+                <td class="padding30">{{ muve.music.title }}</td>
+                <td class="padding30">{{ muve.content }}</td>
+                <td class="padding30">{{ muve.views }}</td>
+                <td>
+                  <button type="button" class="btn btn-icon btn-danger" (click)="deleteMuveModal = true;muveToDelete = muve;">
+                    <clr-icon size="16" shape="minus-circle"></clr-icon>
+                    Supprimer
+                  </button>
+                </td>
               </tr>
               </tbody>
             </table>
           </div>
+
+          <clr-modal [(clrModalOpen)]="deleteMuveModal">
+            <h3 class="modal-title">Êtes-vous sûr de vouloir supprimer ce muve ?</h3>
+            <div class="modal-body" *ngIf="loadingDeleteMuve">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline" (click)="deleteMuveModal=false;muveToDelete = null;">Non</button>
+              <button type="button" class="btn btn-primary" (click)="deleteMuve()">Oui</button>
+            </div>
+          </clr-modal>
         </clr-tab-content>
       </ng-template>
     </clr-tab>

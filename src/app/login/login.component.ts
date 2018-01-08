@@ -25,10 +25,11 @@ export class LoginComponent implements OnInit {
               private http: Http,
               private authHttp: AuthHttp) {
     this.createForm();
+    if (this.auth.loggedIn())
+      this.router.navigate(['/dashboard']);
   }
 
   ngOnInit() {
-    console.log(this.auth.loggedIn());
     if (this.auth.loggedIn())
       this.router.navigate(['/dashboard']);
   }
