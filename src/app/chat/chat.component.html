@@ -66,7 +66,7 @@
         <ul>
           <li *ngFor="let user of searchRes" class="room" [ngClass]="{'selected': user.selected }"
               style="text-align: left;width: 260px;border-radius: 5px;"
-              (click)="user.selected ? user.selected = false : user.selected = true;">
+              (click)="selectUser(user)">
             <img class="avatarChat"
                  [src]="user.avatar || 'http://www.hitgroove.com/assets/images/default_avatar.jpg'">
             <p class="nameChat">{{user.firstName + ' ' + user.lastName}}</p>

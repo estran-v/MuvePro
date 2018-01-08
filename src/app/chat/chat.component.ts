@@ -300,4 +300,12 @@ export class ChatComponent implements OnInit {
     } catch (err) {
     }
   }
+
+  selectUser(user) {
+    const alreadySelected = _.find(this.searchRes, f => f.selected === true);
+    if (alreadySelected) {
+      alreadySelected.selected = false;
+    }
+    user.selected = true;
+  }
 }

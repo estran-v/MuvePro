@@ -65,12 +65,14 @@ export class AuthService {
   }
 
   refresh() {
-    let headers = new Headers({
+    const headers = new Headers({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
     });
-    let options = new RequestOptions({headers: headers});
+    const options = new RequestOptions({headers: headers});
+    const email = this.user ? this.user.email : localStorage.getItem('userMail');
     return this.http.post(this.API + '/login', {
+      'email': email,
       'refresh_token': localStorage.getItem('refreshToken'),
       'grant_type': 'refresh_token'
     }, options)
@@ -79,7 +81,6 @@ export class AuthService {
         if (response.json().access_token) {
           console.log(response.json());
           localStorage.setItem('accessToken', response.json().access_token);
-          localStorage.setItem('refreshToken', response.json().refresh_token);
           return true;
         }
       })
@@ -105,5 +106,13 @@ export class AuthService {
     } else {
       return tokenNotExpired('accessToken');
     }
+  }
+
+  logout() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user');
+    localStorage.removeItem('userMail');
+    location.reload();
   }
 }

@@ -1,8 +1,28 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Pipe, PipeTransform} from '@angular/core';
 import {AuthHttp} from "angular2-jwt";
 import {AuthService} from "../services/auth.service";
 import * as _ from "lodash";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {forEach} from "@angular/router/src/utils/collection";
+
+@Pipe({
+  name: 'sort'
+})
+export class ArraySortPipe implements PipeTransform {
+  transform(array: any[], field: string): any[] {
+    array.sort((a: any, b: any) => {
+      if (a[field] < b[field]) {
+        return -1;
+      } else if (a[field] > b[field]) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    return array;
+  }
+}
+
 
 @Component({
   selector: 'app-musique',
@@ -23,12 +43,17 @@ export class MusiqueComponent implements OnInit {
   myAlbums = [];
   musicToClaim;
   musicToClaimDone = false;
+  musicToAdd;
+  musicToAddDone = false;
+  albumId = 0;
   claimModal = false;
   addAlbumModal = false;
+  addToAlbumModal = false;
   loadingClaimModal = false;
   loadingAddAlbumModal = false;
+  loadingAddToAlbumModal = false;
   alreadyClaimed = false;
-  artistId = 45;
+  artistId = 0;
   public newAlbumForm = new FormGroup({
     releaseDate: new FormControl('', Validators.required),
     name: new FormControl('', Validators.required),
@@ -52,6 +77,18 @@ export class MusiqueComponent implements OnInit {
           this.artistId = res.json().id;
           this.myMusics = res.json().musics;
           this.myAlbums = res.json().albums;
+          this.myAlbums.forEach((album) => {
+            if (_.filter(this.myMusics, m => m.album === album.id))
+              album['nbMusic'] = _.filter(this.myMusics, m => m.album === album.id).length;
+            else
+              album['nbMusic'] = 0;
+          });
+          this.myMusics.forEach((music) => {
+            if (music.album !== null) {
+              const album = _.find(this.myAlbums, a => a.id === music.album);
+              music['albumName'] = album.name;
+            }
+          });
         }
       }).catch((err) => {
         console.error(err);
@@ -59,6 +96,7 @@ export class MusiqueComponent implements OnInit {
   }
 
   searchMusic() {
+    this.musics = [];
     this.loading = true;
     this.musicToClaimDone = false;
     this.alreadyClaimed = false;
@@ -67,7 +105,12 @@ export class MusiqueComponent implements OnInit {
       .then((res) => {
         if (res.json().results) {
           let local = _.find(res.json().results, r => r.provider === 'Local');
-          this.musics = local.items;
+          console.log(this.myMusics);
+          local.items.forEach((item) => {
+            if (!_.find(this.myMusics, m => m.title === item.title)) {
+              this.musics.push(item);
+            }
+          });
           if (this.musics.length === 0)
             this.noResult = true;
           else
@@ -87,6 +130,9 @@ export class MusiqueComponent implements OnInit {
     })
       .toPromise()
       .then((res) => {
+        if (res.json()[0]) {
+          this.myMusics.push(res.json()[0]);
+        }
         this.musicToClaimDone = true;
         this.loadingClaimModal = false;
       }).catch((err) => {
@@ -114,7 +160,18 @@ export class MusiqueComponent implements OnInit {
         this.loadingAddAlbumModal = false;
         this.addAlbumModal = false;
       }).catch((err) => {
-        console.error(err);
+      console.error(err);
+    });
+  }
+
+  addToAlbum() {
+    this.loadingAddToAlbumModal = true;
+    this.authHttp.post(this.Auth.API + '/musics/' + this.musicToAdd.id + '/album', {album: this.albumId}).toPromise()
+      .then((res) => {
+        this.loadingAddToAlbumModal = false;
+        this.musicToAddDone = true;
+      }).catch((err) => {
+      console.error(err);
     });
   }
 }

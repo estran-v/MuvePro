@@ -1,56 +1,65 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
-  <a class="navbar-brand" href="#">Muve</a>
+  <a class="navbar-brand" (click)="goTo('/dashboard')" style="cursor:pointer;color: #fff;">Muve</a>
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('dashboard') !== -1)}" (click)="goTo('/dashboard')">
+        <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('dashboard') !== -1)}"
+           (click)="goTo('/dashboard')">
           <i class="fa fa-tachometer" aria-hidden="true"></i>
           Dashboard
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('musique') !== -1)}" (click)="goTo('/musique')">
-          <i class="fa fa-music" aria-hidden="true" ></i>
+          <i class="fa fa-music" aria-hidden="true"></i>
           Musique
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('stats') !== -1)}" (click)="goTo('/stats')">
-          <i class="fa fa-line-chart" aria-hidden="true" ></i>
+          <i class="fa fa-line-chart" aria-hidden="true"></i>
           Stats
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('muves') !== -1)}" (click)="goTo('/muves')">
-          <i class="fa fa-map-marker" aria-hidden="true" ></i>
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
           Muves
         </a>
       </li>
       <li class="nav-item">
-          <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('chat') !== -1)}" (click)="goTo('/chat')">
-          <i class="fa fa-comments" aria-hidden="true" ></i>
+        <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('chat') !== -1)}" (click)="goTo('/chat')">
+          <i class="fa fa-comments" aria-hidden="true"></i>
           Chat
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('events') !== -1)}" (click)="goTo('/events')">
-          <i class="fa fa-calendar" aria-hidden="true" ></i>
+          <i class="fa fa-calendar" aria-hidden="true"></i>
           Évènements
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [ngClass]="{'active' : (router.url.indexOf('autre') !== -1)}" (click)="goTo('/autre')">
-          <i class="fa fa-misc" aria-hidden="true" ></i>
+          <i class="fa fa-misc" aria-hidden="true"></i>
           Autres
         </a>
       </li>
     </ul>
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="https://facebook.com/@beeman_nl"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+        <a class="nav-link" href="https://www.facebook.com/MuveApp" target="_blank"><i class="fa fa-facebook"
+                                                                                       aria-hidden="true"></i></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://twitter.com/@beeman_nl"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+        <a class="nav-link" href="https://twitter.com/MuveApp" target="_blank"><i class="fa fa-twitter"
+                                                                                  aria-hidden="true"></i></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="auth.logout();">
+          <i class="fa fa-sign-out" aria-hidden="true"></i>
+          Déconnexion
+        </a>
       </li>
     </ul>
   </div>

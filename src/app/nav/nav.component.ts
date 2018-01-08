@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-nav',
@@ -8,7 +9,7 @@ import {Router} from "@angular/router";
 })
 export class NavComponent implements OnInit {
 
-  constructor(public router: Router) {
+  constructor(public router: Router, public auth: AuthService) {
     console.log(this.router.url.indexOf('muves'));
   }
 
