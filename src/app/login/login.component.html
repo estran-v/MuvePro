@@ -11,6 +11,12 @@
             <div class="alert alert-danger" [hidden]="!error || isLoading" translate>
               Email ou mot de passe incorrect.
             </div>
+            <div class="alert alert-danger" [hidden]="!errorPro || isLoading" translate>
+              Vous n'avez pas de compte pro validé.
+            </div>
+            <div class="alert alert-info" [hidden]="!isSend" translate>
+              Votre demande est en cours de traitement.
+            </div>
             <div class="auth-source select" style="margin-bottom: 10px">
               <select id="login-auth-source-1" type="text" formControlName="typeAccount" class="form-control">
                 <option value="Ypro">Je possède un compte pro</option>
@@ -41,9 +47,6 @@
               <p *ngIf="this.loginForm.value.typeAccount === 'Npro'">
                 <input type="text" class="form-control" formControlName="sendName"
                      [placeholder]="'Votre nom de scène'"/>
-              </p>
-              <p *ngIf="isSend === true">
-                <span>Votre demande est en cours de traitement</span>
               </p>
               <label class="form-check-label">
                 <input type="checkbox" class="form-check-input" formControlName="remember"/>
