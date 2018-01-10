@@ -5,7 +5,7 @@
   <clr-tabs>
     <clr-tab>
       <button clrTabLink (click)="claimActive=true;musicActive=false;albumActive=false;">Demande</button>
-      <ng-template [(clrIfActive)]="depotActive">
+      <ng-template [(clrIfActive)]="claimActive">
         <clr-tab-content>
           <div class="starter-template" style="padding: 30px!important;padding-top: 0px !important;">
             <h1>
@@ -52,7 +52,7 @@
               <td class="padding30">{{ music.title }}</td>
               <td>
                 <button type="button" class="btn btn-icon btn-primary"
-                        (click)="eventEdit = event; deleteModal = true;">
+                        (click)="musicToClaim = music; claimModal = true;">
                   Demander
                   <clr-icon size="16" shape="plus-circle"></clr-icon>
                 </button>
@@ -81,6 +81,47 @@
             </p>
           </div>
 
+          <clr-modal [(clrModalOpen)]="claimModal">
+            <h3 class="modal-title">Demande de propriété d'une musique</h3>
+            <div class="modal-body" style="text-align: -webkit-center;">
+              <div class="text-center" *ngIf="!loadingClaimModal && !alreadyClaimed && !musicToClaimDone">
+                <p style="padding: 20px;">
+                  Êtes-vous sûr de vouloir vous attribuer cette musique ?
+                </p>
+              </div>
+              <div class="text-center" *ngIf="!loadingClaimModal && alreadyClaimed">
+                <p style="padding: 20px;">
+                  Malheureusement, quelqu'un a déjà réclamé cette musique.<br>
+                  Toutefois, si cette musique vous appartient bien, nous vous invitons à nous contacter à l'adresse
+                  suivante : <br>
+                  muve_2018@labeip.epitech.eu
+                </p>
+              </div>
+              <div class="text-center" *ngIf="musicToClaimDone && !loadingClaimModal">
+                <p style="padding: 20px;">
+                  Félicitation !<br>
+                  Votre musique apparaîtra dans votre bibliothèque de musique, et vous pouvez dès à présent l'ajouter à
+                  un album !
+                </p>
+              </div>
+              <div class="text-center" *ngIf="loadingClaimModal">
+                <span class="spinner">
+                  Loading...
+                </span>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline" *ngIf="!musicToClaimDone"
+                      (click)="musicToClaim=null;claimModal=false;">Annuler
+              </button>
+              <button type="button" class="btn btn-primary" *ngIf="!alreadyClaimed && !musicToClaimDone"
+                      (click)="confirmClaim()">Ok
+              </button>
+              <button type="button" class="btn btn-primary" *ngIf="!alreadyClaimed && musicToClaimDone"
+                      (click)="closeClaimModal()">Fermer
+              </button>
+            </div>
+          </clr-modal>
         </clr-tab-content>
       </ng-template>
     </clr-tab>
@@ -88,7 +129,84 @@
       <button clrTabLink (click)="claimActive=false;musicActive=true;albumActive=false;">Musiques</button>
       <ng-template [(clrIfActive)]="musicActive">
         <clr-tab-content>
+          <div class="starter-template" style="padding: 30px!important;padding-top: 0px !important;">
+            <h1>
+              <i>Votre librairie de musique</i>
+            </h1>
+            <p style="    width: 70%;
+    margin: auto;
+    margin-top: 15px;">
+              <i>
+                C'est ici que vous pouvez retrouver toutes vos musiques présentes sur Muves !<br>
+                Si il vous manque une de vos musiques sur cette page, vous pouvez essayer de la retrouver dans l'onglet
+                "Demande"
+              </i>
+            </p>
+          </div>
+          <table class="table" style="    width: 80%;
+    margin-left: 10%;">
+            <thead>
+            <tr>
+              <th>Thumbnail</th>
+              <th>Artiste</th>
+              <th>Titre</th>
+              <th>Nom de l'album</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="!loading && myMusics.length !== 0">
+            <tr *ngFor="let music of myMusics;">
+              <td>
+                <img class="selectedThumb" [src]="music.thumbnail">
+              </td>
+              <td class="padding30">{{ music.artist }}</td>
+              <td class="padding30">{{ music.title }}</td>
+              <td class="padding30">{{ music.albumName ? music.albumName : '' }}</td>
+              <td>
+                <button type="button" class="btn btn-icon btn-primary" [disabled]="music.album !== null"
+                        (click)="musicToAdd = music; addToAlbumModal = true;musicToAddDone = false; albumId = null;">
+                  <clr-icon size="16" shape="plus-circle"></clr-icon>
+                  Album
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <div *ngIf="!loading && myMusics.length === 0" style="text-align: center;">
+            <p>
+              Vous n'avez pas encore de musique dans votre librairie !<br>
+              <a style="color: #0056b3;cursor: pointer;" (click)="musicActive=false;claimActive=true;">
+                Rendez-vous sur l'onglet "Demande" pour récupérer votre première musique !
+              </a>
+            </p>
+          </div>
 
+
+          <clr-modal [(clrModalOpen)]="addToAlbumModal">
+            <h3 class="modal-title">Ajouter une musique à un album</h3>
+            <div class="modal-body" style="text-align: -webkit-center;">
+              <div class="text-center select" *ngIf="!loadingAddToAlbumModal && !musicToAddDone">
+                <select type="text" class="form-control" [(ngModel)]="albumId">
+                  <option selected disabled>Choisissez un album</option>
+                  <option *ngFor="let opt of myAlbums" [value]="opt.id">
+                    {{opt.name}}
+                  </option>
+                </select>
+                <button class="btn btn-primary" type="button" (click)="addToAlbum()">
+                  <clr-icon size="16" shape="plus-circle"></clr-icon>
+                  Ajouter
+                </button>
+              </div>
+              <div class="text-center" *ngIf="loadingAddToAlbumModal">
+                <span class="spinner">
+                  Loading...
+                </span>
+              </div>
+              <div class="text-center" *ngIf="!loadingAddToAlbumModal && musicToAddDone">
+                <p>La musique a été ajouté à votre album !</p>
+              </div>
+            </div>
+          </clr-modal>
         </clr-tab-content>
       </ng-template>
     </clr-tab>
@@ -96,6 +214,117 @@
       <button clrTabLink (click)="claimActive=false;musicActive=false;albumActive=true;">Albums</button>
       <ng-template [(clrIfActive)]="albumActive">
         <clr-tab-content>
+          <div class="starter-template" style="padding: 30px!important;padding-top: 0px !important;">
+            <h1>
+              <i>Votre librairie d'album</i>
+            </h1>
+            <p style="    width: 70%;
+    margin: auto;
+    margin-top: 15px;">
+              <i>
+                C'est ici que vous pouvez retrouver tous vos albums créés sur Muves !<br>
+                Pour ajouter des musiques à un album, vous pouvez vous rendre dans l'onglet "Musiques"
+              </i>
+            </p>
+          </div>
+          <div style="text-align: center;margin-top:20px;margin-bottom: 20px;">
+            <button type="button" class="btn btn-icon btn-primary"
+                    (click)="addAlbumModal = true;">
+              <clr-icon size="16" shape="plus-circle"></clr-icon>
+              Créer un album
+            </button>
+          </div>
+          <table class="table" style="    width: 80%;
+    margin-left: 10%;">
+            <thead>
+            <tr>
+              <th>Date de sortie</th>
+              <th>Genre(s)</th>
+              <th>Label</th>
+              <th>Producteur</th>
+              <th>Nom de l'album</th>
+              <th>Nombre de musiques</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="!loading && myAlbums.length !== 0">
+            <tr *ngFor="let album of myAlbums | sort:'releaseDate'">
+              <td class="padding30">
+                {{album.releaseDate | date : 'dd/MM/yyyy' : 'Europe/Paris' }}
+              </td>
+              <td class="padding30">{{ album.tag }}</td>
+              <td class="padding30">{{ album.label }}</td>
+              <td class="padding30">{{ album.prod }}</td>
+              <td class="padding30">{{ album.name}}</td>
+              <td class="padding30">{{ album.nbMusic}}</td>
+              <td class="padding30"></td>
+            </tr>
+            </tbody>
+          </table>
+          <div *ngIf="!loading && myAlbums.length === 0" style="text-align: center;">
+            <p>
+              Vous n'avez pas encore d'album dans votre librairie !<br>
+              Pour en créer un, cliquez sur le bouton ci-dessus !
+            </p>
+          </div>
+
+          <clr-modal [(clrModalOpen)]="addAlbumModal">
+            <h3 class="modal-title">Création d'un album</h3>
+            <div class="modal-body" style="text-align: -webkit-center;">
+              <div class="text-center">
+                <form class="form" [formGroup]="newAlbumForm" (ngSubmit)="createAlbum()">
+                  <section class="form-block">
+                    <label></label>
+                    <div class="form-group">
+                      <label for="newAlbumReleaseDate">Date de sortie</label>
+                      <input id="newAlbumReleaseDate" type="date"
+                             formControlName="releaseDate">
+                    </div>
+                    <div class="form-group">
+                      <label for="newAlbumName">Nom de l'album</label>
+                      <input id="newAlbumName" type="text"
+                             formControlName="name">
+                    </div>
+                    <div class="form-group">
+                      <label for="newAlbumTag">Genre(s)</label>
+                      <input id="newAlbumTag" type="text"
+                             formControlName="tag">
+                    </div>
+                    <div class="form-group">
+                      <label for="newAlbumLabel">Label</label>
+                      <input id="newAlbumLabel" type="text"
+                             formControlName="label">
+                    </div>
+                    <div class="form-group">
+                      <label for="newAlbumProd">Producteur</label>
+                      <input id="newAlbumProd" type="text"
+                             formControlName="prod">
+                    </div>
+                    <button class="btn btn-primary"
+                            type="submit"
+                            [disabled]="newAlbumForm.invalid">Confirmer
+                    </button>
+                  </section>
+                </form>
+              </div>
+              <div class="text-center" *ngIf="loadingClaimModal">
+                <span class="spinner">
+                  Loading...
+                </span>
+              </div>
+            </div>
+            <!--<div class="modal-footer">-->
+            <!--<button type="button" class="btn btn-outline" *ngIf="!musicToClaimDone"-->
+            <!--(click)="musicToClaim=null;claimModal=false;">Annuler-->
+            <!--</button>-->
+            <!--<button type="button" class="btn btn-primary" *ngIf="!alreadyClaimed && !musicToClaimDone"-->
+            <!--(click)="confirmClaim()">Ok-->
+            <!--</button>-->
+            <!--<button type="button" class="btn btn-primary" *ngIf="!alreadyClaimed && musicToClaimDone"-->
+            <!--(click)="closeClaimModal()">Fermer-->
+            <!--</button>-->
+            <!--</div>-->
+          </clr-modal>
 
         </clr-tab-content>
       </ng-template>

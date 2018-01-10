@@ -2,6 +2,10 @@ agm-map {
   height: 300px;
 }
 
+.padding30 {
+  padding: 30px;
+}
+
 .music {
   list-style: none;
   border-bottom: 2px #e6e6e6 solid;
@@ -13,6 +17,8 @@ agm-map {
 }
 
 .musicThumbail {
+  min-width: 20%;
+  min-height: 60%;
   width: 20%;
   border-radius: 2px;
   position: relative;

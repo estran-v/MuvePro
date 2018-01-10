@@ -17,8 +17,8 @@ export class AuthService {
   public API = 'https://devapi.muve-app.com';
 
   constructor(public authHttp: AuthHttp,
-    private http: Http,
-    private router: Router) {
+              private http: Http,
+              private router: Router) {
   }
 
   login(loginCredentials) {
@@ -65,27 +65,32 @@ export class AuthService {
   }
 
   refresh() {
-    let headers = new Headers({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('accessToken')});
-    let options = new RequestOptions({headers: headers});
+    const headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    });
+    const options = new RequestOptions({headers: headers});
+    const email = this.user ? this.user.email : localStorage.getItem('userMail');
     return this.http.post(this.API + '/login', {
-      'refres_token': localStorage.getItem('refreshToken'),
+      'email': email,
+      'refresh_token': localStorage.getItem('refreshToken'),
       'grant_type': 'refresh_token'
     }, options)
       .toPromise()
       .then(response => {
         if (response.json().access_token) {
           localStorage.setItem('accessToken', response.json().access_token);
-          localStorage.setItem('refreshToken', response.json().refresh_token);
           return true;
         }
       })
       .catch(response => {
+        this.router.navigate(['/login']);
         console.log(response.json());
       });
   }
 
   getToken() {
-    if (this.loggedIn()){
+    if (this.loggedIn()) {
       return localStorage.getItem('accessToken');
     }
     return false;
@@ -94,12 +99,20 @@ export class AuthService {
   loggedIn() {
     if (!tokenNotExpired('accessToken') && localStorage.getItem('refreshToken') === null) {
       return tokenNotExpired('accessToken');
-    } else if (!tokenNotExpired('accessToken') && localStorage.getItem('refreshToken') !== null){
+    } else if (!tokenNotExpired('accessToken') && localStorage.getItem('refreshToken') !== null) {
       this.refresh().then((res) => {
         return tokenNotExpired('accessToken');
       });
     } else {
       return tokenNotExpired('accessToken');
     }
+  }
+
+  logout() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user');
+    localStorage.removeItem('userMail');
+    location.reload();
   }
 }
