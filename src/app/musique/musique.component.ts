@@ -4,6 +4,7 @@ import {AuthService} from "../services/auth.service";
 import * as _ from "lodash";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {forEach} from "@angular/router/src/utils/collection";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Pipe({
   name: 'sort'
@@ -61,9 +62,27 @@ export class MusiqueComponent implements OnInit {
     label: new FormControl(''),
     prod: new FormControl(''),
   });
+  deleteAlbum;
+  deleteAlbumModal = false;
+
 
   constructor(private authHttp: AuthHttp,
-              private Auth: AuthService) {
+              private Auth: AuthService,
+              private route: ActivatedRoute) {
+    this.route
+      .queryParams
+      .subscribe(params => {
+        if (params.tab) {
+          switch (params.tab) {
+            case 'album' :
+              this.claimActive = false;
+              this.musicActive = false;
+              this.albumActive = true;
+              break;
+          }
+        }
+        console.log(params);
+      });
   }
 
   ngOnInit() {
@@ -173,5 +192,13 @@ export class MusiqueComponent implements OnInit {
       }).catch((err) => {
       console.error(err);
     });
+  }
+
+  doDeleteAlbum() {
+    // this.authHttp.delete(this.Auth.API + '/album/' + this.deleteAlbum.id).toPromise()
+    //   .then((res) => {
+    //   }).catch((err) => {
+    //   console.error(err);
+    // });
   }
 }

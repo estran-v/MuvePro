@@ -257,7 +257,12 @@
               <td class="padding30">{{ album.prod }}</td>
               <td class="padding30">{{ album.name}}</td>
               <td class="padding30">{{ album.nbMusic}}</td>
-              <td class="padding30"></td>
+              <td class="padding30">
+                <button type="button" class="btn btn-icon btn-danger" (click)="deleteAlbum = album; deleteAlbumModal = true;">
+                  <clr-icon size="16" shape="minus-circle"></clr-icon>
+                  Supprimer
+                </button>
+              </td>
             </tr>
             </tbody>
           </table>
@@ -267,6 +272,15 @@
               Pour en créer un, cliquez sur le bouton ci-dessus !
             </p>
           </div>
+
+
+          <clr-modal [(clrModalOpen)]="deleteAlbumModal">
+            <h3 class="modal-title">Êtes-vous sûr de vouloir supprimer cet album ?</h3>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline" (click)="deleteAlbumModal=false;deleteAlbum = null;">Non</button>
+              <button type="button" class="btn btn-primary" (click)="doDeleteAlbum()">Oui</button>
+            </div>
+          </clr-modal>
 
           <clr-modal [(clrModalOpen)]="addAlbumModal">
             <h3 class="modal-title">Création d'un album</h3>

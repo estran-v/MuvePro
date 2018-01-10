@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../services/auth.service";
 import {AuthHttp} from "angular2-jwt";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-events',
@@ -14,6 +15,7 @@ export class EventsComponent implements OnInit {
     date: new FormControl('', Validators.required),
     city: new FormControl('', Validators.required),
     venue: new FormControl('', Validators.required),
+    hidden: new FormControl(false)
   });
   public passedEvents = [];
   public toComeEvents = [];
@@ -27,6 +29,7 @@ export class EventsComponent implements OnInit {
     date: new FormControl('', Validators.required),
     city: new FormControl('', Validators.required),
     venue: new FormControl('', Validators.required),
+    hidden: new FormControl(false)
   });
 
   public deleteModal = false;
@@ -36,7 +39,22 @@ export class EventsComponent implements OnInit {
   public deleting = false;
 
   constructor(private authHttp: AuthHttp,
-              private Auth: AuthService) {
+              private Auth: AuthService,
+              private route: ActivatedRoute) {
+    this.route
+      .queryParams
+      .subscribe(params => {
+        if (params.tab) {
+          switch (params.tab) {
+            case 'tocome' :
+              this.newActive = false;
+              this.passedActive = false;
+              this.toComeActive = true;
+              break;
+          }
+        }
+        console.log(params);
+      });
   }
 
   ngOnInit() {
@@ -76,6 +94,7 @@ export class EventsComponent implements OnInit {
 
   sendEditForm() {
     if (this.eventEditForm.valid) {
+      this.eventEditForm.value.date = new Date(this.eventEditForm.value.date);
       this.authHttp.put(this.Auth.API + '/events/' + this.eventEdit.id, this.eventEditForm.value).toPromise()
         .then((res) => {
           this.eventEditForm.reset();
@@ -110,6 +129,7 @@ export class EventsComponent implements OnInit {
       date: new FormControl(new Date(this.eventEdit.date), Validators.required),
       city: new FormControl(this.eventEdit.city, Validators.required),
       venue: new FormControl(this.eventEdit.venue, Validators.required),
+      hidden: new FormControl(false),
     });
   }
 

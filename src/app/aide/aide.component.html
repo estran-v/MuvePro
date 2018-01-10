@@ -1,0 +1,762 @@
+<app-nav></app-nav>
+<div class="container" style="    width: 100%;
+    position: relative;
+    bottom: 30px;">
+  <clr-tabs>
+    <clr-tab>
+      <button clrTabLink (click)="faqActive=true;cguActive=false;feedbackActive=false;">FAQ</button>
+      <ng-template [(clrIfActive)]="faqActive">
+        <clr-tab-content>
+          <div class="container">
+            <div class="starter-template" style="padding: 30px!important;padding-top: 0px !important;">
+              <h1>
+                <i>FAQ</i>
+              </h1>
+              <p style="    width: 70%;
+    margin: auto;
+    margin-top: 15px;">
+                <i>
+                  Vous retrouverez sur cette page une réponse à toutes les questions fréquentes en rapport avec nos
+                  applications !
+                </i>
+              </p>
+            </div>
+            <div>
+              <clr-stack-view>
+                <clr-stack-header style="text-align: -webkit-center;">
+                  Questions fréquentes
+                </clr-stack-header>
+
+                <clr-stack-block *ngFor="let block of faq; let i = index;">
+                  <clr-stack-label style="text-align: -webkit-center;margin: 10%;">{{'Question ' + (i+1)}}</clr-stack-label>
+                  <clr-stack-content>{{block.q}}</clr-stack-content>
+                  <clr-stack-block>
+                    <clr-stack-label style="text-align: -webkit-center;margin: 10%;">Réponse</clr-stack-label>
+                    <clr-stack-content>{{block.a}}</clr-stack-content>
+                  </clr-stack-block>
+                </clr-stack-block>
+              </clr-stack-view>
+            </div>
+          </div>
+        </clr-tab-content>
+      </ng-template>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink (click)="faqActive=false;cguActive=true;feedbackActive=false;">CGU</button>
+      <ng-template [(clrIfActive)]="cguActive">
+        <clr-tab-content>
+          <div class="starter-template" style="padding: 30px!important;padding-top: 0px !important;">
+            <h1>
+              <i>Conditions générales d'utilisation</i>
+            </h1>
+          </div>
+          <div class="container">
+            <h2>
+              Article 1 - Généralités
+            </h2>
+            <p>
+              Le site Internet MUVE, dont l’adresse est http://www.deezer.com (ci-après dénommé « le Site »), est une
+              publication créée, développée et exploitée par la société MUVE S.A.. immatriculée au RCS de Paris sous le
+              numéro 511 716 573 et dont le siège social est 12 rue d'Athènes 75009 Paris.
+
+              Muve SA est ci-après dénommée « MUVE » pour les présentes CGU-CGV (ci-après les « CGU-CGV »).
+
+              Le Site propose gratuitement à ses visiteurs ou membres la découverte et l’accès à la musique au travers
+              de différents services (à la demande, « webradios », « smartradio ») et fonctionnalités (« playlists »,
+              réseau social).
+
+              Le Site propose également un service de chargement temporaire sur mobile de musique à la demande, sans
+              publicité et illimitée, par abonnement payant, accessible via le Site et une application mobile sur
+              certains appareils compatibles (ci-après dénommé « le Service Muve HiFi »).
+
+              Les présentes conditions générales d’utilisation et de vente régissent exclusivement le Service Muve HiFi
+              fourni par MUVE. Ces conditions s’appliquent à l’exclusion de toutes autres, notamment celles en vigueur
+              pour les autres services - gratuits et payants - proposés sur le Site.
+
+              Les présentes conditions générales d’utilisation et de vente ont pour objet de définir les rapports
+              contractuels et commerciaux entre MUVE, d’une part, et tout abonné au Service Muve HiFi (ci-après dénommé
+              « l’Abonné »), d’autre part.
+
+              L’Abonné reconnaît qu’il ne pourra souscrire et accéder au Service Muve HiFi s’il n’accepte pas sans
+              réserve les présentes CGU-CGV et il s’engage à les respecter.
+
+              L'utilisation du Site et du Service Muve HiFi n'est autorisée que dans le cadre du cercle de famille,
+              ainsi toute utilisation en dehors de ce cadre, et notamment en vue de la sonorisation de lieux publics ou
+              de boutiques, est expressément interdite.
+
+              Les présentes conditions générales s’entendent sans préjudice des dispositions légales applicables en la
+              matière et notamment celles prévues au Code de la consommation.
+            </p>
+            <h2>
+              Article 2 – Description du Service Muve HiFi
+            </h2>
+            <p>
+              Le Service Muve HiFi est un service proposé et exploité par MUVE permettant, en souscrivant un abonnement
+              d’accéder aux fonctionnalités principales suivantes :
+              - Accès illimité, en vue de leur écoute en streaming et/ou de leur chargement temporaire sur trois
+              appareils autorisés (ordinateur personnel et téléphone mobile), aux titres du catalogue musical du Service
+              Muve HiFi, aux playlists du Site, pour pouvoir ensuite les écouter sans avoir besoin d’être connecté;
+              - pas de publicité ;
+              - format disponible pour la majorité des morceaux de musique : données audio en bitstream au format FLAC
+              (qualité CD, 16 bits, stéréo, 44,1 kHz).
+
+              Le Service Muve HiFi ne peut être utilisé que sur certains appareils compatibles. La liste de ces
+              appareils peut être consultée ici.
+
+              L’accès au Service Muve HiFi est possible sur un ordinateur personnel (PC ou Mac) via le Site, ou à partir
+              du mode hors connexion en cliquant sur l’onglet « Mode hors connexion », et sur un téléphone mobile via
+              l’application mobile de MUVE, que l’Abonné peut installer sur son téléphone mobile (ci-après l’«
+              Application »).
+
+              Le mode hors connexion est accessible exclusivement à l’Abonné au Service Muve HiFi. Il est précisé que
+              l’Abonné devra utiliser le navigateur web Google Chrome pour bénéficier du mode hors connexion sur son
+              ordinateur personnel.
+
+              D’autre part, l’Abonné a accès, en mode hors connexion, aux seuls titres, albums et playlists qu’il a
+              préalablement chargés temporairement, depuis le Site ou depuis l’Application, sur son appareil (ordinateur
+              personnel et/ou téléphone mobile).
+
+              Le chargement temporaire de titres, d’albums ou de playlists se réalise en cliquant sur « Mode hors
+              connexion » présent sur les pages de lecture du Site. La musique ainsi chargée peut être écoutée sans
+              connexion internet ou 3G pendant toute la durée de l’abonnement, sans toutefois pouvoir être transférée ou
+              gravée sur quelque support que ce soit.
+
+              Le Service Muve HiFi est accessible pour l’Abonné jusqu’à la résiliation de son abonnement en fonction de
+              sa durée (mois, année, etc.). Une fois l’abonnement expiré ou résilié, l’accès de façon illimitée à la
+              musique, le chargement temporaire des titres, albums et playlists et l’écoute hors connexion des titres,
+              albums et playlists précédemment chargés ne sont plus autorisés.
+
+              Il est précisé à l’Abonné que MUVE n’est pas en mesure d’empêcher l’affichage des publicités
+              éventuellement contenues dans les vidéoclips fournis et hébergés par des tiers et qui seraient intégrés au
+              Site (ex : Dailymotion, …)
+            </p>
+            <h2>
+              Article 3 - Conditions d’utilisation du Service Muve HiFi
+            </h2>
+            <p>
+              L’accès au Service Muve HiFi est possible, à partir d’un ordinateur personnel (PC ou Mac), en se
+              connectant au Site ou à l’Application, ou à partir du mode hors connexion.
+
+              L’accès au Service Muve HiFi à partir d’un appareil mobile compatible requiert le téléchargement et
+              l’installation au préalable de l’Application. Ce téléchargement est également proposé lors de la
+              souscription au Service Muve HiFi.
+
+              L’utilisation du Service Muve HiFi nécessite une connexion à internet haut débit et à internet mobile le
+              cas échéant pour les téléphones portables. Il est précisé que ces connexions ne sont pas prises en charge
+              par MUVE, il appartient par conséquent à l’Abonné de souscrire préalablement à une offre Internet Haut
+              Débit et/ou Internet mobile pour pouvoir utiliser le Service Muve HiFi.
+
+              Une connexion à Internet mobile par la norme de technologie de téléphonie mobile de troisième génération
+              (3G) est très vivement recommandée.
+
+              Le catalogue d’enregistrements phonographiques disponible dans le cadre du Service Muve HiFi est dépendant
+              des contrats en vigueur avec les ayants droit et est en conséquence susceptible de varier. En aucun cas
+              MUVE ne peut garantir la présence dans le catalogue disponible du Service Muve HiFi d’un quelconque titre
+              ou album déterminé ou d’un quelconque artiste-interprète ou groupe d’artistes-interprètes déterminé. De
+              même, MUVE ne peut garantir qu’un quelconque titre ou album déterminé ou d’un quelconque
+              artiste-interprète ou groupe d’artistes-interprètes déterminé présent dans le catalogue disponible du
+              Service Muve HiFi le sera indéfiniment. MUVE ne sera en aucun cas responsable de la suppression ou de la
+              désactivation d’éléments du contenu du catalogue proposé.
+
+              En qualité d’Abonné, il est possible d’activer le Service Muve HiFi sur un ordinateur personnel (PC ou
+              Mac) et un appareil mobile compatible enregistré auprès du Service. Toutefois, le Service Muve HiFi ne
+              sera accessible simultanément qu’à partir d’une seule connexion à la fois. Il est précisé que MUVE met en
+              œuvre des moyens techniques pour vérifier l’absence de connexions multiples simultanées à un même compte
+              du Service Muve HiFi et détecter les tentatives de connexions multiples.
+            </p>
+            <h2>
+              Article 4 – Disponibilité et modification du Service Muve HiFi
+            </h2>
+            <p>
+              Le Service Muve HiFi est accessible vingt-quatre heures sur vingt-quatre, sept jours sur sept, dans la
+              limite des conditions d’utilisation susvisées et des stipulations de l’article 11 ci-après.
+
+              Toutefois, MUVE se réserve le droit d'apporter au Service Muve HiFi toutes les modifications et
+              améliorations de son choix liées à l'évolution technique. MUVE s’engage à ce qu'il n'en résulte ni
+              augmentation des prix, ni altération de qualité ou ni de modification substantielles de fonctionnalités du
+              Service Muve HiFi.
+
+              Par ailleurs, MUVE se réserve le droit, de suspendre temporairement l'accès au Service Muve HiFi qui
+              seraient rendues nécessaires pour assurer des opérations de maintenance liées à l’évolution technologique,
+              ou nécessaires à la continuité du Service Muve HiFi.
+
+              Les interruptions temporaires du Service seront, dans la mesure du possible, notifiées via le Site ou
+              l’Application au minimum 24 (vingt-quatre) heures avant qu’elles n’interviennent, sauf lorsque ces
+              interruptions ont un caractère d’urgence. MUVE se réserve également le droit, sans indemnité, de mettre un
+              terme définitif au Service Muve HiFi. Toute fermeture définitive du service sera notifiée via le Site au
+              minimum 1 (un) mois avant qu’elle n’intervienne. L’Abonné ne sera plus redevable d’aucun paiement à
+              compter
+              de la date d’arrêt du Service.
+            </p>
+            <h2>
+              Article 5 – Absence de droit de rétractation - durée – reconduction - résiliation
+            </h2>
+            <h3>
+              5.1 Absence de droit de rétractation
+            </h3>
+            <p>
+              Conformément aux dispositions de l'article L. 121-21-8 du Code de la Consommation, l’Abonné reconnaît et
+              accepte expressément (i) que la fourniture du Service Muve HiFi commence immédiatement après la validation
+              de son inscription au Service Muve HiFi soit avant la fin du délai de quatorze jours francs prévu par le
+              Code de la Consommation et (ii) reconnaît et accepte en conséquence de ne pas bénéficier du droit de
+              rétractation lié à la vente en ligne ou à distance. En conséquence, aucune demande de rétractation,
+              d'annulation ou de remboursement ne sera recevable pour la période souscrite.
+            </p>
+            <h3>
+              5.2 Durée
+            </h3>
+            <p>
+              MUVE propose au choix de l’Abonné un abonnement d’une durée d’un mois (ou de toute autre durée en fonction
+              des offres proposées sur le Site ou l’Application). Il se peut également que des offres d’essai ou de
+              découverte du Service Muve HiFi d’une durée variable soient proposées sur le Site ou l’Application, de
+              manière temporaire ou non. Sauf indication contraire, ces offres d’essai ou de découverte seront soumises
+              aux présentes conditions générales d’utilisation et de vente et seront limitées à une seule inscription
+              (même adresse IP (Internet Protocol) et/ou même adresse de courrier électronique) quelque soit l’offre
+              d’essai ou de découverte.
+            </p>
+            <h3>
+              5.3 Reconduction
+            </h3>
+            <p>
+              Sauf résiliation par l’Abonné dans les conditions de l’article 5.4, l’abonnement au Service Muve HiFi est
+              reconduit tacitement pour une durée identique à celle souscrite initialement. Ainsi, si l’Abonné souscrit
+              à
+              l’abonnement mensuel, celui-ci sera automatiquement reconduit pour une nouvelle durée d’un mois.
+
+              En cas de reconduction tacite, le tarif alors en vigueur pour l’abonnement concerné sera pleinement
+              applicable à l’Abonné.
+
+              Conformément aux articles L.136-1 et L.136-2 du Code de la consommation, dans le cas où l’Abonné souscrit
+              à
+              un abonnement annuel, l’Abonné recevra un e-mail de la part de MUVE trois (3) mois avant la fin de
+              celui-ci,
+              lui notifiant sa faculté de résilier ledit abonnement au terme de sa durée, la résiliation étant dès lors
+              possible jusqu’à la date indiquée dans l’e-mail de notification. Si l’Abonné ne résilie pas son abonnement
+              annuel dans le délai indiqué, celui-ci sera reconduit pour une nouvelle durée d’un an.
+
+              Sauf indication contraire sur le Site ou l’Application et sauf résiliation par l’Abonné dans les
+              conditions
+              de l’article 5.4, toute offre d’essai ou de découverte du Service Muve HiFi est transformée en abonnement
+              mensuel au tarif indiqué dans l’offre ou, à défaut, au tarif applicable aux abonnements mensuels du
+              Service
+              Muve HiFi.
+            </p>
+            <h3>
+              5.4 Pour résilier son abonnement
+            </h3>
+            <p>
+              Lorsque l'abonnement a été souscrit directement auprès de Muve à partir du Site, l’Abonné doit le notifier
+              à
+              partir de son compte sur le Site en cliquant sur la rubrique « Résilier mon abonnement ». La prise en
+              compte
+              de la résiliation sera effective au terme de la période d’abonnement en cours sous réserve que sa
+              notification ait été envoyée au moins 48 (quarante-huit) heures avant son terme, et jusqu’à la date et
+              heure
+              de fin telle qu’indiquée sur le compte de l’Abonné pour un offre d’essai ou de découverte, sauf indication
+              contraire sur le Site.
+
+              Lorsque l’abonnement a été souscrit à partir d’une plateforme partenaire de Muve (par exemple un
+              abonnement
+              souscrit sur iTunes, etc.), l’Abonné doit vérifier au préalable les conditions de résiliation de son
+              abonnement à partir de la rubrique « Mon compte » sur le Site, et suivre les instructions qui y sont
+              précisées. L’Abonné est informé que les modalités de résiliation (procédure, délai de prise en compte,
+              etc.)
+              peuvent varier d’une plateforme partenaire à l’autre.
+            </p>
+            <h2>
+              Article 6 – Conditions d’accès au Service Muve HiFi
+            </h2>
+            <p>
+              L’Abonné déclare avoir la capacité d’accepter les présentes conditions générales d’utilisation et de
+              vente,
+              c’est à dire avoir la majorité légale et ne pas faire l’objet d’une mesure de protection juridique des
+              majeurs (mise sous sauvegarde de justice, sous tutelle ou sous curatelle) ou, si l’Abonné est mineur, être
+              titulaire d’une autorisation parentale lui permettant de s’abonner.
+
+              L’Abonné déclare être résident sur le territoire français et disposer d’une carte bancaire émise en France
+              par un établissement bancaire français.
+            </p>
+            <h2>
+              Article 7 – Création d’un compte
+            </h2>
+            <p>
+              Pour s’abonner au Service Muve HiFi, toute personne doit :
+
+              - créer un compte sur le Site ou l’Application, si l’utilisateur est déjà inscrit, s’identifier sur le
+              Site
+              ou ou l’Application ;
+              - renseigner les différents champs du formulaire d’abonnement sur le Site ou ou l’Application ;
+              - confirmer son acceptation des présentes conditions générales de vente et d’utilisation du Service HiFi ;
+              - régler le prix de son abonnement à l’aide de l’un des moyens de paiement proposés ;
+              - confirmer son inscription.
+
+              Une fois son inscription validée, MUVE adresse à l’Abonné (à l’adresse renseignée par ce dernier lors de
+              son
+              inscription sur le Site) un courrier électronique de confirmation.
+
+              Sous réserve des autres stipulations des présentes conditions générales de vente et d’utilisation du
+              Service
+              Muve HiFi, l’abonnement au Service Muve HiFi n’entre en vigueur que lorsque MUVE adresse le courrier
+              électronique de confirmation visé au paragraphe ci-dessus. MUVE recommande à l’Abonné de conserver ce
+              courriel et/ou de l’imprimer.
+
+              L’Abonné peut modifier le mot de passe communiqué à partir de son compte sur le Site en cliquant sur la
+              rubrique « Mon compte ».
+
+              L’Abonné s’engage à fournir des informations véritables et sincères le concernant.
+
+              L’Abonné s’engage à informer MUVE sans délai de toute modification des informations fournies lors de la
+              souscription de son abonnement et notamment tout changement d’adresse de courrier électronique ou de
+              moyens
+              de paiement. L’Abonné peut modifier ces informations à partir de son compte sur le Site en cliquant sur la
+              rubrique « Mon compte ».
+
+              L’Abonné doit informer immédiatement MUVE de toute perte ou utilisation non autorisée de son compte, de
+              ses
+              identifiants et mot de passe. Les mots de passe et identifiants sont personnels et l’Abonné s’engage à ne
+              pas les divulguer. A ce titre, MUVE ne peut être tenue responsable de l’utilisation des identifiants et du
+              mot de passe de l’Abonné par un tiers à qui l’Abonné les aurait communiqués ou bien qui y aurait eu accès
+              suite à une faute, maladresse ou négligence de la part de l’Abonné.
+
+              MUVE, ses partenaires, co-contractants ou ayants droit ne peuvent être tenus responsables des conséquences
+              de l’utilisation fautive par l’Abonné de son compte ou de toute action réalisée sur le compte de l’Abonné
+              par un tiers à qui l’Abonné aurait communiqué ses identifiants ou qui aurait eu accès au compte suite à
+              une
+              faute, maladresse ou négligence de la part de l’Abonné.
+            </p>
+            <h2>
+              Article 8 – Prix
+            </h2>
+            <p>
+              Le prix de l’abonnement au Service Muve HiFi est indiqué sur le Site en euros et toutes taxes comprises.
+
+              MUVE se réserve le droit de modifier le prix de chacune des formules d’abonnement. MUVE informera chaque
+              Abonné par courrier électronique à l’adresse renseignée par l’Abonné concerné lors de son inscription au
+              Service Muve HiFi (ou modifiée par la suite sur son compte) de toute hausse de tarif au minimum 15
+              (quinze)
+              jours avant sa prise d’effet. Dans une telle hypothèse, l’Abonné n’acceptant pas cette hausse de tarif
+              pourra résilier son abonnement dans les conditions indiquées à l’article 5 ci-avant cette résiliation
+              prenant effet à la prochaine échéance d’abonnement mensuelle. A défaut de résiliation par l’Abonné, la
+              nouvelle tarification sera dès lors applicable à compter de la prochaine échéance d’abonnement suivant la
+              prise d’effet de la nouvelle tarification.
+
+              Toute augmentation de la TVA (Taxe sur la Valeur Ajoutée) sera répercutée automatiquement et immédiatement
+              sur le prix du Service Muve HiFi. Il en sera de même en cas de création d’une quelconque nouvelle taxe qui
+              serait assise sur le prix du Service Muve HiFi et dont MUVE deviendrait redevable. Les conditions de
+              résiliations prévues en cas de modification du prix des formules d’abonnement visées ci-dessus
+              s’appliqueront dans les mêmes conditions en cas de modification du prix résultant d’une augmentation ou de
+              création de taxes nouvelles.
+
+              Il est rappelé que les frais de connexion et de communication (Internet et Internet mobile) liés à
+              l’utilisation du Service Muve HiFi ne sont pas pris en charge par MUVE et restent à la charge de l’Abonné.
+            </p>
+            <h2>
+              Article 9 – Paiement du prix
+            </h2>
+            <p>
+              Différents moyens de paiement du prix de l’abonnement ou du forfait sont proposés sur le Site (cartes
+              bancaires, carte prépayée, PayPal et/ou autres moyens de paiement).
+
+              Il est précisé que lorsque l’Abonné communique à MUVE ses coordonnées bancaires, celles-ci ne sont pas
+              conservées par MUVE.
+
+              Dans le cas où l’Abonné passe d’un abonnement au Service Muve Premium ou au Service Muve Premium+ à un
+              abonnement au Service Muve HiFi, le changement prendra effet automatiquement tel qu’autorisé par MUVE. Par
+              conséquent, MUVE chargera immédiatement l’Abonné le prix de l’abonnement au Service Muve HiFi, peu importe
+              si l’abonnement au Service Muve Premium ou au Service Muve Premium+ soit terminé ou non. Ainsi si l’Abonné
+              s’abonne au Service Muve HiFi pendant sa période d’abonnement à un autre Service, il sera facturé pour les
+              deux Services.
+
+              Selon la durée de l’abonnement choisi par l’Abonné, le prix de l’abonnement est payable mensuellement ou
+              annuellement. Le paiement s’effectuera, à terme à échoir (paiement par avance), lors de l’abonnement au
+              Service Muve HiFi puis à chaque mois ou année, par prélèvement automatique pour ce qui concerne les
+              abonnements mensuels et annuels, jusqu’à résiliation de l’abonnement, que la résiliation soit à
+              l’initiative
+              de l’Abonné ou à celle de MUVE.
+
+              Afin d’optimiser la sécurité des transactions, MUVE a choisi plusieurs systèmes de paiement. Les garanties
+              accordées par MUVE au titre de la sécurité des transactions sont identiques à celles obtenues
+              respectivement
+              par MUVE de ces éditeurs des systèmes de paiement précités.
+
+              A défaut d’éléments contraires apportés par l’Abonné, les registres informatisés, conservés dans les
+              systèmes informatiques de MUVE et de ses partenaires dans des conditions raisonnables de sécurité, seront
+              considérés comme les preuves des communications, des commandes, des validations et des paiements
+              intervenus
+              entre l’Abonné et MUVE. Ces informations feront foi entre sauf à en apporter la preuve écrite et contraire
+              par l’Abonné. L’archivage de ces éléments est effectué sur un support fiable et durable de manière à
+              correspondre à une copie fidèle et durable conformément à l’article 1348 du code civil.
+            </p>
+            <h2>
+              Article 10 – Territoire
+            </h2>
+            <p>
+              L’abonnement au Service Muve HiFi est réservé aux personnes physiques résidant en France métropolitaine et
+              disposant d’une carte bancaire émise en France par un établissement bancaire établi sur le territoire
+              français.
+            </p>
+            <h2>
+              Article 11 – Responsabilité
+            </h2>
+            <p>
+              La responsabilité de MUVE ne pourra être retenue en cas d’inexécution ou de manquement par l’Abonné à ces
+              CGU-CGV, de fait imprévisible et insurmontable d’un tiers ou en cas de force majeure tel que défini par la
+              Cour de cassation.
+
+              En tant que simple éditeur du Service, MUVE ne peut garantir la qualité du réseau Internet, ni son accès
+              et
+              ne peut garantir l’absence d’interruption du service propre au réseau Internet.
+
+              En conséquence, MUVE ne pourra en aucun cas être tenue responsable de dysfonctionnements dans l’accès au
+              Service Muve HiFi, des vitesses d’ouverture et de consultation des pages des services, des vitesses
+              d’écoute
+              des enregistrements phonographiques, de l’inaccessibilité temporaire ou définitive au Service Muve HiFi,
+              de
+              l’utilisation frauduleuse par des tiers des informations mises à disposition sur le Site ou l’Application.
+
+              En conséquence également, il incombe à l’Abonné de protéger son matériel informatique ou autre notamment
+              contre toute forme d’intrusion et/ou de contamination par des virus, MUVE ne saurait en aucun cas être
+              tenue
+              pour responsable d’une interruption et/ou contamination par des virus de son matériel résultant d’une
+              faute,
+              maladresse ou négligence de l’Abonné. MUVE ne saurait être tenue responsable de tout dysfonctionnement ou
+              de
+              toute détérioration du matériel de l’Abonné résultant d’une faute, maladresse ou négligence de l’Abonné ou
+              de fait imprévisible et insurmontable d’un tiers.
+
+              Plus généralement, MUVE dégage toute responsabilité si un manquement à une quelconque obligation était le
+              fait d’un cas de force majeure ou fortuite, y compris, mais sans y être limitées, catastrophes, incendies,
+              grève interne ou externe, défaillance ou pannes internes ou externes, et d'une manière générale tout
+              évènement irrésistible et imprévisible ne permettant pas la bonne exécution des commandes.
+
+              En aucun cas MUVE ne saurait être tenue responsable dans l’hypothèse où le Service proposé s’avèrerait
+              incompatible avec certains équipements et/ou fonctionnalités du matériel informatique de l’Abonné.
+
+              Enfin, MUVE ne peut être tenue responsable de l’utilisation fautive faite par l’Abonné, ni de
+              l’utilisation
+              du compte de l’Abonné faite par un tiers à qui l’Abonné aurait communiqué ses identifiants ou qui aurait
+              eu
+              accès au compte suite à une faute, maladresse ou négligence de la part de l’Abonné. L’Abonné s’engage dans
+              ces cas à faire son affaire personnelle de toute réclamation, revendication, ou opposition et plus
+              généralement de toute procédure formée contre MUVE émanant d’un tiers.
+            </p>
+            <h2>
+              Article 12 – Politique de protection des données à caractère personnel
+            </h2>
+            <h3>
+              Article 12.1 – Objet
+            </h3>
+            <p>
+              Cette rubrique illustre l’engagement de MUVE eu égard au respect de votre vie privée et à la protection
+              des
+              données à caractère personnel vous concernant, collectées et traitées à l'occasion de votre utilisation du
+              Site et des services de MUVE dans les conditions visées au sein des Conditions générales d’utilisation et
+              de
+              vente des services de MUVE (les « Données »).
+
+              MUVE s’engage à respecter la législation en vigueur relative à la protection de la vie privée eu égard au
+              traitement automatisé des données à caractère personnel. Le Site a fait l’objet de plusieurs déclarations
+              préalables auprès de la Commission Nationale de l’Informatique et des Libertés (CNIL).
+            </p>
+            <h3>
+              12.2 Données collectées
+            </h3>
+            <p>
+              Les Données collectées et ultérieurement traitées sont celles que vous nous transmettez volontairement via
+              le formulaire d’inscription au Site (le « Formulaire ») ou sur la page « Mes informations » de votre
+              compte
+              et concernent, a minima, votre identifiant, votre âge, votre sexe et une adresse de messagerie
+              électronique
+              valide.
+
+              Lorsque vous utilisez le Site et les services de MUVE, certaines Données sont collectées automatiquement
+              notamment des données techniques (tel que l’adresse IP de votre ordinateur ou de vos appareils mobiles) et
+              des informations relatives à la consultation et l’utilisation que vous faites des pages du Site, des
+              publicités affichées sur le Site et des fonctionnalités des services de MUVE, à l’exclusion de toute
+              autre.
+            </p>
+            <h3>
+              12.3 Finalités des traitements
+            </h3>
+            <p>
+              Les Données que vous nous transmettez volontairement et qui sont identifiées comme étant obligatoires au
+              sein du Formulaire, sont nécessaires aux fins de bénéficier des fonctionnalités du Site et des services de
+              MUVE (notamment pour l’accès au Site et aux services de MUVE).
+
+              Les Données que vous nous transmettez volontairement (obligatoires ou non) ainsi que les Données
+              collectées
+              automatiquement par le Site permettent (i) de personnaliser et améliorer votre utilisation du Site et des
+              services de MUVE, (ii) d’assurer la fourniture des services de MUVE par ses partenaires, le cas échéant,
+              (iii) de personnaliser l’offre publicitaire qui vous est proposée par MUVE ou ses partenaires sur le Site
+              ou
+              les sites internet de ses partenaires, (iv) d’analyser et d’effectuer des statistiques quant à la
+              consultation et l’utilisation du Site, des services de MUVE et des publicités affichées sur le Site et,
+              (v)
+              uniquement dans l’hypothèse où vous avez expressément consenti à l’association de votre compte MUVE avec
+              vos
+              comptes d’utilisation de réseaux sociaux au moment de votre inscription sur le Site ou en paramétrant
+              votre
+              compte MUVE à cette fin dans la rubrique « Notifications & partage » (pour accéder à cette rubrique,
+              cliquez
+              ici), de partager des contenus du Site sur ces réseaux ou de faire connaître votre consultation ou votre
+              opinion concernant un contenu de notre Site sur les sites internet de ces réseaux.
+
+              Les Données pourront aussi permettre à MUVE de vous envoyer des lettres d’information (« newsletter ») de
+              MUVE à l’adresse de courrier électronique telle que renseignée et, le cas échéant, modifiée par vous-même
+              ou
+              encore des notifications sur vos appareils mobiles. Si vous ne souhaitez plus recevoir ces newsletters ou
+              notifications, vous pouvez à tout moment vous désabonner en cliquant sur le lien prévu à cet effet en bas
+              de
+              chaque newsletter ou en modifiant vos Données à partir de votre compte sur le Site en cliquant sur la
+              rubrique « Notifications & partage » (pour accéder à cette rubrique, cliquez ici).
+
+              Ces Données sont également conservées à des fins de sécurité, afin de respecter les obligations légales et
+              réglementaires auxquelles MUVE est soumise.
+            </p>
+            <h3>
+              12.4 Destinataires des Données
+            </h3>
+            <p>
+              Vos Données ne font l’objet d’aucune communication à des tiers sans votre accord express.
+
+              Vous êtes toutefois informé qu’elles pourront être divulguées en application d’une loi, d’un règlement ou
+              en
+              vertu d’une décision d’une autorité réglementaire ou judiciaire compétente ou encore, si cela s’avère
+              nécessaire, aux fins, pour MUVE, de préserver ses droits et intérêts.
+
+              Dans le cadre de la gestion de votre abonnement, vos Données peuvent être transmises aux sociétés chargées
+              de la gestion, de l’exécution et du traitement des opérations de paiement.
+
+              Dans le cadre de l’envoi de newsletters ou notifications, vos Données peuvent être transmises à la société
+              Appboy chargée de la gestion, du traitement et de l’envoi des newsletters et notifications de MUVE.
+
+              MUVE peut être amenée à partager certaines de vos Données dans le cadre de votre utilisation des
+              applications tierces mises à votre disposition dans la page « Applications » du Site (les « Applications
+              »).
+              MUVE s’engage à ne transmettre ces Données que dans les cas où vous avez donné votre accord express lors
+              de
+              l’utilisation de chaque Application. Vous êtes informé que les politiques de confidentialité de nos
+              partenaires régissent alors l’utilisation par ces derniers des Données que nous leur communiquons avec
+              votre
+              accord ou bien qu’ils collectent directement auprès de vous.
+
+              Dans le cadre du traitement de vos Données à des fins de personnalisation de l’offre publicitaire qui vous
+              est proposée par MUVE ou ses partenaires, vos Données pourront être transférées à ses partenaires ou à des
+              prestataires de service chargés de l’analyse et du traitement de vos Données pour le compte de MUVE ou de
+              ses partenaires.
+
+              Lorsque vous avez souscrit aux services de MUVE par l’intermédiaire d’un partenaire de MUVE, MUVE peut
+              transmettre vos Données à ce partenaire afin (i) d’assurer la bonne exécution de la fourniture de nos
+              services par ce partenaire, (ii) de lui permettre d’analyser et d’effectuer des statistiques quant à la
+              consultation et l’utilisation des services de MUVE et (iii) de personnaliser l’offre publicitaire qui vous
+              est proposée par ce partenaire.
+
+              MUVE peut également être amené à transmettre vos Données à Facebook, Twitter, Google + et Last.fm, dans
+              l’hypothèse où vous avez expressément consenti à l’association de votre compte MUVE avec vos comptes
+              d’utilisation de ces réseaux sociaux au moment de votre inscription sur le Site ou en paramétrant votre
+              compte MUVE à cette fin dans la rubrique « Notifications & partage » (pour accéder à cette rubrique,
+              cliquez
+              ici), afin de (i) vous permettre de partager des contenus du Site sur ces réseaux ou de faire connaître
+              votre consultation ou votre opinion concernant un contenu de notre Site sur les sites internet de ces
+              réseaux et (ii) de personnaliser l’offre publicitaire qui vous est proposée par MUVE ou des tiers sur ces
+              réseaux.
+            </p>
+
+            <h3>
+              12.5 Transfert de vos Données
+            </h3>
+            <p>
+              Dans le cadre du traitement de vos Données, celles-ci peuvent être transférées par MUVE vers des serveurs
+              situés dans plusieurs pays.
+
+              Vous êtes informé que vos Données peuvent faire l’objet d’un transfert au sein du groupe MUVE dans un pays
+              autre que votre pays de résidence et notamment hors de l’Union Européenne (à Singapore et aux Etats Unis
+              d’Amérique). MUVE vous informe que le transfert de vos Données est effectué dans le respect des
+              dispositions
+              de la Loi informatique et liberté et notamment des articles 68 et 69 de cette Loi.
+
+              De plus, vous êtes informé qu’afin de vous permettre d’utiliser les Applications, des Données peuvent
+              faire
+              l’objet d’un transfert dans un autre pays que votre pays de résidence et notamment hors de l’Union
+              Européenne. Vous êtes informé que les politiques de confidentialité de nos partenaires, disponibles dans
+              les
+              Applications, régissent alors le traitement par les partenaires concernés de vos Données.
+
+              Vous êtes également informé que, dans l’hypothèse où vous avez expressément consenti à l’association de
+              votre compte MUVE avec votre compte d’utilisation de Facebook, Twitter, Google + ou Last.fm, certaines de
+              vos Données peuvent faire l’objet d’un transfert dans un autre pays que votre pays de résidence et
+              notamment
+              hors de l’Union Européenne. Vous êtes informé que la politique de confidentialité de ces réseaux sociaux
+              auxquels vous avez accepté d’associer votre compte MUVE, le cas échéant, est disponible sur leur sites
+              internet respectifs et régit le traitement de vos Données par ces réseaux.
+
+              De plus, dans l’hypothèse où vous avez souscrit aux services de MUVE par l’intermédiaire d’un partenaire
+              de
+              MUVE, certaines de vos Données peuvent faire l’objet d’un transfert dans un autre pays que votre pays de
+              résidence et notamment hors de l’Union Européenne. Vous êtes informé que la politique de confidentialité
+              de
+              ces partenaires est disponible sur leur site internet respectifs et régit le traitement de vos Données par
+              ces partenaires.
+
+              Enfin, vous êtes informé que, afin de vous permettre de recevoir les newsletters ou notifications, des
+              Données peuvent faire l’objet d’un transfert dans un autre pays que votre pays de résidence et notamment
+              hors de l’Union Européenne (aux Etats Unis d’Amérique). MUVE vous informe que le transfert de vos données
+              est effectué dans le respect des dispositions de la Loi informatique et liberté et notamment des articles
+              68
+              et 69 de cette Loi.
+            </p>
+            <h3>
+              12.6 Sécurité des Données
+            </h3>
+            <p>
+              MUVE attache une importance toute particulière à la sécurité de vos Données et met en œuvre toutes mesures
+              appropriées aux fins de restreindre les risques de perte, détérioration ou mauvaise utilisation de
+              celles-ci.
+              12.7 Conservation des Données
+
+              Les Données sont stockées chez l’hébergeur du Site identifié au sein des Mentions légales et sont
+              conservées
+              pour la durée strictement nécessaire à la réalisation des finalités visées ci-avant.
+
+              Au-delà de cette durée, elles seront conservées à des fins exclusivement statistiques et ne donneront lieu
+              à
+              aucune exploitation, de quelle que nature que ce soit.
+            </p>
+            <h3>
+              12.8 Vos droits
+            </h3>
+            <p>
+              Vous disposez d’un droit d’accès et de rectification de vos Données en nous adressant une demande en ce
+              sens
+              via la rubrique « Nous contacter » ou par courrier à l’adresse suivante : Muve S.A., Direction Juridique,
+              12
+              rue d'Athènes 75009 Paris.
+
+              Vous pouvez retrouver l’ensemble de ces informations dans la Politique de protection des données à
+              caractère
+              personnel de MUVE accessible directement ici.
+            </p>
+            <h2>
+              Article 13 – Systèmes de Collecte de Données
+            </h2>
+            <p>
+              MUVE et des tiers sont susceptibles d’implanter des Systèmes de Collecte de Données dans l’ordinateur de
+              l’Abonné.
+
+              L’Abonné peut trouver toutes les informations relatives à ses droits et aux choix qu’il peut faire sur
+              l’installation de Systèmes de Collecte de Données par MUVE ou des tiers sur son ordinateur dans la
+              Politique
+              de protection des données à caractère personnel de MUVE, accessible ici.
+            </p>
+            <h2>
+              Article 14 – Propriété intellectuelle
+            </h2>
+            <p>
+              La structure générale du Site, le Service Muve HiFi et tous les éléments les composant (tels que notamment
+              logos, noms de domaine, enregistrements phonographiques ou vidéographiques et leurs éléments associés en
+              ce
+              compris les photographies, images, textes et biographie des auteurs, artistes-interprètes et/ou de tout
+              autre ayant droit sur les enregistrements phonographiques ou vidéographiques ainsi que les visuels des
+              conditionnements de ces enregistrements) sont la propriété exclusive de MUVE et/ou de ses concédants
+              (notamment producteurs phonographiques et/ou vidéographiques (« maisons de disques », société de gestion
+              collective des droits d’auteur (comme la SACEM), etc.).
+
+              Ces éléments sont protégés par les lois relatives à la propriété intellectuelle et autres, et notamment le
+              droit d’auteur. L’Abonné ne pourra utiliser ces éléments que dans le cadre de l’utilisation du Service
+              Muve
+              HiFi, conformément aux dispositions des présentes conditions générales d’utilisation et de vente.
+
+              Toute représentation totale ou partielle du Site, du Service Muve HiFi et/ou des éléments les composant
+              (tels que décrits ci-dessus) par quelque procédé que ce soit, sans l’autorisation expresse de MUVE est dès
+              lors interdite et constituerait une contrefaçon sanctionnée par les articles L. 335-2 et suivants du Code
+              de
+              la propriété intellectuelle.
+
+              Tout lien hypertexte renvoyant au Site et utilisant la technique du « framing » (technique de
+              programmation
+              offrant la possibilité de diviser la fenêtre d’un navigateur web en plusieurs cadres autonomes dans le but
+              d’afficher le contenu d’un site extérieur) ou du « in-line linking » (procédé pour faire apparaître dans
+              une
+              page web un seul élément extrait d’un autre site, ce qui économise de l’espace de stockage sur le disque
+              dur
+              de la machine où est hébergé le site et qui a pour effet de dissimuler à un utilisateur non averti
+              l’environnement d’origine auquel appartient cet élément) est formellement interdit.
+
+              Toute utilisation artificielle d’un compte MUVE (cette utilisation ayant pour objet, par exemple,
+              d’augmenter anormalement ou artificiellement le nombre d’écoutes de certains Enregistrements), via des
+              processus automatisés telles que des robots ou scripts ou par tout autre moyen est strictement interdite.
+
+              Les enregistrements phonographiques du Service HiFi sont des fichiers numériques protégés par des
+              dispositions nationales et internationales en matière de droit d’auteur et de droits voisins du droit
+              d’auteur. A ce titre et conformément aux dispositions du Code de la propriété intellectuelle, seule leur
+              écoute dans un cadre exclusivement privé est autorisée. Toute utilisation à des fins autres que privées
+              expose l’Abonné à des poursuites judiciaires civiles et/ou pénales. Toute autre utilisation de ces
+              fichiers
+              numériques est strictement interdite et en particulier tout téléchargement ou tentative de téléchargement,
+              tout transfert ou tentative de transfert de manière permanente ou temporaire sur le disque dur d’un
+              ordinateur ou tout autre périphérique (notamment les baladeurs numériques et autres lecteurs
+              audionumériques
+              portatifs), toute gravure ou tentative de gravure sur support CD ou tout autre support sont expressément
+              interdits. Toute revente, échange ou louage de ces fichiers numériques sont strictement interdits.
+
+              L’Abonné déclare prendre acte de ce que les enregistrements phonographiques mis à sa disposition sous
+              forme
+              de fichiers numériques dans le cadre du Service Muve HiFi sont protégés par des mesures techniques de
+              protection mises en place par MUVE afin d’empêcher ou limiter, dans la limite des contraintes techniques
+              existant en la matière et des technologies disponibles, les utilisations de ces enregistrements non
+              prévues
+              par les présentes conditions générales d’utilisation et de vente.
+
+              L’Abonné s’engage à n’employer aucune mesure technique de nature à permettre le contournement des mesures
+              techniques de protection en vue de procéder au téléchargement de ces fichiers numériques et de permettre
+              leur conservation dans l’unité de stockage de son terminal de réception quel qu’il soit (PC, téléphone
+              mobile, baladeur numérique et autres lecteurs audionumériques portatifs, etc.).
+
+              L’Abonné déclare prendre acte que le fait de porter sciemment atteinte à une mesure technique de
+              protection
+              l’expose, par application des dispositions de l’article L. 335-4-1 du Code de la Propriété Intellectuelle
+              au
+              paiement d’une amende de 3 750 euros et que le fait de procurer ou proposer sciemment à autrui,
+              directement
+              ou indirectement, des moyens conçus ou spécialement adaptés pour porter atteinte à une mesure technique de
+              protection étant pour sa part puni d’une peine d’emprisonnement de six mois et de 30 000 euros d’amende.
+            </p>
+            <h2>
+              Article 15 – Suspension et/ou résiliation anticipée à l’initiative de MUVE ou de l’Abonné
+            </h2>
+            <p>
+              Sans préjudice de tous dommages et intérêts que MUVE pourrait solliciter, MUVE se réserve le droit de
+              suspendre l’accès d’un Abonné au Service Muve HiFi et/ou résilier de plein droit, sans préavis ni
+              indemnité,
+              son abonnement au Service Muve HiFi en cas de :
+
+              - non-respect par l’Abonné des présentes conditions générales d’utilisation et de vente, et notamment :
+
+              non-respect des droits de propriété intellectuelle de MUVE et/ou de ses concédants,
+              contournement ou tentative de contournement des mesures techniques de protection mises en place par MUVE,
+              connexions multiples simultanées à un même compte du Service HiFi ou tentative de connexions multiples
+              simultanées,
+              fourniture de fausses informations lors de son inscription au Service HiFi.
+
+              - non-paiement total ou partiel par l’Abonné du prix de son abonnement au Service Muve HiFi ;
+
+              - agissements contraires aux intérêts commerciaux de MUVE.
+
+              De son côté, l’Abonné pourra résilier, sans préavis ni indemnité au bénéfice de MUVE, son forfait ou son
+              abonnement pour motifs légitimes (en cas de manquement grave de MUVE à ses obligations principales
+              définies
+              dans les présentes conditions générales).
+            </p>
+          </div>
+        </clr-tab-content>
+      </ng-template>
+    </clr-tab>
+    <!--<clr-tab>-->
+      <!--<button clrTabLink (click)="faqActive=false;cguActive=false;feedbackActive=true;">Feedback</button>-->
+      <!--<ng-template [(clrIfActive)]="feedbackActive">-->
+        <!--<clr-tab-content>-->
+        <!--</clr-tab-content>-->
+      <!--</ng-template>-->
+    <!--</clr-tab>-->
+  </clr-tabs>
+</div>

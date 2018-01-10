@@ -1,11 +1,10 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
 import {AppComponent} from './app.component';
 import {NavComponent} from './nav/nav.component';
 import {FooterComponent} from './footer/footer.component';
 import {LoginComponent} from './login/login.component';
-import {RouterModule} from "@angular/router";
+import {ActivatedRoute, RouterModule} from "@angular/router";
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {routes} from "./app.routing";
 import {AuthService} from "./services/auth.service";
@@ -15,16 +14,17 @@ import {HttpModule} from "@angular/http";
 import {AuthGuardService} from "./services/auth-guard.service";
 import {AuthModule} from "./services/auth.module";
 import {AuthHttp, AuthConfig, AUTH_PROVIDERS, provideAuth} from 'angular2-jwt';
-import { MuvesComponent } from './muves/muves.component';
+import {MuvesComponent} from './muves/muves.component';
 import {AgmCoreModule} from "@agm/core";
 import {Ng2MapModule} from "ng2-map";
 import {ClarityModule} from "clarity-angular";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
-import { EventsComponent } from './events/events.component';
+import {EventsComponent} from './events/events.component';
 import {ArraySortPipe, ChatComponent} from './chat/chat.component';
 import {SailsModule} from "angular2-sails";
-import { StatsComponent } from './stats/stats.component';
-import { MusiqueComponent } from './musique/musique.component';
+import {StatsComponent} from './stats/stats.component';
+import {MusiqueComponent} from './musique/musique.component';
+import {AideComponent} from "./aide/aide.component";
 
 @NgModule({
   declarations: [
@@ -38,7 +38,8 @@ import { MusiqueComponent } from './musique/musique.component';
     ChatComponent,
     StatsComponent,
     MusiqueComponent,
-    ArraySortPipe
+    ArraySortPipe,
+    AideComponent
   ],
   imports: [
     BrowserModule,

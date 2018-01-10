@@ -6,16 +6,24 @@
         <div class="card-header">
           Dernier Album
         </div>
-        <div class="card-block">
+        <div class="card-block" *ngIf="latestAlbum">
           <div class="card-title">
-            Never Be The Same
+            {{latestAlbum.name}}
           </div>
           <div class="card-text">
-            10084 muves concernés
+            Sortie le {{ latestAlbum.releaseDate | date : 'dd/MM/yyyy' : 'Europe/Paris'}}
+          </div>
+        </div>
+        <div class="card-block" *ngIf="!latestAlbum">
+          <div class="card-title">
+            Aucun album
+          </div>
+          <div class="card-text">
+            Vous n'avez pas encore d'album sur notre plateforme !
           </div>
         </div>
         <div class="card-footer">
-          <button class="btn btn-sm btn-link">Voir l'album</button>
+          <button class="btn btn-sm btn-link" (click)="goTo('musique', 'album')">Voir l'album</button>
         </div>
       </div>
     </div>
@@ -24,16 +32,25 @@
         <div class="card-header">
           Prochain Evènement
         </div>
-        <div class="card-block">
+        <div class="card-block" *ngIf="nextEvent">
           <div class="card-title">
-            Salle des fêtes de Melun
+            {{nextEvent.venue}}
           </div>
           <div class="card-text">
-            21 janvier 2018
+            Le {{ nextEvent.date | date : 'dd/MM/yyyy à HH:mm' : 'Europe/Paris'}} à {{ nextEvent.city}}
+          </div>
+        </div>
+        <div class="card-block" *ngIf="!nextEvent">
+          <div class="card-title">
+            Aucun évènement à venir
+          </div>
+          <div class="card-text">
+            Vous n'avez pas encore d'évènement à venir !
           </div>
         </div>
         <div class="card-footer">
-          <button class="btn btn-sm btn-link">Voir l'évenement</button>
+          <button class="btn btn-sm btn-link" *ngIf="!nextEvent" (click)="goTo('events');">Créer un évènement</button>
+          <button class="btn btn-sm btn-link" *ngIf="nextEvent" (click)="goTo('events', 'tocome')">Voir l'évenement</button>
         </div>
       </div>
     </div>
