@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup;
   public error: string;
+  public errorPro: string;
   public isLoading: boolean = false;
   public isSend: boolean = false;
 
@@ -33,16 +34,18 @@ export class LoginComponent implements OnInit {
   login() {
     this.isLoading = true;
     this.error = '';
+    this.errorPro = '';
     this.auth.login(this.loginForm.value).then((res) => {
       this.isLoading = false;
       this.auth.getUserApi().subscribe((user) => {
         let checkUser = user.json();
-        console.log(checkUser.user.isArtist);
+        console.log(checkUser.user);
         if (this.loginForm.value.typeAccount === 'Ypro') {
           if (checkUser.user.isArtist === true) {
             this.router.navigate(['/dashboard']);
           } else {
-            console.log('compte pro non valide');
+            this.errorPro = 'oui';
+            this.isLoading = false;
           }
         } else {
             this.authHttp.post(this.auth.API + '/artists/request', {name: this.loginForm.value.sendName}).toPromise().then((res) => {

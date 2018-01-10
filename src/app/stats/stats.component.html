@@ -1,1 +1,34 @@
 <app-nav></app-nav>
+<div class="container" style="width: 100%;
+    position: relative;
+    bottom: 30px;">
+  <clr-tabs>
+    <clr-tab>
+      <button clrTabLink (click)=drawGraphTotal()>Nombre d'écoute total</button>
+      <clr-tab-content style="padding: 100px!important;padding-top: 0px !important;">
+        <div *ngIf="!noMuves" id='graphTotal'></div>
+        <div *ngIf="noMuves">Vous n'avez posté aucun Muves</div>
+      </clr-tab-content>
+    </clr-tab>
+  <clr-tab>
+    <button clrTabLink (click)=drawGraphLike()>Nombre de like total</button>
+    <clr-tab-content style="padding: 100px!important;padding-top: 0px !important;">
+      <div id='graphLike'></div>
+    </clr-tab-content>
+  </clr-tab>
+    <clr-tab>
+      <button clrTabLink (click)=drawGraphMuve()>Nombre de muves actifs</button>
+      <clr-tab-content style="padding: 100px!important;padding-top: 0px !important;">
+        <div id='graphMuve'></div>
+      </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink (click)=drawGraphRange()>Portée totale</button>
+      <clr-tab-content style="padding: 100px!important;padding-top: 0px !important;">
+        <div id='graphRange'></div>
+      </clr-tab-content>
+    </clr-tab>
+  </clr-tabs>
+
+
+</div>
