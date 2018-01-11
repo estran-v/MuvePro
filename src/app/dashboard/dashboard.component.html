@@ -23,8 +23,10 @@
           </div>
         </div>
         <div class="card-footer">
-          <button class="btn btn-sm btn-link" *ngIf="latestAlbum" (click)="goTo('musique', 'album')">Voir l'album</button>
-          <button class="btn btn-sm btn-link" *ngIf="!latestAlbum" (click)="goTo('musique', 'album')">Créer un album</button>
+          <button class="btn btn-sm btn-link" *ngIf="latestAlbum" (click)="goTo('musique', 'album')">Voir l'album
+          </button>
+          <button class="btn btn-sm btn-link" *ngIf="!latestAlbum" (click)="goTo('musique', 'album')">Créer un album
+          </button>
         </div>
       </div>
     </div>
@@ -51,7 +53,8 @@
         </div>
         <div class="card-footer">
           <button class="btn btn-sm btn-link" *ngIf="!nextEvent" (click)="goTo('events');">Créer un évènement</button>
-          <button class="btn btn-sm btn-link" *ngIf="nextEvent" (click)="goTo('events', 'tocome')">Voir l'évenement</button>
+          <button class="btn btn-sm btn-link" *ngIf="nextEvent" (click)="goTo('events', 'tocome')">Voir l'évenement
+          </button>
         </div>
       </div>
     </div>
@@ -60,15 +63,15 @@
         <div class="card-header">
           Messages récents
         </div>
-        <div class="card-block" *ngIf="latestMsg">
+        <div class="card-block" *ngIf="latestMsg && lastSender">
           <div class="card-title">
-            De : David Guetta
+            De : {{ lastSender.firstName + ' ' + lastSender.lastName}}
           </div>
           <div class="card-text">
-            C'est horrible ce qu'on fait aux bébés phoques
+            {{latestMsg.body}}
           </div>
         </div>
-        <div class="card-block" *ngIf="!latestMsg">
+        <div class="card-block" *ngIf="!latestMsg && !lastSender">
           <div class="card-title">
             Aucun message reçu !
           </div>
@@ -77,7 +80,11 @@
           </div>
         </div>
         <div class="card-footer">
-          <button class="btn btn-sm btn-link" *ngIf="!latestMsg" (click)="goTo('chat')">Voir le chat</button>
+          <button class="btn btn-sm btn-link" *ngIf="!latestMsg && !lastSender" (click)="goTo('chat')">Voir le chat
+          </button>
+          <button class="btn btn-sm btn-link" *ngIf="latestMsg && lastSender" (click)="goTo('chat', latestMsg.room)">
+            Voir le chat
+          </button>
         </div>
       </div>
     </div>
@@ -115,10 +122,13 @@
         </div>
         <div class="card-block" *ngIf="latestMuve">
           <div class="card-title">
-            Havana - Gare de Lyon
+            <li class="music" style="width: 100%!important;">
+              <img class="musicThumbail" [src]="latestMuve.music.thumbnail">
+              <p class="musicTitle">{{latestMuve.music.title + ' - ' + latestMuve.music.artist}}</p>
+            </li>
           </div>
           <div class="card-text">
-            3991 écoutes
+            {{latestMuve.content}}
           </div>
         </div>
         <div class="card-block" *ngIf="!latestMuve">
@@ -130,8 +140,8 @@
           </div>
         </div>
         <div class="card-footer">
-          <button class="btn btn-sm btn-link" *ngIf="latestMuve" (click)="goTo('muves', 'list')">Voir le Muve</button>
-          <button class="btn btn-sm btn-link" *ngIf="!latestMuve" (click)="goTo('muves')">Ajouter un nouveau Muve</button>
+          <button class="btn btn-sm btn-link" (click)="goTo('muves')">Ajouter un nouveau Muve
+          </button>
         </div>
       </div>
     </div>

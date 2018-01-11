@@ -62,9 +62,18 @@ export class MusiqueComponent implements OnInit {
     label: new FormControl(''),
     prod: new FormControl(''),
   });
+  public editAlbumForm = new FormGroup({
+    releaseDate: new FormControl('', Validators.required),
+    name: new FormControl('', Validators.required),
+    tag: new FormControl(''),
+    label: new FormControl(''),
+    prod: new FormControl(''),
+  });
   deleteAlbum;
   deleteAlbumModal = false;
-
+  editAlbum;
+  editAlbumModal = false;
+  loadingEditAlbumModal = false;
 
   constructor(private authHttp: AuthHttp,
               private Auth: AuthService,
@@ -194,11 +203,42 @@ export class MusiqueComponent implements OnInit {
     });
   }
 
+  createEditAlbum() {
+    this.editAlbumForm = new FormGroup({
+      releaseDate: new FormControl(new Date(this.editAlbum.releaseDate), Validators.required),
+      name: new FormControl(this.editAlbum.name, Validators.required),
+      tag: new FormControl(this.editAlbum.tag),
+      label: new FormControl(this.editAlbum.label),
+      prod: new FormControl(this.editAlbum.prod),
+    });
+  }
+
   doDeleteAlbum() {
-    // this.authHttp.delete(this.Auth.API + '/album/' + this.deleteAlbum.id).toPromise()
-    //   .then((res) => {
-    //   }).catch((err) => {
-    //   console.error(err);
-    // });
+    this.authHttp.delete(this.Auth.API + '/albums/' + this.deleteAlbum.id).toPromise()
+      .then((res) => {
+        this.myAlbums.splice(this.myAlbums.indexOf(this.deleteAlbum), 1);
+        this.deleteAlbum = null;
+        this.deleteAlbumModal = false;
+      }).catch((err) => {
+      console.error(err);
+    });
+  }
+
+  doEditAlbum() {
+    this.loadingEditAlbumModal = true;
+    this.editAlbumForm.value.releaseDate = new Date(this.editAlbumForm.value.releaseDate);
+    this.authHttp.put(this.Auth.API + '/albums/' + this.editAlbum.id, this.editAlbumForm.value)
+      .toPromise()
+      .then((res) => {
+        if (res.json()[0]) {
+          const beforeEdit = _.find(this.myAlbums, m => m.id === res.json()[0].id);
+          this.myAlbums[this.myAlbums.indexOf(beforeEdit)] = res.json()[0];
+          this.editAlbumForm.reset();
+          this.loadingEditAlbumModal = false;
+          this.editAlbumModal = false;
+        }
+      }).catch((err) => {
+      console.error(err);
+    });
   }
 }

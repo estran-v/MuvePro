@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit {
   public nextEvent = null;
   public latestAlbum = null;
   public latestMsg = null;
+  public lastSender = null;
   public stats = null;
   public latestMuve = null;
 
@@ -22,10 +23,33 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authHttp.get(this.auth.API + '/me').toPromise().then(res => {
-      console.log(res.json());
-    });
     this.getArtistInfos();
+    this.getRooms();
+    this.getMuves();
+  }
+
+  getRooms() {
+    this.authHttp.get(this.auth.API + '/rooms').toPromise()
+      .then((res) => {
+        if (res.json().rooms.length > 0) {
+          const latestRoom = _.orderBy(res.json().rooms, 'updatedAt', 'desc')[0];
+          this.authHttp.get(this.auth.API + '/rooms/' + latestRoom.id).toPromise()
+            .then((response) => {
+              const othersMsg = _.filter(response.json().messages, m =>  m.sender !== this.auth.getUser().user.id);
+              this.latestMsg = _.orderBy(othersMsg, 'createdAt', 'desc')[0];
+              return this.authHttp.get(this.auth.API + '/users/' + this.latestMsg.sender).toPromise()
+                .then((resp) => {
+                  this.lastSender = resp.json().user;
+                }).catch((error) => {
+                  console.error(error);
+              });
+            }).catch((error) => {
+              console.error(error);
+            });
+        }
+      }).catch((err) => {
+      console.error(err);
+    });
   }
 
   getArtistInfos() {
@@ -37,22 +61,18 @@ export class DashboardComponent implements OnInit {
         }
         const eventsToCome = _.filter(res.json().events, e => new Date(e.date).getTime() >= new Date().getTime());
         if (eventsToCome.length > 0) {
-          this.nextEvent = _.orderBy(eventsToCome, 'date', 'desc')[0];
+          this.nextEvent = _.orderBy(eventsToCome, 'date', 'asc')[0];
         }
-        console.log(res.json());
       }).catch((err) => {
         console.error(err);
       });
   }
 
-  getEvents() {
-    return this.authHttp.get(this.auth.API + '/me/events').toPromise()
+  getMuves() {
+    return this.authHttp.get(this.auth.API + '/me/muves').toPromise()
       .then((res) => {
-        res.json().results.forEach(event => {
-          if (new Date() < new Date(event.date)) {
-            console.log(Date);
-          }
-        });
+        this.latestMuve = _.orderBy(res.json(), 'createdAt', 'desc')[0];
+        console.log(this.latestMuve);
       }).catch((err) => {
         console.error(err);
       });
@@ -62,7 +82,7 @@ export class DashboardComponent implements OnInit {
     if (!tabs) {
       this.router.navigate([page]);
     } else {
-      this.router.navigate([page], { queryParams: { tab: tabs } });
+      this.router.navigate([page], {queryParams: {tab: tabs}});
     }
   }
 }

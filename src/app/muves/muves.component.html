@@ -553,6 +553,12 @@
               </tr>
               </tbody>
             </table>
+            <div *ngIf="!loading && muves.length === 0" style="text-align: center;">
+              <p>
+                Vous n'avez pas encore de muve sponsorisé !<br>
+                Pour en déposer, rendez vous sur l'onglet "Sponsorisé" !
+              </p>
+            </div>
           </div>
 
           <clr-modal [(clrModalOpen)]="deleteMuveModal">

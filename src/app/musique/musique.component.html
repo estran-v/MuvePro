@@ -262,6 +262,10 @@
                   <clr-icon size="16" shape="minus-circle"></clr-icon>
                   Supprimer
                 </button>
+                <button type="button" class="btn btn-icon btn-primary" (click)="editAlbum = album; createEditAlbum(); editAlbumModal = true;">
+                  <clr-icon shape="note" size="16"></clr-icon>
+                  Editer
+                </button>
               </td>
             </tr>
             </tbody>
@@ -273,6 +277,56 @@
             </p>
           </div>
 
+          <clr-modal [(clrModalOpen)]="editAlbumModal">
+            <h3 class="modal-title">Modifier un album</h3>
+            <div class="modal-body" style="text-align: -webkit-center;">
+              <div class="text-center">
+                <form class="form" [formGroup]="editAlbumForm" (ngSubmit)="doEditAlbum()" *ngIf="!loadingEditAlbumModal">
+                  <section class="form-block">
+                    <label></label>
+                    <div class="form-group">
+                      <label for="editAlbumFormReleaseDate">Date de sortie</label>
+                      <input id="editAlbumFormReleaseDate" type="date" [ngModel] ="editAlbumForm.value.releaseDate | date:'yyyy-MM-dd'"
+                             formControlName="releaseDate">
+                    </div>
+                    <div class="form-group">
+                      <label for="editAlbumFormName">Nom de l'album</label>
+                      <input id="editAlbumFormName" type="text"
+                             formControlName="name">
+                    </div>
+                    <div class="form-group">
+                      <label for="editAlbumFormTag">Genre(s)</label>
+                      <input id="editAlbumFormTag" type="text"
+                             formControlName="tag">
+                    </div>
+                    <div class="form-group">
+                      <label for="editAlbumFormLabel">Label</label>
+                      <input id="editAlbumFormLabel" type="text"
+                             formControlName="label">
+                    </div>
+                    <div class="form-group">
+                      <label for="editAlbumFormProd">Producteur</label>
+                      <input id="editAlbumFormProd" type="text"
+                             formControlName="prod">
+                    </div>
+                    <button class="btn btn-primary"
+                            type="submit"
+                            [disabled]="editAlbumForm.invalid">Confirmer
+                    </button>
+                  </section>
+                </form>
+              </div>
+              <div class="text-center" *ngIf="loadingEditAlbumModal">
+                <span class="spinner">
+                  Loading...
+                </span>
+              </div>
+            </div>
+            <!--<div class="modal-footer">-->
+              <!--<button type="button" class="btn btn-outline" (click)="editAlbumModal=false;editAlbum = null;">Non</button>-->
+              <!--<button type="button" class="btn btn-primary" (click)="doEditAlbum()">Oui</button>-->
+            <!--</div>-->
+          </clr-modal>
 
           <clr-modal [(clrModalOpen)]="deleteAlbumModal">
             <h3 class="modal-title">Êtes-vous sûr de vouloir supprimer cet album ?</h3>

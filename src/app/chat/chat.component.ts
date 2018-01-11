@@ -8,6 +8,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import * as _ from 'lodash';
 
 import {Pipe, PipeTransform} from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
 
 @Pipe({
   name: 'sort'
@@ -97,7 +98,19 @@ export class ChatComponent implements OnInit {
 
   constructor(private _sailsService: SailsService,
               private Auth: AuthService,
-              private authHttp: AuthHttp) {
+              private authHttp: AuthHttp,
+              private route: ActivatedRoute) {
+    this.route
+      .queryParams
+      .subscribe(params => {
+        if (params.tab) {
+          this.fetchRoomById(params.tab).then((res) => {
+            this.setRoom(res);
+          }).catch((err) => {
+            console.error(err);
+          });
+        }
+      });
   }
 
   ngOnInit() {
@@ -248,7 +261,7 @@ export class ChatComponent implements OnInit {
     this.selectedRoom = room;
     setTimeout(() => {
       this.scrollToBottom();
-    }, 1000);
+    }, 500);
   }
 
   sendMessage(room: Room, message) {
