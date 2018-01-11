@@ -12,26 +12,27 @@
       <i>
         Sur cette page, vous avez un aperçu du nombre d'écoute de vos muves ainsi que de multiples autres informations<br><br>
       </i>
-      <i *ngIf="!noMuves">Vous n'avez postés aucuns muves</i>
     </p>
   </div>
   <div *ngIf="noMuves">
     <div class="row" style="text-align: center;padding-top: 50px">
-      <div class="col-xl">
-        <clr-icon shape="music-note" size="100" class="is-solid">
+      <div class="col-xs">
+        <clr-icon shape="music-note" size="120" class="is-solid">
           Vos muves ont été écoutés {{nbrTotalListen}} fois.</clr-icon>
       </div>
       <div class="col-xs">
-        <clr-icon shape="thumbs-up" size="100" class="is-solid">Vos muves ont été likés {{nbrTotalLike}} fois</clr-icon>
+        <clr-icon shape="thumbs-up" size="120" class="is-solid">Vos muves ont été likés {{nbrTotalLike}} fois</clr-icon>
       </div>
       <div class="col-xs">
-        <clr-icon shape="map-marker" size="100" class="is-solid">Vous avez postés {{nbrTotalMuves}} muves.</clr-icon>
+        <clr-icon shape="map-marker" size="120" class="is-solid">Vous avez postés {{nbrTotalMuves}} muves.</clr-icon>
       </div>
-    </div>
-  </div>
-  <div class="row" style="text-align: center;padding-top: 50px">
-    <div class="col-xl">
-      <div id="chartListener" style="height: 200px;width: 200px"></div>
+      <div class="col-xs">
+        <clr-icon shape="users" size="120" class="is-solid">
+          Homme: {{nbrMale + ' (' + nbrMale / nbrTotalListener * 100 + '%)'}}<br>
+          Femme: {{nbrFemale + ' (' + nbrFemale / nbrTotalListener * 100 + '%)'}}<br>
+          Autre: {{nbrOther + ' (' + nbrOther / nbrTotalListener * 100 + '%)'}}
+        </clr-icon>
+      </div>
     </div>
   </div>
 </div>

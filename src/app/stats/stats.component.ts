@@ -18,7 +18,7 @@ export class StatsComponent implements OnInit {
   nbrMale = 0;
   nbrFemale = 0;
   nbrOther = 0;
-  nbrTotalListener = 0;
+  nbrTotalListener;
   constructor(private authHttp: AuthHttp,
               private auth: AuthService) {
   }
@@ -27,16 +27,16 @@ export class StatsComponent implements OnInit {
     this.getTotalListen();
     this.getTotalLike();
     this.getTotalListener();
-    // this.drawChartListener();
     }
 
   getTotalMuves() {
-    this.auth.getUserApi().subscribe((user) => {
+    return this.auth.getUserApi().subscribe((user) => {
       let checkMuve = user.json();
       this.nbrTotalMuves = checkMuve.muves.created;
       if (checkMuve.user.muves.length === 0) {
         this.noMuves = true;
       }
+      console.log(this.noMuves);
     });
   }
 
@@ -88,6 +88,7 @@ export class StatsComponent implements OnInit {
   }
 
   getTotalListener() {
+    this.nbrTotalListener = 0;
     this.authHttp.get(this.auth.API + '/artists/me').toPromise()
       .then((res) => {
         let x = 0;
@@ -100,12 +101,10 @@ export class StatsComponent implements OnInit {
                 let i = 0;
                 let temp = res.json().listeningCount;
                 let tempLenght = temp.length;
-                console.log(temp);
                 while (i < tempLenght) {
                   this.authHttp.get(this.auth.API + '/users/' + temp[i].user).toPromise()
                     .then((res) => {
                       let genderType = res.json().user.gender;
-                      console.log(genderType);
                       if (genderType === 'male') {
                         this.nbrMale++;
                       }
@@ -116,46 +115,16 @@ export class StatsComponent implements OnInit {
                         this.nbrOther++;
                       }
                       this.nbrTotalListener++;
-                      console.log('   ' + this.nbrOther);
-                      console.log(this.nbrTotalListener);
-
                     });
                   i++;
                 }
               }
             });
-          console.log('final ' + this.nbrOther);
           x++;
         }
       }).catch((err) => {
       console.error(err);
     });
-  }
-
-  drawChartListener() {
-    let ctx = document.getElementById('chartListener');
-    console.log(this.nbrOther);
-    let chartListener = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: ['Homme', 'Femme', 'Autre'],
-        datasets: [{
-          label: 'Genre',
-          data: [this.nbrMale, this.nbrFemale, this.nbrOther],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)'],
-          borderColor: [
-            'rgba(255,99,132,1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)'
-          ],
-          borderWidth: 1
-        }]
-      }
-    });
-    console.log('yolo');
   }
 }
 
