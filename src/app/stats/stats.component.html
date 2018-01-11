@@ -2,33 +2,36 @@
 <div class="container" style="width: 100%;
     position: relative;
     bottom: 30px;">
-  <clr-tabs>
-    <clr-tab>
-      <button clrTabLink (click)=drawGraphTotal()>Nombre d'écoute total</button>
-      <clr-tab-content style="padding: 100px!important;padding-top: 0px !important;">
-        <div *ngIf="!noMuves" id='graphTotal'></div>
-        <div *ngIf="noMuves">Vous n'avez posté aucun Muves</div>
-      </clr-tab-content>
-    </clr-tab>
-  <clr-tab>
-    <button clrTabLink (click)=drawGraphLike()>Nombre de like total</button>
-    <clr-tab-content style="padding: 100px!important;padding-top: 0px !important;">
-      <div id='graphLike'></div>
-    </clr-tab-content>
-  </clr-tab>
-    <clr-tab>
-      <button clrTabLink (click)=drawGraphMuve()>Nombre de muves actifs</button>
-      <clr-tab-content style="padding: 100px!important;padding-top: 0px !important;">
-        <div id='graphMuve'></div>
-      </clr-tab-content>
-    </clr-tab>
-    <clr-tab>
-      <button clrTabLink (click)=drawGraphRange()>Portée totale</button>
-      <clr-tab-content style="padding: 100px!important;padding-top: 0px !important;">
-        <div id='graphRange'></div>
-      </clr-tab-content>
-    </clr-tab>
-  </clr-tabs>
-
-
+  <div class="starter-template" style="padding: 30px!important;padding-top: 0px !important;">
+    <h1>
+      <i>Regarder vos statistiques</i>
+    </h1>
+    <p style="    width: 70%;
+    margin: auto;
+    margin-top: 15px;">
+      <i>
+        Sur cette page, vous avez un aperçu du nombre d'écoute de vos muves ainsi que de multiples autres informations<br><br>
+      </i>
+      <i *ngIf="!noMuves">Vous n'avez postés aucuns muves</i>
+    </p>
+  </div>
+  <div *ngIf="noMuves">
+    <div class="row" style="text-align: center;padding-top: 50px">
+      <div class="col-xl">
+        <clr-icon shape="music-note" size="100" class="is-solid">
+          Vos muves ont été écoutés {{nbrTotalListen}} fois.</clr-icon>
+      </div>
+      <div class="col-xs">
+        <clr-icon shape="thumbs-up" size="100" class="is-solid">Vos muves ont été likés {{nbrTotalLike}} fois</clr-icon>
+      </div>
+      <div class="col-xs">
+        <clr-icon shape="map-marker" size="100" class="is-solid">Vous avez postés {{nbrTotalMuves}} muves.</clr-icon>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="text-align: center;padding-top: 50px">
+    <div class="col-xl">
+      <div id="chartListener" style="height: 200px;width: 200px"></div>
+    </div>
+  </div>
 </div>
