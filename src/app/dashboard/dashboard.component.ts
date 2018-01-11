@@ -14,6 +14,9 @@ export class DashboardComponent implements OnInit {
 
   public nextEvent = null;
   public latestAlbum = null;
+  public latestMsg = null;
+  public stats = null;
+  public latestMuve = null;
 
   constructor(public auth: AuthService, public authHttp: AuthHttp, public router: Router) {
   }
