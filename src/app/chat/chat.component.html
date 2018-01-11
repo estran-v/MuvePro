@@ -8,7 +8,8 @@
     <p *ngIf="!selectedRoom">Cliquez sur une de vos discussions ou créez-en une !</p>
     <div #scrollMe *ngIf="selectedRoom" style="height: 500px;
     overflow: auto;">
-      <div [ngClass]="{'notSent': msg.notSent,'msgBoxSender' : msg.sender === Auth.user.user.id, 'msgBoxReceiver' : msg.sender !== Auth.user.user.id}"
+      <div
+        [ngClass]="{'notSent': msg.notSent,'msgBoxSender' : msg.sender === Auth.user.user.id, 'msgBoxReceiver' : msg.sender !== Auth.user.user.id}"
         *ngFor="let msg of selectedRoom.messages | sort:'updatedAt'">
         <p style="margin: 0">{{msg.body}}</p>
       </div>
@@ -30,7 +31,8 @@
     top: 11.3%;">
     <section class="sidenav-content">
       <ul>
-        <li *ngFor="let room of rooms | sort:'updatedAt'" class="room" (click)="setRoom(room)" [ngClass]="{'selected': selectedRoom === room }">
+        <li *ngFor="let room of rooms | sort:'updatedAt'" class="room" (click)="setRoom(room)"
+            [ngClass]="{'selected': selectedRoom === room }">
           <img class="avatarChat"
                [src]="room.friend.avatar || 'http://www.hitgroove.com/assets/images/default_avatar.jpg'">
           <p class="nameChat">{{room.friend.firstName + ' ' + room.friend.lastName}}</p>
@@ -44,7 +46,7 @@
 
   <clr-modal [(clrModalOpen)]="newDiscu">
     <h3 class="modal-title">Créer une nouvelle discussion</h3>
-    <div class="modal-body" style="text-align: -webkit-center;">
+    <div class="modal-body" style="text-align: center;">
       <form>
         <input style=" margin-bottom: 20px;
     width: 70%;
