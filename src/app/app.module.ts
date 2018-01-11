@@ -1,4 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
+import { FileUploadModule } from 'ng2-file-upload';
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {NavComponent} from './nav/nav.component';
@@ -25,6 +26,7 @@ import {SailsModule} from "angular2-sails";
 import {StatsComponent} from './stats/stats.component';
 import {MusiqueComponent} from './musique/musique.component';
 import {AideComponent} from "./aide/aide.component";
+import { ProfilComponent } from './profil/profil.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import {AideComponent} from "./aide/aide.component";
     StatsComponent,
     MusiqueComponent,
     ArraySortPipe,
-    AideComponent
+    AideComponent,
+    ProfilComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +59,8 @@ import {AideComponent} from "./aide/aide.component";
     ClarityModule.forRoot(),
     BrowserAnimationsModule,
     NoopAnimationsModule,
-    SailsModule.forRoot()
+    SailsModule.forRoot(),
+    FileUploadModule,
   ],
   providers: [
     AuthGuardService,

@@ -1,0 +1,77 @@
+<app-nav></app-nav>
+<div class="container" style="width: 100%;
+    position: relative;
+    bottom: 30px;">
+  <div class="starter-template" style="padding: 30px!important;padding-top: 0px !important;">
+    <div class="row">
+      <div class="col-xs-3">
+        <div class="card">
+          <div class="card-header">
+          </div>
+          <div class="card-block">
+            <img src="{{ user.user.avatar || 'http://www.hitgroove.com/assets/images/default_avatar.jpg' }}" class="col-xs-12">
+            <div class="col s12" style="border: 1px solid black;border-radius: 3px;margin-bottom:10px;">
+              <div class="col s2">
+                <a class="btn-floating btn-large waves-effect waves-light amber darken-1" (click)="fileMod.click();" style="height: 30px;width: 30px;line-height: 30px;margin: 10px;"><i style="line-height:30px;font-size:1rem;" class="material-icons">add</i></a>
+                <span style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
+              <input type="file" #fileMod ng2FileSelect [uploader]="uploader"/></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-9">
+        <div class="card">
+          <div class="card-header">
+            Mes infos
+          </div>
+          <div class="card-block">
+            <div class="card-text">
+              <form>
+                <section class="form-block">
+                  <div class="form-group row">
+                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                      <label style="font-size: large" for="gForm_1">Email : </label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                      <input class="form-control" type="text" id="gForm_1" placeholder="Enter value here" size="45" [(ngModel)]="user.user.email" [ngModelOptions]="{standalone: true}">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                      <label style="font-size: large" for="gForm_2">Prenom : </label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                      <input class="form-control" type="text" id="gForm_2" placeholder="Enter value here" size="45" [(ngModel)]="user.user.firstName" [ngModelOptions]="{standalone: true}">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                      <label style="font-size: large" for="gForm_3">Nom : </label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                      <input class="form-control" type="text" id="gForm_3" placeholder="Enter value here" size="45" [(ngModel)]="user.user.lastName" [ngModelOptions]="{standalone: true}">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                      <label style="font-size: large" for="gForm_3">Nom de scene : </label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                      <input class="form-control" type="text" id="gForm_3" placeholder="Enter value here" size="45" [(ngModel)]="artist.name" [ngModelOptions]="{standalone: true}">
+                    </div>
+                  </div>
+                  <label class="label label-success" *ngIf="error.error == false && error.msg.length> 0"> {{ error.msg }}</label>
+                  <label class="label label-danger" *ngIf="error.error == true"> {{ error.msg }}</label>
+                  <div class="pull-right row" style="margin-bottom: 20px">
+                    <button type="submit" class="btn btn-primary" style="margin-bottom: 20px" (click)="updateInfo(user.user, artist)">Sauvegarder</button>
+                  </div>
+                </section>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
