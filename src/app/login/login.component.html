@@ -42,22 +42,22 @@
                   Mot de passe requis
                 </small>
               </label>
-              </div>
+            </div>
             <label class="d-block">
               <p *ngIf="this.loginForm.value.typeAccount === 'Npro'">
                 <input type="text" class="form-control" formControlName="sendName"
-                     [placeholder]="'Votre nom de scène'"/>
+                       [placeholder]="'Votre nom de scène'"/>
               </p>
-              <div class="checkbox">
-                <input type="checkbox" id="checkrads_1" formControlName="remember">
-                <label for="checkrads_1">Se souvenir de moi</label>
-              </div>
             </label>
+            <div *ngIf="this.loginForm.value.typeAccount !== 'Npro'" class="checkbox">
+              <input type="checkbox" id="checkrads_1" formControlName="remember">
+              <label for="checkrads_1">Se souvenir de moi</label>
+            </div>
             <div class="center-block">
-            <button class="btn btn-primary w-100" type="submit" [disabled]="loginForm.invalid || isLoading">
-              <i class="fa fa-cog fa-spin" [hidden]="!isLoading"></i>
-              <span translate>Connexion</span>
-            </button>
+              <button class="btn btn-primary w-100" type="submit" [disabled]="loginForm.invalid || isLoading">
+                <i class="fa fa-cog fa-spin" [hidden]="!isLoading"></i>
+                <span translate>Connexion</span>
+              </button>
             </div>
           </form>
         </div>
