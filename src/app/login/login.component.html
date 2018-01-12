@@ -62,6 +62,22 @@
           </form>
         </div>
       </div>
+      <div class="col-md-6 mt-3 mx-auto">
+        <clr-stack-view>
+          <clr-stack-header style="text-align: -webkit-center;">
+            Questions fréquentes
+          </clr-stack-header>
+
+          <clr-stack-block *ngFor="let block of faq; let i = index;">
+            <clr-stack-label style="text-align: -webkit-center;margin: 10%;">{{'Question ' + (i+1)}}</clr-stack-label>
+            <clr-stack-content>{{block.q}}</clr-stack-content>
+            <clr-stack-block>
+              <clr-stack-label style="text-align: -webkit-center;margin: 10%;">Réponse</clr-stack-label>
+              <clr-stack-content>{{block.a}}</clr-stack-content>
+            </clr-stack-block>
+          </clr-stack-block>
+        </clr-stack-view>
+      </div>
     </div>
   </div>
 </div>

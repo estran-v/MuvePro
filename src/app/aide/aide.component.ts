@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {AuthService} from "../services/auth.service";
+import {AuthHttp} from "angular2-jwt";
 
 @Component({
   selector: 'app-aide',
@@ -47,10 +49,37 @@ export class AideComponent implements OnInit {
   public cguActive = false;
   public feedbackActive = false;
 
-  constructor() {
+  public isSending = false;
+  public feedbackSent = false;
+  public feedbackContent = '';
+  public feedbackResponse = '';
+  public feedbackDirty = false;
+
+  constructor(private auth: AuthService,
+              private authHttp: AuthHttp) {
   }
 
   ngOnInit() {
   }
 
+  sendFeedback() {
+    this.feedbackDirty = false;
+    if (this.feedbackContent !== '') {
+      this.isSending = true;
+      this.authHttp.post(this.auth.API + '/feedback', {
+        text: this.feedbackContent
+      }).toPromise()
+        .then((res) => {
+          this.isSending = false;
+          this.feedbackSent = true;
+          this.feedbackResponse = 'Votre retour a bien été envoyé, merci !';
+          console.log(res.json());
+        }).catch((err) => {
+        this.feedbackResponse = 'Une erreur est survenue ! Veuillez réessayer ultérieurement';
+        console.error(err);
+      });
+    } else {
+      this.feedbackDirty = true;
+    }
+  }
 }

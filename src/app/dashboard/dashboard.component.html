@@ -95,10 +95,10 @@
         </div>
         <div class="card-block" *ngIf="stats">
           <div class="card-title">
-            Nombre de likes total
+            Vos muves
           </div>
           <div class="card-text">
-            Vos muves ont été liké {{stats}} fois !
+            Vous avez déposé {{stats}} muves !
           </div>
         </div>
         <div class="card-block" *ngIf="!stats">
@@ -110,7 +110,7 @@
           </div>
         </div>
         <div class="card-footer">
-          <button class="btn btn-sm btn-link" *ngIf="!stats" (click)="goTo('stats')">Voir les statistiques</button>
+          <button class="btn btn-sm btn-link" (click)="goTo('stats')">Voir les statistiques</button>
         </div>
       </div>
     </div>

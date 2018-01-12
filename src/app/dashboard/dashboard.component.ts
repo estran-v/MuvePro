@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit {
     this.getArtistInfos();
     this.getRooms();
     this.getMuves();
+    this.getTotalMuve();
   }
 
   getRooms() {
@@ -35,17 +36,19 @@ export class DashboardComponent implements OnInit {
           const latestRoom = _.orderBy(res.json().rooms, 'updatedAt', 'desc')[0];
           this.authHttp.get(this.auth.API + '/rooms/' + latestRoom.id).toPromise()
             .then((response) => {
-              const othersMsg = _.filter(response.json().messages, m =>  m.sender !== this.auth.getUser().user.id);
+              const othersMsg = _.filter(response.json().messages, m => m.sender !== this.auth.getUser().user.id);
               this.latestMsg = _.orderBy(othersMsg, 'createdAt', 'desc')[0];
+              if (this.latestMsg === undefined)
+                this.latestMsg = response.json().messages[response.json().messages.length - 1];
               return this.authHttp.get(this.auth.API + '/users/' + this.latestMsg.sender).toPromise()
                 .then((resp) => {
                   this.lastSender = resp.json().user;
                 }).catch((error) => {
                   console.error(error);
-              });
+                });
             }).catch((error) => {
-              console.error(error);
-            });
+            console.error(error);
+          });
         }
       }).catch((err) => {
       console.error(err);
@@ -72,10 +75,18 @@ export class DashboardComponent implements OnInit {
     return this.authHttp.get(this.auth.API + '/me/muves').toPromise()
       .then((res) => {
         this.latestMuve = _.orderBy(res.json(), 'createdAt', 'desc')[0];
-        console.log(this.latestMuve);
       }).catch((err) => {
         console.error(err);
       });
+  }
+
+  getTotalMuve() {
+    const user = this.auth.getUser();
+    if (user.muves) {
+      this.stats = user.muves.created;
+    }
+    console.log(this.stats);
+    console.log(user);
   }
 
   goTo(page, tabs: string = null) {

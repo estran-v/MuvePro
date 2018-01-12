@@ -28,7 +28,8 @@
                 </clr-stack-header>
 
                 <clr-stack-block *ngFor="let block of faq; let i = index;">
-                  <clr-stack-label style="text-align: -webkit-center;margin: 10%;">{{'Question ' + (i+1)}}</clr-stack-label>
+                  <clr-stack-label style="text-align: -webkit-center;margin: 10%;">{{'Question ' + (i+1)}}
+                  </clr-stack-label>
                   <clr-stack-content>{{block.q}}</clr-stack-content>
                   <clr-stack-block>
                     <clr-stack-label style="text-align: -webkit-center;margin: 10%;">Réponse</clr-stack-label>
@@ -55,7 +56,8 @@
               Article 1 - Généralités
             </h2>
             <p>
-              Le site Internet MUVE, dont l’adresse est https://app.muve-app.com/ (ci-après dénommé « le Site »), est une
+              Le site Internet MUVE, dont l’adresse est https://app.muve-app.com/ (ci-après dénommé « le Site »), est
+              une
               publication créée, développée et exploitée par la société MUVE S.A.. immatriculée au RCS de Paris sous le
               numéro 511 716 573 et dont le siège social est 12 rue d'Athènes 75009 Paris.
 
@@ -751,12 +753,56 @@
         </clr-tab-content>
       </ng-template>
     </clr-tab>
-    <!--<clr-tab>-->
-      <!--<button clrTabLink (click)="faqActive=false;cguActive=false;feedbackActive=true;">Feedback</button>-->
-      <!--<ng-template [(clrIfActive)]="feedbackActive">-->
-        <!--<clr-tab-content>-->
-        <!--</clr-tab-content>-->
-      <!--</ng-template>-->
-    <!--</clr-tab>-->
+    <clr-tab>
+      <button clrTabLink (click)="faqActive=false;cguActive=false;feedbackActive=true;">Réaction</button>
+      <ng-template [(clrIfActive)]="feedbackActive">
+        <clr-tab-content>
+          <div class="container" *ngIf="!muveSponsoPageLoading && !muveSponsoSent">
+            <div class="starter-template" style="padding: 30px!important;padding-top: 0px !important;">
+              <h1>
+                <i>Retour utilisateur</i>
+              </h1>
+              <p style="    width: 70%;
+    margin: auto;
+    margin-top: 15px;">
+                <i>
+                  C'est sur cette page que vous pouvez nous envoyez vos retours d'expérience, vos problèmes rencontrés,
+                  ou bien même vos idées d'amélioration !
+                </i>
+              </p>
+              <form class="form" (submit)="sendFeedback()" *ngIf="!isSending && !feedbackSent">
+                <div style="margin-top: 15px;" *ngIf="feedbackDirty">
+                  <p style="color:red">
+                    Vous devez d'abord remplir le commentaire !
+                  </p>
+                </div>
+                <div style="margin-top: 15px;">
+                  <textarea style="width: 70%;
+    height: 100px;
+    border-radius: 6px;" [(ngModel)]="feedbackContent" name="feebackContent"
+                            placeholder="Votre commentaire ...">
+                  </textarea>
+                </div>
+                <div>
+                  <button class="btn btn-primary" type="submit">
+                    Envoyer
+                  </button>
+                </div>
+              </form>
+              <div style="margin-top: 20px;" *ngIf="isSending && !feedbackSent">
+                <span class="spinner">
+                  Loading...
+                </span>
+              </div>
+              <div *ngIf="!isSending && feedbackSent" style="margin-top: 20px;">
+                <p>
+                  {{feedbackResponse}}
+                </p>
+              </div>
+            </div>
+          </div>
+        </clr-tab-content>
+      </ng-template>
+    </clr-tab>
   </clr-tabs>
 </div>
