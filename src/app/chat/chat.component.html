@@ -18,10 +18,10 @@
       </div>
     </div>
     <div *ngIf="selectedRoom">
-      <form (submit)="sendMessage(selectedRoom, selectedRoom.newMsg)">
+      <form>
         <input type="text" style="    width: 89%;
     height: 40px;" [(ngModel)]="selectedRoom.newMsg" name="newMsg">
-        <button class="btn btn-primary" type="submit">Envoyer</button>
+        <button class="btn btn-primary" (click)="sendMessage(selectedRoom, selectedRoom.newMsg)">Envoyer</button>
       </form>
     </div>
   </div>

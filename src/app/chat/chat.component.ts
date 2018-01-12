@@ -222,6 +222,8 @@ export class ChatComponent implements OnInit {
           if (typeof _.find(this.rooms, r => r.id === id) !== 'undefined') {
             return resolve(_.find(this.rooms, r => r.id === id));
           }
+          console.log(roomDetailed);
+          console.log(roomDetailed);
           this.rooms.push(roomDetailed);
           resolve(roomDetailed);
         }
@@ -296,10 +298,8 @@ export class ChatComponent implements OnInit {
       this.authHttp.get(this.Auth.API + '/rooms?user=' + user.id).toPromise()
         .then((res) => {
           const newRoom = res.json();
-          this.fetchRoomById(newRoom.id).then((room) => {
+          this.fetchRooms().subscribe((room) => {
             this.newDiscu = false;
-          }).catch((err) => {
-            console.error(err);
           });
         }).catch((err) => {
         console.error(err);
